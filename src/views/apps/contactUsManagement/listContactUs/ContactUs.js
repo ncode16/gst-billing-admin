@@ -108,9 +108,9 @@ const ContactUs = () => {
           <Send
             className="cursor-pointer"
             // onClick={() => handleSendEmail(row.contact_email)}
-            onClick={() => handleSendEmail()}
+            onClick={() => handleSendEmail(row.contact_id)}
             size={17}
-            id={`send-tooltip-${row.id}`}
+            id={`send-tooltip-${row.contact_id}`}
           />
         </>
       ),
@@ -132,8 +132,8 @@ const ContactUs = () => {
   //   })
   // }
 
-  const handleSendEmail = () => {
-    navigate("/apps/addContactUsManagement");
+  const handleSendEmail = (id) => {
+    navigate(`/apps/addContactUsManagement/${id}`);
   }
 
   useEffect(() => {
@@ -174,6 +174,7 @@ const ContactUs = () => {
       />
     );
   };
+  
   return (
     <div>
       {loader ? (

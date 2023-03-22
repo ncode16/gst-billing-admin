@@ -30,7 +30,7 @@ const ListTutorial = () => {
     {
       name: "Tutorial Tittle",
       sortable: true,
-      minWidth: "190px",
+      minWidth: "110px",
       sortField: "tutorial_title",
       selector: (row) => row.tutorial_title,
       cell: (row) => (
@@ -42,7 +42,7 @@ const ListTutorial = () => {
     {
       name: "Tutorial Link",
       sortable: true,
-      minWidth: "900px",
+      minWidth: "600px",
       sortField: "videoLink",
       selector: (row) => row.tutorial_link,
       cell: (row) => (

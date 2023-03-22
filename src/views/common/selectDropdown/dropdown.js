@@ -31,8 +31,11 @@ export default function SelectDropdown(props) {
   const customStyles = {
 
     menuPortal: provided => ({ ...provided, zIndex: 9999, cursor: 'pointer' }),
-    menu: provided => ({ ...provided, zIndex: 9999, cursor: 'pointer' })
-
+    menu: provided => ({ ...provided, zIndex: 9999, cursor: 'pointer' }),
+    container: provided => ({
+      ...provided,
+      width: "100%"
+    })
   };
 
   return (

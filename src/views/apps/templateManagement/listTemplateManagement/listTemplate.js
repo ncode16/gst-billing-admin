@@ -39,7 +39,7 @@ const ListTemplate = () => {
     {
       name: "Image Name",
       sortable: true,
-      minWidth: "600px",
+      minWidth: "150px",
       sortField: "imageLink",
       selector: (row) => row.template_name,
       cell: (row) => (

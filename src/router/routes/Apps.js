@@ -190,7 +190,7 @@ const AppRoutes = [
   },
   {
     element: <AddContactUs />,
-    path: "/apps/addContactUsManagement",
+    path: "/apps/addContactUsManagement/:id",
     meta: {
       className: "contactUsManagement-application",
     },

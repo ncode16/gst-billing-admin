@@ -85,12 +85,12 @@ const AddFaq = () => {
 
     categoryTitle: {
       padding: "10px 0",
-      background: "#A7A2A2",
-      border: "1px solid #A7A2A2",
+      background: "#f3f1f3",
     },
 
     modelHeader: {
-      color: "#fff",
+      color: "#372f37",
+      fontWeight: "500",
       marginLeft: "50px",
     },
 
@@ -165,13 +165,13 @@ const AddFaq = () => {
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
       <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm} onSubmit={handleSubmit(onSubmit)}>
         <div style={addCategoryStyle.categoryTitle}>
-          <span style={addCategoryStyle.modelHeader}>{'FAQ Management'}</span>
+          <span style={addCategoryStyle.modelHeader}>{id ? 'Update FAQ' : 'Add FAQ'}</span>
 
         </div>
         <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
           <Input
             placeholder="Enter Faq"
-            label="Faq "
+            label="Title "
             showError={true}
             error={errors?.question?.message}
             registeredEvents={register("question")}

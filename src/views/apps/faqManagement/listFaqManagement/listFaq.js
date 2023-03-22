@@ -29,7 +29,7 @@ const ListFaq = () => {
     {
       name: "FAQ",
       sortable: true,
-      minWidth: "500px",
+      minWidth: "100px",
       sortField: "title",
       selector: (row) => row.title,
       cell: (row) => (

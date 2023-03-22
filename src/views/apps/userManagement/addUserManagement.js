@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { ShowToast } from "../../../utility/Utils";
 import { Button } from "reactstrap";
+import userManagement from "../../../schema/userManagementSchema/userManagement";
 
 const AddUserManagement = () => {
 
@@ -24,11 +25,11 @@ const AddUserManagement = () => {
     mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
+      // firstName: "",
+      // lastName: "",
+      // email: "",
       mobileNumber: "",
-      password: "",
+      // password: "",
     },
     resolver: yupResolver(schema),
   });
@@ -40,18 +41,18 @@ const AddUserManagement = () => {
           <ShowToast t={t} color="success" name={res?.data?.message} />
         ));
       }
-      let firstName = res?.data?.data?.first_name
-      let lastName = res?.data?.data?.last_name
-      let email = res?.data?.data?.last_name
+      // let firstName = res?.data?.data?.first_name
+      // let lastName = res?.data?.data?.last_name
+      // let email = res?.data?.data?.last_name
       let mobileNumber = res?.data?.data?.mobile_number
-      let password = res?.data?.data?.password
+      // let password = res?.data?.data?.password
 
       reset({
-        firstName: firstName || '',
-        lastName: lastName || '',
-        email: email || '',
+        // firstName: firstName || '',
+        // lastName: lastName || '',
+        // email: email || '',
         mobileNumber: mobileNumber || '',
-        password: res?.data?.data?.password,
+        // password: res?.data?.data?.password,
       });
     })
   }, [])
@@ -59,7 +60,6 @@ const AddUserManagement = () => {
 
 
   const onSubmit = (data) => {
-    console.log('data', data)
     const body = {
       mobile_number: data.mobileNumber
     }
@@ -80,12 +80,12 @@ const AddUserManagement = () => {
 
     categoryTitle: {
       padding: "10px 0",
-      background: "#A7A2A2",
-      border: "1px solid #A7A2A2",
+      background: "#f3f1f3",
     },
 
     modelHeader: {
-      color: "#fff",
+      color: "#372f37",
+      fontWeight: "500",
       marginLeft: "50px",
     },
 
@@ -113,7 +113,13 @@ const AddUserManagement = () => {
 
     marginStyle: {
       marginTop: "20px",
+    },
+
+    userManagement: {
+      width: "100%",
+      height: "100%",
     }
+
   }
 
   const handleNavigate = () => {
@@ -179,70 +185,71 @@ const AddUserManagement = () => {
           <Col></Col>
         </Row>
       </Container> */}
-
-      <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
-        <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm}>
-          <div style={addCategoryStyle.categoryTitle}>
-            <span style={addCategoryStyle.modelHeader}>{'Category Management'}</span>
-          </div>
-          <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
-            <Input
-              placeholder="firstName"
-              label="First Name"
-              showError={true}
-              error={errors?.firstName?.message}
-              registeredEvents={register("firstName")}
-            />
-            <div style={addCategoryStyle.marginStyle}>
-              <Input
-                placeholder="lastName"
-                label="Last Name"
+      <div style={addCategoryStyle.userManagement}>
+        <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
+          <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm}>
+            <div style={addCategoryStyle.categoryTitle}>
+              <span style={addCategoryStyle.modelHeader}>{id ? 'Update User' : 'Add User'}</span>
+            </div>
+            <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
+              {/* <Input
+                placeholder="firstName"
+                label="First Name"
                 showError={true}
-                error={errors?.lastName?.message}
-                registeredEvents={register("lastName")}
+                error={errors?.firstName?.message}
+                registeredEvents={register("firstName")}
               />
+              <div style={addCategoryStyle.marginStyle}>
+                <Input
+                  placeholder="lastName"
+                  label="Last Name"
+                  showError={true}
+                  error={errors?.lastName?.message}
+                  registeredEvents={register("lastName")}
+                />
+              </div>
+              <div style={addCategoryStyle.marginStyle}>
+                <Input
+                  placeholder="email"
+                  type="email"
+                  label="Email"
+                  showError={true}
+                  error={errors?.email?.message}
+                  registeredEvents={register("email")}
+                />
+              </div> */}
+              <div style={addCategoryStyle.marginStyle}>
+                <Input
+                  placeholder=" mobile number"
+                  type="number"
+                  label="Mobile Number"
+                  showError={true}
+                  error={errors?.mobileNumber?.message}
+                  registeredEvents={register("mobileNumber")}
+                />
+              </div>
+              {/* <div style={addCategoryStyle.marginStyle}>
+                <Input
+                  placeholder="password"
+                  type="password"
+                  label="Password"
+                  showError={true}
+                  error={errors?.password?.message}
+                  registeredEvents={register("password")}
+                />
+              </div> */}
+              <div className="buttons" style={addCategoryStyle.buttons}>
+                <Button
+                  color="primary"
+                  type="button"
+                  onClick={handleSubmit(onSubmit)}
+                > {id ? 'Update User' : 'Add User'} </Button>
+                &emsp;
+                <Button type="button" onClick={handleNavigate} outline> Cancel </Button>
+              </div>
             </div>
-            <div style={addCategoryStyle.marginStyle}>
-              <Input
-                placeholder="email"
-                type="email"
-                label="Email"
-                showError={true}
-                error={errors?.email?.message}
-                registeredEvents={register("email")}
-              />
-            </div>
-            <div style={addCategoryStyle.marginStyle}>
-              <Input
-                placeholder=" mobile number"
-                type="number"
-                label="Mobile Number"
-                showError={true}
-                error={errors?.mobileNumber?.message}
-                registeredEvents={register("mobileNumber")}
-              />
-            </div>
-            <div style={addCategoryStyle.marginStyle}>
-              <Input
-                placeholder="password"
-                type="password"
-                label="Password"
-                showError={true}
-                error={errors?.password?.message}
-                registeredEvents={register("password")}
-              />
-            </div>
-            <div className="buttons" style={addCategoryStyle.buttons}>
-              <Button
-                color="primary"
-                type="button"
-                onClick={handleSubmit(onSubmit)}
-              > Update User </Button>
-              &emsp;
-              <Button type="button" onClick={handleNavigate} outline> Cancel </Button>
-            </div>
-          </div>
-        </Form>
+          </Form>
+        </div>
       </div>
     </>
   );

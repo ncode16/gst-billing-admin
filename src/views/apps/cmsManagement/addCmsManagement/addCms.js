@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { Input } from "../../../common";
+import { Description, Input } from "../../../common";
 import { Form } from "react-bootstrap";
 import { AddCmsData, updateCmsData, getEditCmsData } from "../../../../api/cmsManagement/cmsApi";
 import toast from "react-hot-toast";
 import { ShowToast } from "../../../../utility/Utils";
-import { Button } from "reactstrap";
+import { Button, Label } from "reactstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import schema from '../../../../schema/cmsManagement/cmsSchema';
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -20,6 +20,7 @@ const AddCms = () => {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm({
     mode: "onChange",
@@ -89,12 +90,12 @@ const AddCms = () => {
 
     categoryTitle: {
       padding: "10px 0",
-      background: "#A7A2A2",
-      border: "1px solid #A7A2A2",
+      background: "#f3f1f3",
     },
 
     modelHeader: {
-      color: "#fff",
+      color: "#372f37",
+      fontWeight: "500",
       marginLeft: "50px",
     },
 
@@ -164,11 +165,11 @@ const AddCms = () => {
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
       <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm} onSubmit={handleSubmit(onSubmit)}>
         <div style={addCategoryStyle.categoryTitle}>
-          <span style={addCategoryStyle.modelHeader}>{'Cms Management'}</span>
+          <span style={addCategoryStyle.modelHeader}>{id ? 'Update CMS' : 'Add CMS'}</span>
         </div>
         <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
           <Input
-            placeholder="Title"
+            placeholder="Enter CMS Name"
             label="Title "
             showError={true}
             error={errors?.title?.message}
@@ -176,14 +177,24 @@ const AddCms = () => {
             isRequired
           />
           <div style={addCategoryStyle.marginStyle}>
-            <Input
+            {/* <Input
               placeholder="Enter Description"
               label="Description "
               showError={true}
               error={errors?.description?.message}
               registeredEvents={register("description")}
               isRequired
-            />
+            /> */}
+                 <Label for='task-desc' className='form-label'>
+                Description
+              </Label>
+              
+
+              <Controller
+                render={({ field }) => <Description  error={errors?.description?.message} {...field} />}
+                name="description"
+                control={control}
+              />
           </div>
           <div className="buttons" style={addCategoryStyle.buttons}>
             <Button color="primary" onClick={handleSubmit(onSubmit)}>

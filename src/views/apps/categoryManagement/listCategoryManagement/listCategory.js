@@ -29,7 +29,7 @@ const ListCategory = () => {
     {
       name: "Category Name",
       sortable: true,
-      minWidth: "1090px",
+      minWidth: "500px",
       sortField: "category_name",
       selector: (row) => row.category_name,
       cell: (row) => (

@@ -24,7 +24,7 @@ const ListCms = () => {
     {
       name: "Title",
       sortable: true,
-      minWidth: "550px",
+      minWidth: "150px",
       sortField: "title",
       selector: (row) => row.aboutus_title,
       cell: (row) => (
@@ -41,7 +41,7 @@ const ListCms = () => {
       selector: (row) => row.aboutus_description,
       cell: (row) => (
         <>
-          <span>{row.aboutus_description}</span>
+          <span>{row.aboutus_description.replace(/<[^>]+>/g, '')}</span>
         </>
       ),
     },
@@ -169,7 +169,7 @@ const ListCms = () => {
         <>
           <Button
             type="button"
-            label="Add Cms"
+            label="Add CMS"
             onClick={() => handleNavigate()}
           />
           <br></br>

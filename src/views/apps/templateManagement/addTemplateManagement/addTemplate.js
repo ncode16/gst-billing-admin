@@ -59,12 +59,12 @@ const AddTemplate = () => {
 
     categoryTitle: {
       padding: "10px 0",
-      background: "#A7A2A2",
-      border: "1px solid #A7A2A2",
+      background: "#f3f1f3",
     },
 
     modelHeader: {
-      color: "#fff",
+      color: "#372f37",
+      fontWeight: "500",
       marginLeft: "50px",
     },
 
@@ -163,13 +163,13 @@ const AddTemplate = () => {
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
       <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm}>
         <div style={addCategoryStyle.categoryTitle}>
-          <span style={addCategoryStyle.modelHeader}>{'Template Management'}</span>
+          <span style={addCategoryStyle.modelHeader}>{id ? 'Update Template' : 'Add Template'}</span>
         </div>
         <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
           <Input
            controlId="templateName"
             placeholder="Enter Template Name "
-            label="Template Name "
+            label="Title "
             showError={true}
             error={errors?.templateName?.message}
             registeredEvents={register("templateName")}

@@ -6,7 +6,7 @@ const userManagement = Yup.object({
   // email: Yup.string().required("This field is required."),
   // mobileNumber: Yup.string().required("This field is required."),
   mobileNumber: Yup
-    .string()
+    .string().required('This field is required')
     .test(
       "regex",
       "Please enter a valid phone number.",

@@ -33,7 +33,7 @@ const ListFeature = () => {
     {
       name: "Feature Name",
       sortable: true,
-      minWidth: "1090px",
+      minWidth: "200px",
       sortField: "feature_name",
       selector: (row) => row.feature_name,
       cell: (row) => (

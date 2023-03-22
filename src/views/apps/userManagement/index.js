@@ -188,6 +188,8 @@ const UserManagement = () => {
       ) : (
         <>
         <Button color="primary" onClick={() => navigate("/apps/addUserManagement")}>Add user</Button>
+        <br></br>
+        <br></br>
           <Table
             pagination
             columns={columns}
