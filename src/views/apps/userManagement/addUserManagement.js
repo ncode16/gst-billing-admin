@@ -43,7 +43,7 @@ const AddUserManagement = () => {
       }
       let firstName = res?.data?.data?.first_name
       let lastName = res?.data?.data?.last_name
-      let email = res?.data?.data?.last_name
+      let email = res?.data?.data?.email
       let mobileNumber = res?.data?.data?.mobile_number
       // let password = res?.data?.data?.password
 
