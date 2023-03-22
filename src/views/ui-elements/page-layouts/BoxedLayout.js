@@ -6,7 +6,7 @@ import { Alert } from 'reactstrap'
 
 // ** Custom Components
 import Breadcrumbs from '@components/breadcrumbs'
-import Ecommerce from '../../dashboard/ecommerce'
+// import Ecommerce from '../../dashboard/ecommerce'
 
 const BoxedLayout = () => {
   return (
@@ -27,7 +27,7 @@ const BoxedLayout = () => {
           </span>
         </div>
       </Alert>
-      <Ecommerce />
+      {/* <Ecommerce /> */}
     </Fragment>
   )
 }
