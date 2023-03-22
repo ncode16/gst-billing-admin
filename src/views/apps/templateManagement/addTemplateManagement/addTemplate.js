@@ -168,8 +168,8 @@ const AddTemplate = () => {
         <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
           <Input
            controlId="templateName"
-            placeholder="Enter Template Name "
-            label="Title "
+            placeholder="Enter Template Title"
+            label="Template Title"
             showError={true}
             error={errors?.templateName?.message}
             registeredEvents={register("templateName")}
@@ -220,7 +220,7 @@ const AddTemplate = () => {
               // }}
               onChange={imageUploader}
               placeholder={'Upload Image'}
-              label={'Upload Image'}
+              label={'Template Image'}
               type={'file'}
             />
           </div>

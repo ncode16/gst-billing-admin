@@ -150,7 +150,7 @@ const AddCategory = () => {
         <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
           <Input
             placeholder="Enter Category Name"
-            label="Title "
+            label="Category Name"
             showError={true}
             error={errors?.categoryName?.message}
             registeredEvents={register("categoryName")}

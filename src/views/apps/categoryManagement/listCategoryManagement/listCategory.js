@@ -12,9 +12,10 @@ import {
 // ** Spinner (Splash Screen)
 import Spinner from "../../../../@core/components/spinner/Loading-spinner";
 
-import { Edit, Trash } from "react-feather";
+import { Edit, Trash, Eye } from "react-feather";
 import { ShowToast } from "../../../../utility/Utils";
 import { toast } from "react-hot-toast";
+import AddCategory from "../addCategoryManagement/addCategory";
 
 
 const ListCategory = () => {
@@ -29,7 +30,7 @@ const ListCategory = () => {
     {
       name: "Category Name",
       sortable: true,
-      minWidth: "500px",
+      minWidth: "250px",
       sortField: "category_name",
       selector: (row) => row.category_name,
       cell: (row) => (
@@ -61,6 +62,13 @@ const ListCategory = () => {
             isChecked={row.is_active}
             handleClick={(e) => handleActivation(e.target.checked, row.category_id)}
           />
+          {/* &nbsp;
+          <Eye
+            className="cursor-pointer"
+            onClick={() => handleView(row.user_id)}
+            size={17}
+            id={`send-tooltip-${row.id}`}
+          /> */}
         </>
       ),
     },
@@ -76,11 +84,16 @@ const ListCategory = () => {
         setLoader(false)
       }
       handleCategoryData();
+      navigate("/apps/addCategoryManagement");
     });
   };
 
   const handleEdit = (id) => {
     navigate(`/apps/editCategoryManagement/${id}`)
+  }
+
+  const handleView = (id) => {
+    navigate(`/apps/view/${id}`)
   }
 
   const handleActivation = (check, id) => {
@@ -151,25 +164,69 @@ const ListCategory = () => {
     );
   };
 
+  const categoryManagement = {
+    catContainer: {
+      display: "flex",
+      justifyContent: "center",
+      width: "100%",
+      height: "100%",
+      columnGap: "20px"
+    },
+
+    catForm: {
+      marginTop: "20px",
+      width: "40%",
+      // border: "1px solid red"
+    },
+
+    catList: {
+      width: "60%",
+    }
+  }
+
   return (
-    <div>
+    <div style={categoryManagement.catContainer}>
       {loader ? (
-        <Spinner />
+        <>
+          <div style={categoryManagement.catForm}>
+            <AddCategory />
+          </div>
+          <div style={categoryManagement.catList}>
+            {/* <Button
+              type="button"
+              label="Add Category"
+              onClick={() => handleNavigate()}
+            /> */}
+            <br></br>
+            <br></br>
+            <Table
+              columns={columns}
+              dataToRender={userData?.data}
+              pagination
+              CustomPagination={CustomPagination}
+            />
+          </div>
+        </>
       ) : (
         <>
-          <Button
-            type="button"
-            label="Add Category"
-            onClick={() => handleNavigate()}
-          />
-          <br></br>
-          <br></br>
-          <Table
-            columns={columns}
-            dataToRender={userData?.data}
-            pagination
-            CustomPagination={CustomPagination}
-          />
+          <div style={categoryManagement.catForm}>
+            <AddCategory />
+          </div>
+          <div style={categoryManagement.catList}>
+            {/* <Button
+              type="button"
+              label="Add Category"
+              onClick={() => handleNavigate()}
+            /> */}
+            <br></br>
+            <br></br>
+            <Table
+              columns={columns}
+              dataToRender={userData?.data}
+              pagination
+              CustomPagination={CustomPagination}
+            />
+          </div>
         </>
       )}
     </div>

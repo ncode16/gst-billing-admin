@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 import { getFeatureData, deleteFeatureData, activeFeatureData } from "../../../../api/featureManagement/featureApi";
-import { Edit, Trash } from "react-feather";
+import { Edit, Trash, Eye } from "react-feather";
 
 // ** Spinner (Splash Screen)
 import Spinner from "../../../../@core/components/spinner/Loading-spinner";
 import { ShowToast } from "../../../../utility/Utils";
 import { toast } from "react-hot-toast";
+import AddFeature from "../addFeatureManagement/addFeature";
 
 const ListFeature = () => {
   const navigate = useNavigate();
@@ -65,6 +66,13 @@ const ListFeature = () => {
             isChecked={row.is_active}
             handleClick={(e) => handleActivation(e.target.checked, row.feature_id)}
           />
+          {/* &nbsp;
+          <Eye
+            className="cursor-pointer"
+            onClick={() => handleView(row.feature_id)}
+            size={17}
+            id={`send-tooltip-${row.feature_id}`}
+          /> */}
         </>
       ),
     },
@@ -87,7 +95,12 @@ const ListFeature = () => {
   }
 
   const handleEdit = (id) => {
+    // AddFeature(id);
     history(`/apps/editFeatureManagement/${id}`)
+  }
+
+  const handleView = (id) => {
+    navigate(`/apps/view/${id}`)
   }
 
   useEffect(() => {
@@ -101,7 +114,8 @@ const ListFeature = () => {
         toast((t) => (
           <ShowToast t={t} color="success" name={res?.data?.message} />
         ));
-        setLoader(false)
+        setLoader(false);
+        navigate("/apps/addFeatureManagement");
       }
       handleFeatureData();
     });
@@ -148,25 +162,70 @@ const ListFeature = () => {
       />
     );
   };
+
+  const featureManagement = {
+    featureContainer: {
+      display: "flex",
+      justifyContent: "center",
+      width: "100%",
+      height: "100%",
+      columnGap: "20px"
+    },
+
+    featureForm: {
+      marginTop: "20px",
+      width: "40%",
+      // border: "1px solid red"
+    },
+
+    featureList: {
+      width: "60%",
+    }
+  }
+
   return (
-    <div>
+    <div style={featureManagement.featureContainer}>
       {loader ? (
-        <Spinner />
+        <>
+          <div style={featureManagement.featureForm}>
+            <AddFeature />
+          </div>
+          <div style={featureManagement.featureList}>
+            {/* <Button
+              type="button"
+              label="Add Feature"
+              onClick={() => handleNavigate()}
+            /> */}
+            <br></br>
+            <br></br>
+            <Table
+              columns={columns}
+              dataToRender={userData?.data}
+              pagination
+              CustomPagination={CustomPagination}
+            />
+          </div>
+        </>
       ) : (
         <>
-          <Button
-            type="button"
-            label="Add Feature"
-            onClick={() => handleNavigate()}
-          />
-          <br></br>
-          <br></br>
-          <Table
-            columns={columns}
-            dataToRender={userData?.data}
-            pagination
-            CustomPagination={CustomPagination}
-          />
+          <div style={featureManagement.featureForm}>
+            <AddFeature />
+          </div>
+          <div style={featureManagement.featureList}>
+            {/* <Button
+              type="button"
+              label="Add Feature"
+              onClick={() => handleNavigate()}
+            /> */}
+            <br></br>
+            <br></br>
+            <Table
+              columns={columns}
+              dataToRender={userData?.data}
+              pagination
+              CustomPagination={CustomPagination}
+            />
+          </div>
         </>
       )}
     </div>

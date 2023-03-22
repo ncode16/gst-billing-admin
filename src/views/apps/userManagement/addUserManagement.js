@@ -4,7 +4,7 @@ import { Col, Container, Row, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { Input, Switch } from "../../common";
 import schema from "../../../schema/userManagementSchema/userManagement";
-import { getEditUserData, updateUserData } from '../../../api/userManagement/userManagement';
+import { addUser, getEditUserData, updateUserData } from '../../../api/userManagement/userManagement';
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { ShowToast } from "../../../utility/Utils";
@@ -25,9 +25,9 @@ const AddUserManagement = () => {
     mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
-      // firstName: "",
-      // lastName: "",
-      // email: "",
+      firstName: "",
+      lastName: "",
+      email: "",
       mobileNumber: "",
       // password: "",
     },
@@ -41,29 +41,36 @@ const AddUserManagement = () => {
           <ShowToast t={t} color="success" name={res?.data?.message} />
         ));
       }
-      // let firstName = res?.data?.data?.first_name
-      // let lastName = res?.data?.data?.last_name
-      // let email = res?.data?.data?.last_name
+      let firstName = res?.data?.data?.first_name
+      let lastName = res?.data?.data?.last_name
+      let email = res?.data?.data?.last_name
       let mobileNumber = res?.data?.data?.mobile_number
       // let password = res?.data?.data?.password
 
       reset({
-        // firstName: firstName || '',
-        // lastName: lastName || '',
-        // email: email || '',
+        firstName: firstName || '',
+        lastName: lastName || '',
+        email: email || '',
         mobileNumber: mobileNumber || '',
         // password: res?.data?.data?.password,
       });
     })
   }, [])
 
-
+  const handleNavigate = () => {
+    navigate("/apps/userManagement");
+  };
 
   const onSubmit = (data) => {
+    
     const body = {
+      first_name: data.firstName,
+      last_name: data.lastName,
+      email: data.email,
       mobile_number: data.mobileNumber
     }
-    updateUserData(id, body)
+
+    id ? (updateUserData(id, body)
       .then((res) => {
         if (res?.data?.statusCode == 200) {
           toast((t) => (
@@ -72,8 +79,16 @@ const AddUserManagement = () => {
         }
         handleNavigate()
         reset();
-      }
-      )
+      }).catch((e) => console.log("error", e))) : (addUser(body)
+      .then((res) => {
+        if (res?.data?.statusCode == 200) {
+          toast((t) => (
+            <ShowToast t={t} color="success" name={res?.data?.message} />
+          ));
+        }
+        handleNavigate()
+        reset();        
+      }).catch((e) => console.log("error", e)))
   };
 
   const addCategoryStyle = {
@@ -121,10 +136,6 @@ const AddUserManagement = () => {
     }
 
   }
-
-  const handleNavigate = () => {
-    navigate("/apps/userManagement");
-  };
 
   return (
     <>
@@ -192,8 +203,8 @@ const AddUserManagement = () => {
               <span style={addCategoryStyle.modelHeader}>{id ? 'Update User' : 'Add User'}</span>
             </div>
             <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
-              {/* <Input
-                placeholder="firstName"
+              <Input
+                placeholder="Enter First Name"
                 label="First Name"
                 showError={true}
                 error={errors?.firstName?.message}
@@ -201,7 +212,7 @@ const AddUserManagement = () => {
               />
               <div style={addCategoryStyle.marginStyle}>
                 <Input
-                  placeholder="lastName"
+                  placeholder="Enter Last Name"
                   label="Last Name"
                   showError={true}
                   error={errors?.lastName?.message}
@@ -210,19 +221,19 @@ const AddUserManagement = () => {
               </div>
               <div style={addCategoryStyle.marginStyle}>
                 <Input
-                  placeholder="email"
+                  placeholder="Enter Email"
                   type="email"
-                  label="Email"
+                  label="Email *"
                   showError={true}
                   error={errors?.email?.message}
                   registeredEvents={register("email")}
                 />
-              </div> */}
+              </div>
               <div style={addCategoryStyle.marginStyle}>
                 <Input
-                  placeholder=" mobile number"
+                  placeholder="Enter Mobile Number"
                   type="number"
-                  label="Mobile Number"
+                  label="Mobile Number *"
                   showError={true}
                   error={errors?.mobileNumber?.message}
                   registeredEvents={register("mobileNumber")}

@@ -5,12 +5,13 @@ import { columns } from "./columns";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
-import { Trash, Edit } from "react-feather";
+import { Trash, Edit, Eye } from "react-feather";
 import { getCmsData, deleteCmsData, activeCmsData } from "../../../../api/cmsManagement/cmsApi";
 import { toast } from "react-hot-toast";
 import { ShowToast } from "../../../../utility/Utils";
 // ** Spinner (Splash Screen)
 import Spinner from "../../../../@core/components/spinner/Loading-spinner";
+import AddCms from "../addCmsManagement/addCms";
 
 const ListCms = () => {
   const navigate = useNavigate();
@@ -33,18 +34,18 @@ const ListCms = () => {
         </>
       ),
     },
-    {
-      name: "Description",
-      sortable: true,
-      minWidth: "550px",
-      sortField: "description",
-      selector: (row) => row.aboutus_description,
-      cell: (row) => (
-        <>
-          <span>{row.aboutus_description.replace(/<[^>]+>/g, '')}</span>
-        </>
-      ),
-    },
+    // {
+    //   name: "Description",
+    //   sortable: true,
+    //   minWidth: "550px",
+    //   sortField: "description",
+    //   selector: (row) => row.aboutus_description,
+    //   cell: (row) => (
+    //     <>
+    //       <span>{row.aboutus_description.replace(/<[^>]+>/g, '')}</span>
+    //     </>
+    //   ),
+    // },
     {
       name: "Action",
       minWidth: "110px",
@@ -58,7 +59,7 @@ const ListCms = () => {
           />
           &nbsp;
           <Trash
-            className="trash-pointer"
+            className="cursor-pointer"
             onClick={() => handleDelete(row.aboutus_id)}
             size={17}
             id={`send-tooltip-${row.id}`}
@@ -68,6 +69,13 @@ const ListCms = () => {
             isChecked={row.is_active}
             handleClick={(e) => handleActivation(e.target.checked, row.aboutus_id)}
           />
+          {/* &nbsp;
+          <Eye
+            className="cursor-pointer"
+            onClick={() => handleView(row.aboutus_id)}
+            size={17}
+            id={`send-tooltip-${row.id}`}
+          /> */}
         </>
       ),
     },
@@ -83,6 +91,7 @@ const ListCms = () => {
         setLoader(false)
       }
       handleCmsData();
+      navigate("/apps/addCmsManagement");
     });
   };
 
@@ -120,6 +129,10 @@ const ListCms = () => {
 
   const handleEdit = (id) => {
     navigate(`/apps/editCmsManagement/${id}`)
+  }
+
+  const handleView = (id) => {
+    navigate(`/apps/view/${id}`)
   }
 
   useEffect(() => {
@@ -160,26 +173,70 @@ const ListCms = () => {
     );
   };
 
+  const cmsManagement = {
+    cmsContainer: {
+      display: "flex",
+      justifyContent: "center",
+      width: "100%",
+      height: "100%",
+      columnGap: "20px"
+    },
+
+    cmsForm: {
+      marginTop: "20px",
+      width: "40%",
+      // border: "1px solid red"
+    },
+
+    cmsList: {
+      width: "60%",
+    }
+  }
+
   return (
-    <div>
+    <div style={cmsManagement.cmsContainer}>
 
       {loader ? (
-        <Spinner />
+        <>
+          <div style={cmsManagement.cmsForm}>
+            <AddCms />
+          </div>
+          <div style={cmsManagement.cmsList}>
+            {/* <Button
+              type="button"
+              label="Add CMS"
+              onClick={() => handleNavigate()}
+            /> */}
+            <br></br>
+            <br></br>
+            <Table
+              columns={columns}
+              dataToRender={userData?.data}
+              pagination
+              CustomPagination={CustomPagination}
+            />
+          </div>
+        </>
       ) : (
         <>
-          <Button
-            type="button"
-            label="Add CMS"
-            onClick={() => handleNavigate()}
-          />
-          <br></br>
-          <br></br>
-          <Table
-            columns={columns}
-            dataToRender={userData?.data}
-            pagination
-            CustomPagination={CustomPagination}
-          />
+          <div style={cmsManagement.cmsForm}>
+            <AddCms />
+          </div>
+          <div style={cmsManagement.cmsList}>
+            {/* <Button
+              type="button"
+              label="Add CMS"
+              onClick={() => handleNavigate()}
+            /> */}
+            <br></br>
+            <br></br>
+            <Table
+              columns={columns}
+              dataToRender={userData?.data}
+              pagination
+              CustomPagination={CustomPagination}
+            />
+          </div>
         </>
       )}
     </div>

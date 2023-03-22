@@ -170,7 +170,7 @@ const AddCms = () => {
         <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
           <Input
             placeholder="Enter CMS Name"
-            label="Title "
+            label="CMS Name"
             showError={true}
             error={errors?.title?.message}
             registeredEvents={register("title")}
@@ -186,7 +186,7 @@ const AddCms = () => {
               isRequired
             /> */}
                  <Label for='task-desc' className='form-label'>
-                Description
+                CMS Description
               </Label>
               
 

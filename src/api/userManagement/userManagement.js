@@ -1,6 +1,10 @@
 import { post, get } from "../../utility/client";
 
 const addUser = (body) => {
+  return post("add/user", body);
+}
+
+const listUser = (body) => {
   return post("users", body);
 };
 
@@ -20,4 +24,4 @@ const updateUserData = (id, body) => {
   return post(`update/user/${id}`, body)
 }
 
-export { addUser, deleteUser, activeUserData, getEditUserData, updateUserData };
+export { addUser, listUser, deleteUser, activeUserData, getEditUserData, updateUserData };

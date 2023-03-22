@@ -218,7 +218,7 @@ const AddTutorial = () => {
                   <Dropdown
                     showError={true}
                     error={errors?.categoryId?.message}
-                    label={"Group Name"}
+                    label={"Select Category"}
                     id="categoryId"
                     defaultValue={value}
                     closeMenuOnSelect={true}
@@ -236,7 +236,7 @@ const AddTutorial = () => {
           <div style={addCategoryStyle.marginStyle}>
             <Input
               placeholder="Enter Tutorial Title"
-              label="Title "
+              label="Tutorial Title"
               showError={true}
               error={errors?.title?.message}
               registeredEvents={register("title")}
@@ -245,8 +245,8 @@ const AddTutorial = () => {
           </div>
           <div style={addCategoryStyle.marginStyle}>
             <Input
-              placeholder="Enter Link"
-              label="Link "
+              placeholder="Enter Tutorial Link"
+              label="Tutorial Link"
               showError={true}
               error={errors?.link?.message}
               registeredEvents={register("link")}

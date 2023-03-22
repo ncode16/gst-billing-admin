@@ -37,7 +37,7 @@ const AddFaq = () => {
         ));
       }
       let question = res?.data.data.title
-      let description = res?.data.data.title
+      let description = res?.data.data.description
 
       reset({
         question: question || '',
@@ -170,8 +170,8 @@ const AddFaq = () => {
         </div>
         <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
           <Input
-            placeholder="Enter Faq"
-            label="Title "
+            placeholder="Enter FAQ Title"
+            label="FAQ Title"
             showError={true}
             error={errors?.question?.message}
             registeredEvents={register("question")}
@@ -179,8 +179,8 @@ const AddFaq = () => {
           />
           <div style={addCategoryStyle.marginStyle}>
             <Input
-              placeholder="Enter Description"
-              label="Description"
+              placeholder="Enter FAQ Description"
+              label="FAQ Description"
               showError={true}
               error={errors?.description?.message}
               registeredEvents={register("description")}

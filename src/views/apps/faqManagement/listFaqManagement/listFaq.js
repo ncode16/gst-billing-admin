@@ -6,12 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 import { getFaqData, activeFaqData, deleteFeqData } from "../../../../api/faqManagement/faqApi";
-import { Trash, Edit } from "react-feather";
+import { Trash, Edit, Eye } from "react-feather";
 
 // ** Spinner (Splash Screen)
 import Spinner from "../../../../@core/components/spinner/Loading-spinner";
 import { ShowToast } from "../../../../utility/Utils";
 import { toast } from "react-hot-toast";
+import AddFaq from "../addFaqManagement/addFaq";
 
 const ListFaq = () => {
   const navigate = useNavigate();
@@ -38,18 +39,18 @@ const ListFaq = () => {
         </>
       ),
     },
-    {
-      name: "Description",
-      sortable: true,
-      minWidth: "600px",
-      sortField: "desc",
-      selector: (row) => row.description,
-      cell: (row) => (
-        <>
-          <span>{row.description}</span>
-        </>
-      ),
-    },
+    // {
+    //   name: "Description",
+    //   sortable: true,
+    //   minWidth: "600px",
+    //   sortField: "desc",
+    //   selector: (row) => row.description,
+    //   cell: (row) => (
+    //     <>
+    //       <span>{row.description}</span>
+    //     </>
+    //   ),
+    // },
     {
       name: "Action",
       minWidth: "110px",
@@ -73,6 +74,13 @@ const ListFaq = () => {
             isChecked={row.is_active}
             handleClick={(e) => handleActivation(e.target.checked, row.faq_id)}
           />
+          {/* &nbsp;
+          <Eye
+            className="cursor-pointer"
+            onClick={() => handleView(row.faq_id)}
+            size={17}
+            id={`send-tooltip-${row.faq_id}`}
+          /> */}
         </>
       ),
     },
@@ -105,6 +113,10 @@ const ListFaq = () => {
   const handleNavigate = () => {
     navigate("/apps/addFaqManagement");
   };
+  
+  const handleView = (id) => {
+    navigate(`/apps/view/${id}`)
+  }
 
   const handleDelete = (id) => {
     setLoader(true);
@@ -116,6 +128,7 @@ const ListFaq = () => {
         setLoader(false);
       }
       handleFaqData();
+      navigate("/apps/addFaqManagement");
     });
   };
 
@@ -159,25 +172,69 @@ const ListFaq = () => {
     );
   };
 
+  const faqManagement = {
+    faqContainer: {
+      display: "flex",
+      justifyContent: "center",
+      width: "100%",
+      height: "100%",
+      columnGap: "20px"
+    },
+
+    faqForm: {
+      marginTop: "20px",
+      width: "40%",
+      // border: "1px solid red"
+    },
+
+    faqList: {
+      width: "60%",
+    }
+  }
+
   return (
-    <div>
+    <div style={faqManagement.faqContainer}>
       {loader ? (
-        <Spinner />
+        <>
+          <div style={faqManagement.faqForm}>
+            <AddFaq />
+          </div>
+          <div style={faqManagement.faqList}>
+            {/* <Button
+              type="button"
+              label="Add FAQ"
+              onClick={() => handleNavigate()}
+            /> */}
+            <br></br>
+            <br></br>
+            <Table
+              columns={columns}
+              dataToRender={userData?.data}
+              pagination
+              CustomPagination={CustomPagination}
+            />
+          </div>
+        </>
       ) : (
         <>
-          <Button
-            type="button"
-            label="Add FAQ"
-            onClick={() => handleNavigate()}
-          />
-          <br></br>
-          <br></br>
-          <Table
-            columns={columns}
-            dataToRender={userData?.data}
-            pagination
-            CustomPagination={CustomPagination}
-          />
+          <div style={faqManagement.faqForm}>
+            <AddFaq />
+          </div>
+          <div style={faqManagement.faqList}>
+            {/* <Button
+              type="button"
+              label="Add FAQ"
+              onClick={() => handleNavigate()}
+            /> */}
+            <br></br>
+            <br></br>
+            <Table
+              columns={columns}
+              dataToRender={userData?.data}
+              pagination
+              CustomPagination={CustomPagination}
+            />
+          </div>
         </>
       )}
     </div>

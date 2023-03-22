@@ -4,7 +4,7 @@ export const columns = [
   {
     name: "FirstName",
     sortable: true,
-    minWidth: "300px",
+    minWidth: "100px",
     sortField: "first_name",
     selector: (row) => row.first_name,
     cell: (row) => (
@@ -16,7 +16,7 @@ export const columns = [
   {
     name: "LastName",
     sortable: true,
-    minWidth: "300px",
+    minWidth: "100px",
     sortField: "last_name",
     selector: (row) => row.last_name,
     cell: (row) => (
@@ -25,30 +25,30 @@ export const columns = [
       </>
     ),
   },
-  {
-    name: "Mobile No",
-    sortable: true,
-    minWidth: "300px",
-    sortField: "mobile_number",
-    selector: (row) => row.mobile_number,
-    cell: (row) => (
-      <>
-        <span>{row.mobile_number}</span>
-      </>
-    ),
-  },
-  {
-    name: "Email",
-    sortable: true,
-    minWidth: "300px",
-    sortField: "email",
-    selector: (row) => row.email,
-    cell: (row) => (
-      <>
-        <span>{row.email}</span>
-      </>
-    ),
-  },
+  // {
+  //   name: "Mobile No",
+  //   sortable: true,
+  //   minWidth: "300px",
+  //   sortField: "mobile_number",
+  //   selector: (row) => row.mobile_number,
+  //   cell: (row) => (
+  //     <>
+  //       <span>{row.mobile_number}</span>
+  //     </>
+  //   ),
+  // },
+  // {
+  //   name: "Email",
+  //   sortable: true,
+  //   minWidth: "300px",
+  //   sortField: "email",
+  //   selector: (row) => row.email,
+  //   cell: (row) => (
+  //     <>
+  //       <span>{row.email}</span>
+  //     </>
+  //   ),
+  // },
   {
     name: "Action",
     minWidth: "110px",

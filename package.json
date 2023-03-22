@@ -1,7 +1,6 @@
 {
   "name": "vuexy-react-admin-dashboard",
   "version": "9.0.0",
-  "homepage": "https://gst-billing-admin.github.io",
   "private": true,
   "dependencies": {
     "@casl/ability": "^6.3.2",

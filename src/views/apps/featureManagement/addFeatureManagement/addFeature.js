@@ -153,7 +153,7 @@ const AddFeature = () => {
         <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
           <Input
             placeholder="Enter Feature Name"
-            label="Title "
+            label="Feature Name"
             showError={true}
             error={errors?.featureName?.message}
             registeredEvents={register("featureName")}

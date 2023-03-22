@@ -8,9 +8,10 @@ import ReactPaginate from "react-paginate";
 import { toast } from "react-hot-toast";
 import { ShowToast } from "../../../../utility/Utils";
 import { getTutorialData, deleteTutorialData, activeTutorialData } from "../../../../api/tutorialManagement/tutorialApi";
-import { Edit, Trash } from "react-feather";
+import { Edit, Trash, Eye } from "react-feather";
 // ** Spinner (Splash Screen)
 import Spinner from "../../../../@core/components/spinner/Loading-spinner";
+import AddTutorial from "../addTutorialManagement/addTutorial";
 
 
 
@@ -26,6 +27,10 @@ const ListTutorial = () => {
     navigate("/apps/addTutorialManagement");
   };
 
+  const handleView = (id) => {
+    navigate(`/apps/view/${id}`)
+  }
+
   const columns = [
     {
       name: "Tutorial Tittle",
@@ -39,18 +44,18 @@ const ListTutorial = () => {
         </>
       ),
     },
-    {
-      name: "Tutorial Link",
-      sortable: true,
-      minWidth: "600px",
-      sortField: "videoLink",
-      selector: (row) => row.tutorial_link,
-      cell: (row) => (
-        <>
-          <span>{row.tutorial_link}</span>
-        </>
-      ),
-    },
+    // {
+    //   name: "Tutorial Link",
+    //   sortable: true,
+    //   minWidth: "600px",
+    //   sortField: "videoLink",
+    //   selector: (row) => row.tutorial_link,
+    //   cell: (row) => (
+    //     <>
+    //       <span>{row.tutorial_link}</span>
+    //     </>
+    //   ),
+    // },
     {
       name: "Action",
       minWidth: "110px",
@@ -63,7 +68,7 @@ const ListTutorial = () => {
             id={`send-tooltip-${row.tutorial_id}`}
           /> &nbsp;
           <Trash
-            className="trash-pointer"
+            className="cursor-pointer"
             onClick={() => handleDelete(row.tutorial_id)}
             size={17}
             id={`send-tooltip-${row.tutorial_id}`}
@@ -73,6 +78,13 @@ const ListTutorial = () => {
             isChecked={row.is_active}
             handleClick={(e) => handleActivation(e?.target?.checked, row?.tutorial_id)}
           />
+          {/* &nbsp;
+          <Eye
+            className="cursor-pointer"
+            onClick={() => handleView(row.tutorial_id)}
+            size={17}
+            id={`send-tooltip-${row.tutorial_id}`}
+          /> */}
         </>
       ),
     },
@@ -92,6 +104,7 @@ const ListTutorial = () => {
         setLoader(false)
       }
       handleTutorialData();
+      navigate("/apps/addTutorialManagement");
     });
   };
 
@@ -156,25 +169,69 @@ const ListTutorial = () => {
     );
   };
 
+  const tutorialManagement = {
+    tutoContainer: {
+      display: "flex",
+      justifyContent: "center",
+      width: "100%",
+      height: "100%",
+      columnGap: "20px"
+    },
+
+    tutoForm: {
+      marginTop: "20px",
+      width: "40%",
+      // border: "1px solid red"
+    },
+
+    tutoList: {
+      width: "60%",
+    }
+  }
+
   return (
-    <div>
+    <div style={tutorialManagement.tutoContainer}>
       {loader ? (
-        <Spinner />
+        <>
+          <div style={tutorialManagement.tutoForm}>
+            <AddTutorial />
+          </div>
+          <div style={tutorialManagement.tutoList}>
+            {/* <Button
+              type="button"
+              label="Add Tutorial"
+              onClick={() => handleNavigate()}
+            /> */}
+            <br></br>
+            <br></br>
+            <Table
+              columns={columns}
+              dataToRender={userData?.data}
+              pagination
+              CustomPagination={CustomPagination}
+            />
+          </div>
+        </>
       ) : (
         <>
-          <Button
-            type="button"
-            label="Add Tutorial"
-            onClick={() => handleNavigate()}
-          />
-          <br></br>
-          <br></br>
-          <Table
-            columns={columns}
-            dataToRender={userData?.data}
-            pagination
-            CustomPagination={CustomPagination}
-          />
+          <div style={tutorialManagement.tutoForm}>
+            <AddTutorial />
+          </div>
+          <div style={tutorialManagement.tutoList}>
+            {/* <Button
+              type="button"
+              label="Add Tutorial"
+              onClick={() => handleNavigate()}
+            /> */}
+            <br></br>
+            <br></br>
+            <Table
+              columns={columns}
+              dataToRender={userData?.data}
+              pagination
+              CustomPagination={CustomPagination}
+            />
+          </div>
         </>
       )}
     </div>

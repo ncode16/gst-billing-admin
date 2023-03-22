@@ -126,12 +126,12 @@ const AddContactUs = () => {
       <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
       <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm} onSubmit={handleSubmit(onSubmit)}>
         <div style={addCategoryStyle.categoryTitle}>
-          <span style={addCategoryStyle.modelHeader}>{id ? 'Update Feature' : 'Add Feature'}</span>
+          <span style={addCategoryStyle.modelHeader}>Send Email</span>
         </div>
         <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
         <Input
-              placeholder="Enter Email "
-              label="Email"
+              placeholder="Enter Contact Email "
+              label="Contact Email"
               showError={true}
               error={errors?.email?.message}
               registeredEvents={register("email")}
@@ -140,7 +140,7 @@ const AddContactUs = () => {
             />
             <div style={addCategoryStyle.marginStyle}>
             <Label for='task-desc' className='form-label'>
-                Description
+                Contact Description
               </Label>
 
 

@@ -4,12 +4,13 @@ import { Table, Button, Switch } from "../../../common";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
-import { Trash, Edit } from "react-feather";
+import { Trash, Edit, Eye } from "react-feather";
 import { toast } from "react-hot-toast";
 import { ShowToast } from "../../../../utility/Utils";
 import { getTemplateData, deleteTemplateData, activeTemplateData } from "../../../../api/templateManagement/template";
 // ** Spinner (Splash Screen)
 import Spinner from "../../../../@core/components/spinner/Loading-spinner";
+import AddTemplate from "../addTemplateManagement/addTemplate";
 
 const ListTemplate = () => {
   const navigate = useNavigate();
@@ -23,19 +24,23 @@ const ListTemplate = () => {
     navigate("/apps/addTemplateManagement");
   };
 
+  const handleView = (id) => {
+    navigate(`/apps/view/${id}`)
+  }
+
   const columns = [
-    {
-      name: "Image Link",
-      sortable: true,
-      minWidth: "500px",
-      sortField: "imageLink",
-      selector: (row) => row.template_image,
-      cell: (row) => (
-        <>
-          <span>{row.template_image}</span>
-        </>
-      ),
-    },
+    // {
+    //   name: "Image Link",
+    //   sortable: true,
+    //   minWidth: "500px",
+    //   sortField: "imageLink",
+    //   selector: (row) => row.template_image,
+    //   cell: (row) => (
+    //     <>
+    //       <span>{row.template_image}</span>
+    //     </>
+    //   ),
+    // },
     {
       name: "Image Name",
       sortable: true,
@@ -61,7 +66,7 @@ const ListTemplate = () => {
           />
           &nbsp;
           <Trash
-            className="trash-pointer"
+            className="cursor-pointer"
             onClick={() => handleDelete(row.template_id)}
             size={17}
             id={`send-tooltip-${row.id}`}
@@ -71,6 +76,13 @@ const ListTemplate = () => {
             isChecked={row.is_active}
             handleClick={(e) => handleActivation(e.target.checked, row.template_id)}
           />
+          {/* &nbsp;
+          <Eye
+            className="cursor-pointer"
+            onClick={() => handleView(row.template_id)}
+            size={17}
+            id={`send-tooltip-${row.id}`}
+          /> */}
         </>
       ),
     },
@@ -85,6 +97,7 @@ const ListTemplate = () => {
         ));
       }
       handleTemplateData();
+      navigate("/apps/AddTemplateManagement");
     });
   };
 
@@ -160,26 +173,69 @@ const ListTemplate = () => {
     );
   };
 
+  const templateManagement = {
+    tempContainer: {
+      display: "flex",
+      justifyContent: "center",
+      width: "100%",
+      height: "100%",
+      columnGap: "20px"
+    },
+
+    tempForm: {
+      marginTop: "20px",
+      width: "40%",
+      // border: "1px solid red"
+    },
+
+    tempList: {
+      width: "60%",
+    }
+  }
+
   return (
-    <div>
- 
- {loader ? (
-        <Spinner />
+    <div style={templateManagement.tempContainer}>
+      {loader ? (
+        <>
+          <div style={templateManagement.tempForm}>
+            <AddTemplate />
+          </div>
+          <div style={templateManagement.tempList}>
+            {/* <Button
+              type="button"
+              label="Add Template"
+              onClick={() => handleNavigate()}
+            /> */}
+            <br></br>
+            <br></br>
+            <Table
+              columns={columns}
+              dataToRender={userData?.data}
+              pagination
+              CustomPagination={CustomPagination}
+            />
+          </div>
+        </>
       ) : (
         <>
-          <Button
-            type="button"
-            label="Add Template"
-            onClick={() => handleNavigate()}
-          />
-          <br></br>
-          <br></br>
-          <Table
-            columns={columns}
-            dataToRender={userData?.data}
-            pagination
-            CustomPagination={CustomPagination}
-          />
+          <div style={templateManagement.tempForm}>
+            <AddTemplate />
+          </div>
+          <div style={templateManagement.tempList}>
+            {/* <Button
+              type="button"
+              label="Add Template"
+              onClick={() => handleNavigate()}
+            /> */}
+            <br></br>
+            <br></br>
+            <Table
+              columns={columns}
+              dataToRender={userData?.data}
+              pagination
+              CustomPagination={CustomPagination}
+            />
+          </div>
         </>
       )}
     </div>

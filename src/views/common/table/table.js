@@ -57,13 +57,15 @@ const CustomTable = ({
   dataToRender,
   pagination,
 }) => {
+
+
   return (
     <div>
       <Card className="overflow-hidden">
         <div className="react-dataTable">
           <DataTable
-            noHeader
-            subHeader
+            // noHeader
+            // subHeader
             sortServer
             pagination={pagination}
             responsive

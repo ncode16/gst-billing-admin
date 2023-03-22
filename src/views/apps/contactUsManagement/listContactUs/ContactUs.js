@@ -31,7 +31,7 @@ const ContactUs = () => {
     {
       name: "Contact Name",
       sortable: true,
-      minWidth: "300px",
+      minWidth: "190px",
       sortField: "contactName",
       selector: (row) => row.contact_name,
       cell: (row) => (
@@ -43,7 +43,7 @@ const ContactUs = () => {
     {
       name: "Contact Phone",
       sortable: true,
-      minWidth: "300px",
+      minWidth: "200px",
       sortField: "contactPhone",
       selector: (row) => row.contact_phone,
       cell: (row) => (
@@ -64,34 +64,34 @@ const ContactUs = () => {
         </>
       ),
     },
-    {
-      name: "City",
-      sortable: true,
-      minWidth: "300px",
-      sortField: "City",
-      selector: (row) => row.contact_city,
-      cell: (row) => (
-        <>
-          <span>{row.contact_city}</span>
-        </>
-      ),
-    },
-    {
-      name: "Country",
-      sortable: true,
-      minWidth: "300px",
-      sortField: "Country",
-      selector: (row) => row.contact_country,
-      cell: (row) => (
-        <>
-          <span>{row.contact_country}</span>
-        </>
-      ),
-    },
+    // {
+    //   name: "City",
+    //   sortable: true,
+    //   minWidth: "150px",
+    //   sortField: "City",
+    //   selector: (row) => row.contact_city,
+    //   cell: (row) => (
+    //     <>
+    //       <span>{row.contact_city}</span>
+    //     </>
+    //   ),
+    // },
+    // {
+    //   name: "Country",
+    //   sortable: true,
+    //   minWidth: "150px",
+    //   sortField: "Country",
+    //   selector: (row) => row.contact_country,
+    //   cell: (row) => (
+    //     <>
+    //       <span>{row.contact_country}</span>
+    //     </>
+    //   ),
+    // },
     {
       name: "Contact Email",
       sortable: true,
-      minWidth: "300px",
+      minWidth: "250px",
       sortField: "  contactEmail",
       selector: (row) => row.contact_email,
       cell: (row) => (
@@ -174,6 +174,7 @@ const ContactUs = () => {
       />
     );
   };
+  
   
   return (
     <div>

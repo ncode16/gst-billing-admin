@@ -1,6 +1,8 @@
 // ** React Imports
 import { lazy } from "react";
 import { Navigate } from "react-router-dom";
+import AddUser from "../../views/apps/userManagement/addUser";
+import View from "../../views/apps/view/View";
 
 const Chat = lazy(() => import("../../views/apps/chat"));
 const Todo = lazy(() => import("../../views/apps/todo"));
@@ -103,7 +105,7 @@ const AppRoutes = [
     },
   },
   {
-    element: <AddUserManagement />,
+    element: <UserManagement />,
     path: "/apps/addUserManagement",
     meta: {
       appLayout: true,
@@ -111,7 +113,7 @@ const AppRoutes = [
     },
   },
   {
-    element: <AddUserManagement />,
+    element: <UserManagement />,
     path: "/apps/editUserManagement/:id",
     meta: {
       appLayout: true,
@@ -126,14 +128,14 @@ const AppRoutes = [
     },
   },
   {
-    element: <AddCategoryManagement />,
+    element: <CategoryManagement />,
     path: "/apps/addCategoryManagement",
     meta: {
       className: "CategoryManagement-application",
     },
   },
   {
-    element: <AddCategoryManagement />,
+    element: <CategoryManagement />,
     path: "/apps/editCategoryManagement/:id",
     meta: {
       className: "CategoryManagement-application",
@@ -147,14 +149,14 @@ const AppRoutes = [
     },
   },
   {
-    element: <AddFaqManagement />,
+    element: <FaqManagement />,
     path: "/apps/addFaqManagement",
     meta: {
       className: "addFaqManagement-application",
     },
   },
   {
-    element: <AddFaqManagement />,
+    element: <FaqManagement />,
     path: "/apps/editFaqManagement/:id",
     meta: {
       className: "editFaqManagement-application",
@@ -168,14 +170,14 @@ const AppRoutes = [
     },
   },
   {
-    element: <AddTutorialManagement />,
+    element: <TutorialManagement />,
     path: "/apps/addTutorialManagement",
     meta: {
       className: "addTutorialManagement-application",
     },
   },
   {
-    element: <AddTutorialManagement />,
+    element: <TutorialManagement />,
     path: "/apps/editTutorialManagement/:id",
     meta: {
       className: "editTutorialManagement-application",
@@ -203,14 +205,14 @@ const AppRoutes = [
     },
   },
   {
-    element: <AddTemplateManagement />,
+    element: <TemplateManagement />,
     path: "/apps/AddTemplateManagement",
     meta: {
       className: "AddTemplateManagement-application",
     },
   },
   {
-    element: <AddTemplateManagement />,
+    element: <TemplateManagement />,
     path: "/apps/editTemplateManagement/:id",
     meta: {
       className: "editTemplateManagement-application",
@@ -224,14 +226,14 @@ const AppRoutes = [
     },
   },
   {
-    element: <AddCmsManagement />,
+    element: <CmsManagement />,
     path: "/apps/addCmsManagement",
     meta: {
       className: "addCmsManagement-application",
     },
   },
   {
-    element: <AddCmsManagement />,
+    element: <CmsManagement />,
     path: "/apps/editCmsManagement/:id",
     meta: {
       className: "editCmsManagement-application",
@@ -245,17 +247,24 @@ const AppRoutes = [
     },
   },
   {
-    element: <AddFeatureManagement />,
+    element: <FeatureManagement />,
     path: "/apps/addFeatureManagement",
     meta: {
       className: "addFeatureManagement-application",
     },
   },
   {
-    element: <AddFeatureManagement />,
+    element: <FeatureManagement />,
     path: "/apps/editFeatureManagement/:id",
     meta: {
       className: "addFeatureManagement-application",
+    },
+  },
+  {
+    element: <View />,
+    path: "/apps/view/:id",
+    meta: {
+      className: "view-application",
     },
   },
   // {
