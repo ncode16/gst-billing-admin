@@ -34,8 +34,8 @@ export default function SelectDropdown(props) {
     menu: provided => ({ ...provided, zIndex: 9999, cursor: 'pointer' }),
     container: provided => ({
       ...provided,
-      width: "100%"
-    })
+      width: "100%",
+    }),
   };
 
   return (
@@ -65,7 +65,8 @@ export default function SelectDropdown(props) {
           onBlur={onBlur}
           id={id}
           styles={customStyles}
-          placeholder={placeholder}>
+          placeholder={placeholder}
+        >
         </Select>
       </div>
       {showError && error && (<Form.Text className="error-text">{error}</Form.Text>)}

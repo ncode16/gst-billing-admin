@@ -28,7 +28,7 @@ const ListFaq = () => {
 
   const columns = [
     {
-      name: "FAQ",
+      name: "FAQ Title",
       sortable: true,
       minWidth: "100px",
       sortField: "title",
@@ -106,9 +106,76 @@ const ListFaq = () => {
       .catch((err) => console.log("error", err));
   }
 
+  const [screenWidth, setScreenWidth] = useState({
+    width: window.innerWidth
+  });
+
+  const setDimension = () => {
+    setScreenWidth({
+      width: window.innerWidth
+    })
+  }
+
+  const [faqContainer, setFaqContainer] = useState({
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
+    columnGap: "20px"
+  });
+
+  const [faqForm, setFaqForm] = useState({
+    marginTop: "20px",
+    width: "40%",
+  });
+
+  const [faqList, setFaqList] = useState({
+    width: "60%"
+  });
+
+
   useEffect(() => {
     handleFaqData()
-  }, [currentPage]);
+    window.addEventListener('resize', setDimension);
+
+    if(screenWidth.width > 720){
+      setFaqContainer({
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        columnGap: "20px"
+      })
+      setFaqForm({
+        marginTop: "20px",
+        width: "40%",
+      })
+      setFaqList({
+        width: "60%"
+      })
+      
+    } else{
+      setFaqContainer({
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        columnGap: "20px"
+      })
+      setFaqForm({
+        marginTop: "0",
+        width: "100%",
+      })
+      setFaqList({
+        width: "100%"
+      })
+    }
+    
+    return(() => {
+      window.removeEventListener('resize', setDimension);
+    })
+  }, [currentPage,screenWidth]);
 
   const handleNavigate = () => {
     navigate("/apps/addFaqManagement");
@@ -172,34 +239,34 @@ const ListFaq = () => {
     );
   };
 
-  const faqManagement = {
-    faqContainer: {
-      display: "flex",
-      justifyContent: "center",
-      width: "100%",
-      height: "100%",
-      columnGap: "20px"
-    },
+  // const faqManagement = {
+  //   faqContainer: {
+  //     display: "flex",
+  //     justifyContent: "center",
+  //     width: "100%",
+  //     height: "100%",
+  //     columnGap: "20px"
+  //   },
 
-    faqForm: {
-      marginTop: "20px",
-      width: "40%",
-      // border: "1px solid red"
-    },
+  //   faqForm: {
+  //     marginTop: "20px",
+  //     width: "40%",
+  //     // border: "1px solid red"
+  //   },
 
-    faqList: {
-      width: "60%",
-    }
-  }
+  //   faqList: {
+  //     width: "60%",
+  //   }
+  // }
 
   return (
-    <div style={faqManagement.faqContainer}>
+    <div style={faqContainer}>
       {loader ? (
         <>
-          <div style={faqManagement.faqForm}>
+          <div style={faqForm}>
             <AddFaq />
           </div>
-          <div style={faqManagement.faqList}>
+          <div style={faqList}>
             {/* <Button
               type="button"
               label="Add FAQ"
@@ -217,10 +284,10 @@ const ListFaq = () => {
         </>
       ) : (
         <>
-          <div style={faqManagement.faqForm}>
+          <div style={faqForm}>
             <AddFaq />
           </div>
-          <div style={faqManagement.faqList}>
+          <div style={faqList}>
             {/* <Button
               type="button"
               label="Add FAQ"

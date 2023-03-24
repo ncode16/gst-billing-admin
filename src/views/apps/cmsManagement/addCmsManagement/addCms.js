@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Description, Input } from "../../../common";
 import { Form } from "react-bootstrap";
 import { AddCmsData, updateCmsData, getEditCmsData } from "../../../../api/cmsManagement/cmsApi";
@@ -36,6 +36,25 @@ const AddCms = () => {
     navigate("/apps/cmsManagement");
   };
 
+  const bodyClassName = React.useRef('');
+
+  const [modelBody, setModelBody] = useState({
+    padding: "20px 50px",
+    borderBottomLeftRadius: "8px",
+    borderBottomRightRadius: "8px",
+  });
+
+  const [categoryTitle, setCategoryTitle] = useState({
+      padding: "10px 0",
+      borderTopLeftRadius: "8px",
+      borderTopRightRadius: "8px",
+  });
+
+  const [modelHeader, setModelHeader] = useState({
+      fontWeight: "500",
+      marginLeft: "50px",
+  });
+
   useEffect(() => {
     getEditCmsData(id).then((res) => {
       if (res?.data?.success == true) {
@@ -50,7 +69,49 @@ const AddCms = () => {
         description: description || ''
       });
     })
-  }, [])
+
+    const body = document.getElementsByTagName("body");
+    bodyClassName.current = body[0].classList[0];
+
+    if(bodyClassName.current === 'dark-layout'){
+      setModelBody({
+        background: "#283046",
+        padding: "20px 50px",
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
+      });
+      setCategoryTitle({
+        padding: "10px 0",
+        background: "#343d55",
+        borderTopLeftRadius: "8px",
+        borderTopRightRadius: "8px",
+      })
+      setModelHeader({
+        color: "#fff",
+        fontWeight: "500",
+        marginLeft: "50px",
+      })
+    } else {
+      setModelBody({
+        background: "#fff",
+        padding: "20px 50px",
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
+      });
+      setCategoryTitle({
+        padding: "10px 0",
+        background: "#f3f1f3",
+        borderTopLeftRadius: "8px",
+        borderTopRightRadius: "8px",
+      })
+      setModelHeader({
+        color: "#372f37",
+        fontWeight: "500",
+        marginLeft: "50px",
+      })
+    }
+
+  }, [bodyClassName.current])
 
   const onSubmit = (data) => {
     const body = {
@@ -88,16 +149,16 @@ const AddCms = () => {
 
   const addCategoryStyle = {
 
-    categoryTitle: {
-      padding: "10px 0",
-      background: "#f3f1f3",
-    },
+    // categoryTitle: {
+    //   padding: "10px 0",
+    //   background: "#f3f1f3",
+    // },
 
-    modelHeader: {
-      color: "#372f37",
-      fontWeight: "500",
-      marginLeft: "50px",
-    },
+    // modelHeader: {
+    //   color: "#372f37",
+    //   fontWeight: "500",
+    //   marginLeft: "50px",
+    // },
 
     categoryContainer: {
       display: "flex",
@@ -111,10 +172,10 @@ const AddCms = () => {
       padding: "20px 0",
     },
 
-    modalBody: {
-      background: "#fff",
-      padding: "20px 50px",
-    },
+    // modalBody: {
+    //   background: "#fff",
+    //   padding: "20px 50px",
+    // },
 
     buttons: {
       margin: "30px 0",
@@ -127,50 +188,15 @@ const AddCms = () => {
   }
 
   return (
-    // <Container>
-    //   <Row>
-    //     <Col></Col>
-    //     <Col>
-    //       <Form>
-    //         <Input
-    //           placeholder="Title"
-    //           label="Title "
-    //           showError={true}
-    //           error={errors?.title?.message}
-    //           registeredEvents={register("title")}
-    //           isRequired
-    //         />
-    //         <br></br>
-    //         <br></br>
-    //         <Input
-    //           placeholder="Enter Description"
-    //           label="Description "
-    //           showError={true}
-    //           error={errors?.description?.message}
-    //           registeredEvents={register("description")}
-    //           isRequired
-    //         />
-    //         <br></br>
-    //         <br></br>
-    //         <Button color="primary" onClick={handleSubmit(onSubmit)}>
-    //           {id ? 'Update CMS' : 'Add CMS'}
-    //         </Button>
-    //         &nbsp;
-    //         <Button type="button" onClick={handleNavigate} outline> Cancel </Button>
-    //       </Form>
-    //     </Col>
-    //     <Col></Col>
-    //   </Row>
-    // </Container>
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
       <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm} onSubmit={handleSubmit(onSubmit)}>
-        <div style={addCategoryStyle.categoryTitle}>
-          <span style={addCategoryStyle.modelHeader}>{id ? 'Update CMS' : 'Add CMS'}</span>
+        <div style={categoryTitle}>
+          <span style={modelHeader}>{id ? 'Update CMS' : 'Add CMS'}</span>
         </div>
-        <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
+        <div className='flex-grow-1 pb-sm-0 pb-3' style={modelBody}>
           <Input
-            placeholder="Enter CMS Name"
-            label="CMS Name"
+            placeholder="Enter CMS Title"
+            label="CMS Title"
             showError={true}
             error={errors?.title?.message}
             registeredEvents={register("title")}

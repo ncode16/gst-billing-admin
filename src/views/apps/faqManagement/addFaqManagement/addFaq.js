@@ -1,10 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Form, Row } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button } from "reactstrap";
-import { Input } from "../../../common";
+import { Button, Label } from "reactstrap";
+import { Description, Input } from "../../../common";
 import schema from "../../../../schema/faqManagement/faqSchema";
 import { AddFaqData, getEditFaqData, updateFaqData } from "../../../../api/faqManagement/faqApi";
 import toast from "react-hot-toast";
@@ -18,6 +18,7 @@ const AddFaq = () => {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm({
     mode: "onChange",
@@ -27,6 +28,25 @@ const AddFaq = () => {
       description: "",
     },
     resolver: yupResolver(schema),
+  });
+
+  const bodyClassName = React.useRef('');
+
+  const [modelBody, setModelBody] = useState({
+    padding: "20px 50px",
+    borderBottomLeftRadius: "8px",
+    borderBottomRightRadius: "8px",
+  });
+
+  const [categoryTitle, setCategoryTitle] = useState({
+      padding: "10px 0",
+      borderTopLeftRadius: "8px",
+      borderTopRightRadius: "8px",
+  });
+
+  const [modelHeader, setModelHeader] = useState({
+      fontWeight: "500",
+      marginLeft: "50px",
   });
 
   useEffect(() => {
@@ -44,7 +64,50 @@ const AddFaq = () => {
         description: description || ''
       });
     })
-  }, [])
+
+    const body = document.getElementsByTagName("body");
+    bodyClassName.current = body[0].classList[0];
+
+    if(bodyClassName.current === 'dark-layout'){
+      setModelBody({
+        background: "#283046",
+        padding: "20px 50px",
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
+      });
+      setCategoryTitle({
+        padding: "10px 0",
+        background: "#343d55",
+        borderTopLeftRadius: "8px",
+        borderTopRightRadius: "8px",
+      })
+      setModelHeader({
+        color: "#fff",
+        fontWeight: "500",
+        marginLeft: "50px",
+      })
+    } else {
+      setModelBody({
+        background: "#fff",
+        padding: "20px 50px",
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
+      });
+      setCategoryTitle({
+        padding: "10px 0",
+        background: "#f3f1f3",
+        borderTopLeftRadius: "8px",
+        borderTopRightRadius: "8px",
+      })
+      setModelHeader({
+        color: "#372f37",
+        fontWeight: "500",
+        marginLeft: "50px",
+      })
+    }
+
+
+  }, [bodyClassName.current])
 
   const handleNavigate = () => {
     navigate("/apps/faqManagement");
@@ -83,16 +146,16 @@ const AddFaq = () => {
 
   const addCategoryStyle = {
 
-    categoryTitle: {
-      padding: "10px 0",
-      background: "#f3f1f3",
-    },
+    // categoryTitle: {
+    //   padding: "10px 0",
+    //   background: "#f3f1f3",
+    // },
 
-    modelHeader: {
-      color: "#372f37",
-      fontWeight: "500",
-      marginLeft: "50px",
-    },
+    // modelHeader: {
+    //   color: "#372f37",
+    //   fontWeight: "500",
+    //   marginLeft: "50px",
+    // },
 
     categoryContainer: {
       display: "flex",
@@ -106,10 +169,10 @@ const AddFaq = () => {
       padding: "20px 0",
     },
 
-    modalBody: {
-      background: "#fff",
-      padding: "20px 50px",
-    },
+    // modalBody: {
+    //   background: "#fff",
+    //   padding: "20px 50px",
+    // },
 
     buttons: {
       margin: "30px 0",
@@ -122,53 +185,13 @@ const AddFaq = () => {
   }
 
   return (
-    // <Container>
-    //   <Row>
-    //     <Col></Col>
-    //     <Col>
-    //       <Form>
-    //         <Input
-    //           placeholder="Enter Question"
-    //           label="Add Faq "
-    //           showError={true}
-    //           error={errors?.question?.message}
-    //           registeredEvents={register("question")}
-    //           isRequired
-    //         />
-    //         <br></br>
-    //         <Input
-    //           placeholder="Enter Description"
-    //           label="Description"
-    //           showError={true}
-    //           error={errors?.description?.message}
-    //           registeredEvents={register("description")}
-    //           isRequired
-    //         />
-    //         <br></br>
-    //         <br></br>
-    //         <Button
-    //           label="Add FAQ"
-    //           color="primary"
-    //           onClick={handleSubmit(onSubmit)}
-    //         >
-    //           {id ? 'Update FAQ' : 'Add FAQ'}
-    //         </Button>{" "}
-    //         &nbsp;
-    //         <Button onClick={handleNavigate} outline>
-    //           Cancel
-    //         </Button>
-    //       </Form>
-    //     </Col>
-    //     <Col></Col>
-    //   </Row>
-    // </Container>
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
       <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm} onSubmit={handleSubmit(onSubmit)}>
-        <div style={addCategoryStyle.categoryTitle}>
-          <span style={addCategoryStyle.modelHeader}>{id ? 'Update FAQ' : 'Add FAQ'}</span>
+        <div style={categoryTitle}>
+          <span style={modelHeader}>{id ? 'Update FAQ' : 'Add FAQ'}</span>
 
         </div>
-        <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
+        <div className='flex-grow-1 pb-sm-0 pb-3' style={modelBody}>
           <Input
             placeholder="Enter FAQ Title"
             label="FAQ Title"
@@ -178,13 +201,21 @@ const AddFaq = () => {
             isRequired
           />
           <div style={addCategoryStyle.marginStyle}>
-            <Input
+            {/* <Input
               placeholder="Enter FAQ Description"
               label="FAQ Description"
               showError={true}
               error={errors?.description?.message}
               registeredEvents={register("description")}
               isRequired
+            /> */}
+            <Label for='task-desc' className='form-label'>
+              FAQ Description
+            </Label>
+            <Controller
+              render={({ field }) => <Description  error={errors?.description?.message} {...field} isRequired />}
+              name="description"
+              control={control}
             />
           </div>
           <div className="buttons" style={addCategoryStyle.buttons}>

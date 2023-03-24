@@ -136,9 +136,76 @@ const ListCategory = () => {
       .catch((err) => console.log("error", err));
   };
 
+
+  const [screenWidth, setScreenWidth] = useState({
+    width: window.innerWidth
+  });
+
+  const setDimension = () => {
+    setScreenWidth({
+      width: window.innerWidth
+    })
+  }
+
+  const [catContainer, setCatContainer] = useState({
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
+    columnGap: "20px"
+  });
+
+  const [catForm, setCatForm] = useState({
+    marginTop: "20px",
+    width: "40%",
+  });
+
+  const [catList, setCatList] = useState({
+    width: "60%"
+  });
+
   useEffect(() => {
     handleCategoryData();
-  }, [currentPage]);
+    window.addEventListener('resize', setDimension);
+
+    if(screenWidth.width > 720){
+      setCatContainer({
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        columnGap: "20px"
+      })
+      setCatForm({
+        marginTop: "20px",
+        width: "40%",
+      })
+      setCatList({
+        width: "60%"
+      })
+      
+    } else{
+      setCatContainer({
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        columnGap: "20px"
+      })
+      setCatForm({
+        marginTop: "0",
+        width: "100%",
+      })
+      setCatList({
+        width: "100%"
+      })
+    }
+    
+    return(() => {
+      window.removeEventListener('resize', setDimension);
+    })
+  }, [currentPage,screenWidth]);
 
   const CustomPagination = () => {
     const count = Number(Math.ceil(userData?.total / rowsPerPage));
@@ -164,34 +231,34 @@ const ListCategory = () => {
     );
   };
 
-  const categoryManagement = {
-    catContainer: {
-      display: "flex",
-      justifyContent: "center",
-      width: "100%",
-      height: "100%",
-      columnGap: "20px"
-    },
+  // const categoryManagement = {
+  //   catContainer: {
+  //     display: "flex",
+  //     justifyContent: "center",
+  //     width: "100%",
+  //     height: "100%",
+  //     columnGap: "20px"
+  //   },
 
-    catForm: {
-      marginTop: "20px",
-      width: "40%",
-      // border: "1px solid red"
-    },
+  //   catForm: {
+  //     marginTop: "20px",
+  //     width: "40%",
+  //     // border: "1px solid red"
+  //   },
 
-    catList: {
-      width: "60%",
-    }
-  }
+  //   catList: {
+  //     width: "60%",
+  //   }
+  // }
 
   return (
-    <div style={categoryManagement.catContainer}>
+    <div style={catContainer}>
       {loader ? (
         <>
-          <div style={categoryManagement.catForm}>
+          <div style={catForm}>
             <AddCategory />
           </div>
-          <div style={categoryManagement.catList}>
+          <div style={catList}>
             {/* <Button
               type="button"
               label="Add Category"
@@ -209,10 +276,10 @@ const ListCategory = () => {
         </>
       ) : (
         <>
-          <div style={categoryManagement.catForm}>
+          <div style={catForm}>
             <AddCategory />
           </div>
-          <div style={categoryManagement.catList}>
+          <div style={catList}>
             {/* <Button
               type="button"
               label="Add Category"

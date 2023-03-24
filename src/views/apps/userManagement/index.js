@@ -169,9 +169,76 @@ const UserManagement = () => {
       .catch((err) => console.log("error", err));
   };
 
+    const [screenWidth, setScreenWidth] = useState({
+    width: window.innerWidth
+  });
+
+  const setDimension = () => {
+    setScreenWidth({
+      width: window.innerWidth
+    })
+  }
+
+  const [userContainer, setUserContainer] = useState({
+      display: "flex",
+      justifyContent: "center",
+      width: "100%",
+      height: "100%",
+      columnGap: "20px"
+  });
+
+  const [userForm, setUserForm] = useState({
+    marginTop: "20px",
+    width: "40%",
+  });
+
+  const [userList, setUserList] = useState({
+    width: "60%"
+  });
+
   useEffect(() => {
     handleUserData();
-  }, [currentPage]);
+    window.addEventListener('resize', setDimension);
+
+    if(screenWidth.width > 720){
+      setUserContainer({
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        columnGap: "20px"
+      })
+      setUserForm({
+        marginTop: "20px",
+        width: "40%",
+      })
+      setUserList({
+        width: "60%"
+      })
+      
+    } else{
+      setUserContainer({
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        columnGap: "20px"
+      })
+      setUserForm({
+        marginTop: "0",
+        width: "100%",
+      })
+      setUserList({
+        width: "100%"
+      })
+    }
+    
+    return(() => {
+      window.removeEventListener('resize', setDimension);
+    })
+
+  }, [currentPage,screenWidth]);
 
   const CustomPagination = () => {
     const count = Number(Math.ceil(userData?.total / rowsPerPage));
@@ -196,31 +263,31 @@ const UserManagement = () => {
     );
   };
 
-  const userManagement = {
-    userContainer: {
-      display: "flex",
-      justifyContent: "center",
-      width: "100%",
-      height: "100%",
-      columnGap: "20px"
-    },
+  // const userManagement = {
+  //   userContainer: {
+  //     display: "flex",
+  //     justifyContent: "center",
+  //     width: "100%",
+  //     height: "100%",
+  //     columnGap: "20px"
+  //   },
 
-    userForm: {
-      marginTop: "20px",
-      width: "40%",
-    },
+  //   userForm: {
+  //     marginTop: "20px",
+  //     width: "40%",
+  //   },
 
-    userList: {
-      width: "60%",
-    }
-  }
+  //   userList: {
+  //     width: "60%",
+  //   }
+  // }
 
   return (
-    <div style={userManagement.userContainer}>
+    <div style={userContainer} className='index'>
       {loader ? (
         <>
-          <AddUser userForm={userManagement.userForm} />
-          <div style={userManagement.userList}>
+          <AddUser userForm={userForm} />
+          <div style={userList}>
             {/* <Button color="primary" >Add user</Button>
             onClick={() => navigate("/apps/addUserManagement")} */}
             <br></br>
@@ -235,8 +302,8 @@ const UserManagement = () => {
         </>
       ) : (
         <>
-          <AddUser userForm={userManagement.userForm} />
-          <div style={userManagement.userList}>
+          <AddUser userForm={userForm} />
+          <div style={userList}>
             {/* <Button color="primary" >Add user</Button>
             onClick={() => navigate("/apps/addUserManagement")} */}
             <br></br>

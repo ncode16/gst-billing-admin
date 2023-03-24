@@ -42,7 +42,7 @@ const ListTemplate = () => {
     //   ),
     // },
     {
-      name: "Image Name",
+      name: "Template Name",
       sortable: true,
       minWidth: "150px",
       sortField: "imageLink",
@@ -137,9 +137,75 @@ const ListTemplate = () => {
     navigate(`/apps/editTemplateManagement/${id}`)
   }
 
+  const [screenWidth, setScreenWidth] = useState({
+    width: window.innerWidth
+  });
+
+  const setDimension = () => {
+    setScreenWidth({
+      width: window.innerWidth
+    })
+  }
+
+  const [tempContainer, setTempContainer] = useState({
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
+    columnGap: "20px"
+  });
+
+  const [tempForm, setTempForm] = useState({
+    marginTop: "20px",
+    width: "40%",
+  });
+
+  const [tempList, setTempList] = useState({
+    width: "60%"
+  });
+
   useEffect(() => {
     handleTemplateData();
-  }, [currentPage]);
+    window.addEventListener('resize', setDimension);
+
+    if(screenWidth.width > 720){
+      setTempContainer({
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        columnGap: "20px"
+      })
+      setTempForm({
+        marginTop: "20px",
+        width: "40%",
+      })
+      setTempList({
+        width: "60%"
+      })
+      
+    } else{
+      setTempContainer({
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        columnGap: "20px"
+      })
+      setTempForm({
+        marginTop: "0",
+        width: "100%",
+      })
+      setTempList({
+        width: "100%"
+      })
+    }
+    
+    return(() => {
+      window.removeEventListener('resize', setDimension);
+    })
+  }, [currentPage,screenWidth]);
 
 
 
@@ -173,34 +239,34 @@ const ListTemplate = () => {
     );
   };
 
-  const templateManagement = {
-    tempContainer: {
-      display: "flex",
-      justifyContent: "center",
-      width: "100%",
-      height: "100%",
-      columnGap: "20px"
-    },
+  // const templateManagement = {
+  //   tempContainer: {
+  //     display: "flex",
+  //     justifyContent: "center",
+  //     width: "100%",
+  //     height: "100%",
+  //     columnGap: "20px"
+  //   },
 
-    tempForm: {
-      marginTop: "20px",
-      width: "40%",
-      // border: "1px solid red"
-    },
+  //   tempForm: {
+  //     marginTop: "20px",
+  //     width: "40%",
+  //     // border: "1px solid red"
+  //   },
 
-    tempList: {
-      width: "60%",
-    }
-  }
+  //   tempList: {
+  //     width: "60%",
+  //   }
+  // }
 
   return (
-    <div style={templateManagement.tempContainer}>
+    <div style={tempContainer}>
       {loader ? (
         <>
-          <div style={templateManagement.tempForm}>
+          <div style={tempForm}>
             <AddTemplate />
           </div>
-          <div style={templateManagement.tempList}>
+          <div style={tempList}>
             {/* <Button
               type="button"
               label="Add Template"
@@ -218,10 +284,10 @@ const ListTemplate = () => {
         </>
       ) : (
         <>
-          <div style={templateManagement.tempForm}>
+          <div style={tempForm}>
             <AddTemplate />
           </div>
-          <div style={templateManagement.tempList}>
+          <div style={tempList}>
             {/* <Button
               type="button"
               label="Add Template"

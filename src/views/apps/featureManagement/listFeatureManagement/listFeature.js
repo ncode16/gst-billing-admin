@@ -103,9 +103,75 @@ const ListFeature = () => {
     navigate(`/apps/view/${id}`)
   }
 
+  const [screenWidth, setScreenWidth] = useState({
+    width: window.innerWidth
+  });
+
+  const setDimension = () => {
+    setScreenWidth({
+      width: window.innerWidth
+    })
+  }
+
+  const [featureContainer, setFeatureContainer] = useState({
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
+    columnGap: "20px"
+  });
+
+  const [featureForm, setFeatureForm] = useState({
+    marginTop: "20px",
+    width: "40%",
+  });
+
+  const [featureList, setFeatureList] = useState({
+    width: "60%"
+  });
+
   useEffect(() => {
     handleFeatureData()
-  }, [currentPage]);
+    window.addEventListener('resize', setDimension);
+
+    if(screenWidth.width > 720){
+      setFeatureContainer({
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        columnGap: "20px"
+      })
+      setFeatureForm({
+        marginTop: "20px",
+        width: "40%",
+      })
+      setFeatureList({
+        width: "60%"
+      })
+      
+    } else{
+      setFeatureContainer({
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        columnGap: "20px"
+      })
+      setFeatureForm({
+        marginTop: "0",
+        width: "100%",
+      })
+      setFeatureList({
+        width: "100%"
+      })
+    }
+    
+    return(() => {
+      window.removeEventListener('resize', setDimension);
+    })
+  }, [currentPage,screenWidth]);
 
   const handleDelete = (id) => {
     setLoader(true)
@@ -163,34 +229,34 @@ const ListFeature = () => {
     );
   };
 
-  const featureManagement = {
-    featureContainer: {
-      display: "flex",
-      justifyContent: "center",
-      width: "100%",
-      height: "100%",
-      columnGap: "20px"
-    },
+  // const featureManagement = {
+  //   featureContainer: {
+  //     display: "flex",
+  //     justifyContent: "center",
+  //     width: "100%",
+  //     height: "100%",
+  //     columnGap: "20px"
+  //   },
 
-    featureForm: {
-      marginTop: "20px",
-      width: "40%",
-      // border: "1px solid red"
-    },
+  //   featureForm: {
+  //     marginTop: "20px",
+  //     width: "40%",
+  //     // border: "1px solid red"
+  //   },
 
-    featureList: {
-      width: "60%",
-    }
-  }
+  //   featureList: {
+  //     width: "60%",
+  //   }
+  // }
 
   return (
-    <div style={featureManagement.featureContainer}>
+    <div style={featureContainer}>
       {loader ? (
         <>
-          <div style={featureManagement.featureForm}>
+          <div style={featureForm}>
             <AddFeature />
           </div>
-          <div style={featureManagement.featureList}>
+          <div style={featureList}>
             {/* <Button
               type="button"
               label="Add Feature"
@@ -208,10 +274,10 @@ const ListFeature = () => {
         </>
       ) : (
         <>
-          <div style={featureManagement.featureForm}>
+          <div style={featureForm}>
             <AddFeature />
           </div>
-          <div style={featureManagement.featureList}>
+          <div style={featureList}>
             {/* <Button
               type="button"
               label="Add Feature"

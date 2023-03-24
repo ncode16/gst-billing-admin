@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Form, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { Input } from "../../../common";
@@ -28,6 +28,25 @@ const AddFeature = () => {
     resolver: yupResolver(schema),
   });
 
+  const bodyClassName = React.useRef('');
+
+  const [modelBody, setModelBody] = useState({
+    padding: "20px 50px",
+    borderBottomLeftRadius: "8px",
+    borderBottomRightRadius: "8px",
+  });
+
+  const [categoryTitle, setCategoryTitle] = useState({
+      padding: "10px 0",
+      borderTopLeftRadius: "8px",
+      borderTopRightRadius: "8px",
+  });
+
+  const [modelHeader, setModelHeader] = useState({
+      fontWeight: "500",
+      marginLeft: "50px",
+  });
+
   useEffect(() => {
     getEditFeatureData(id).then((res) => {
       if (res?.data?.success == true) {
@@ -40,7 +59,49 @@ const AddFeature = () => {
         featureName: featureName || '',
       });
     })
-  }, [])
+
+    const body = document.getElementsByTagName("body");
+    bodyClassName.current = body[0].classList[0];
+
+    if(bodyClassName.current === 'dark-layout'){
+      setModelBody({
+        background: "#283046",
+        padding: "20px 50px",
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
+      });
+      setCategoryTitle({
+        padding: "10px 0",
+        background: "#343d55",
+        borderTopLeftRadius: "8px",
+        borderTopRightRadius: "8px",
+      })
+      setModelHeader({
+        color: "#fff",
+        fontWeight: "500",
+        marginLeft: "50px",
+      })
+    } else {
+      setModelBody({
+        background: "#fff",
+        padding: "20px 50px",
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
+      });
+      setCategoryTitle({
+        padding: "10px 0",
+        background: "#f3f1f3",
+        borderTopLeftRadius: "8px",
+        borderTopRightRadius: "8px",
+      })
+      setModelHeader({
+        color: "#372f37",
+        fontWeight: "500",
+        marginLeft: "50px",
+      })
+    }
+
+  }, [bodyClassName.current])
 
   const handleNavigate = () => {
     navigate("/apps/featureManagement");
@@ -77,16 +138,16 @@ const AddFeature = () => {
 
   const addCategoryStyle = {
 
-    categoryTitle: {
-      padding: "10px 0",
-      background: "#f3f1f3",
-    },
+    // categoryTitle: {
+    //   padding: "10px 0",
+    //   background: "#f3f1f3",
+    // },
 
-    modelHeader: {
-      color: "#372f37",
-      fontWeight: "500",
-      marginLeft: "50px",
-    },
+    // modelHeader: {
+    //   color: "#372f37",
+    //   fontWeight: "500",
+    //   marginLeft: "50px",
+    // },
 
     categoryContainer: {
       display: "flex",
@@ -100,10 +161,10 @@ const AddFeature = () => {
       padding: "20px 0",
     },
 
-    modalBody: {
-      background: "#fff",
-      padding: "20px 50px",
-    },
+    // modalBody: {
+    //   background: "#fff",
+    //   padding: "20px 50px",
+    // },
 
     buttons: {
       margin: "30px 0",
@@ -116,41 +177,12 @@ const AddFeature = () => {
   }
 
   return (
-    // <div>
-    //   <Container>
-    //     <Row>
-    //       <Col></Col>
-    //       <Col>
-    //         <Form>
-    //           <Input
-    //             placeholder="feature name"
-    //             label="Feature"
-    //             showError={true}
-    //             error={errors?.featureName?.message}
-    //             registeredEvents={register("featureName")}
-    //             isRequired
-    //           />
-    //           <br></br>
-    //           <br></br>
-    //           <Button color="primary" onClick={handleSubmit(onSubmit)}>
-    //             Add Feature
-    //           </Button>
-    //           &nbsp;
-    //           <Button type="button" onClick={handleNavigate} outline>
-    //             Cancel
-    //           </Button>
-    //         </Form>
-    //       </Col>
-    //       <Col></Col>
-    //     </Row>
-    //   </Container>
-    // </div>
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
       <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm} onSubmit={handleSubmit(onSubmit)}>
-        <div style={addCategoryStyle.categoryTitle}>
-          <span style={addCategoryStyle.modelHeader}>{id ? 'Update Feature' : 'Add Feature'}</span>
+        <div style={categoryTitle}>
+          <span style={modelHeader}>{id ? 'Update Feature' : 'Add Feature'}</span>
         </div>
-        <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
+        <div className='flex-grow-1 pb-sm-0 pb-3' style={modelBody}>
           <Input
             placeholder="Enter Feature Name"
             label="Feature Name"

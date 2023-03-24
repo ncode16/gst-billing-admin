@@ -5,6 +5,8 @@ import UserDropdown from './UserDropdown'
 import NavbarSearch from './NavbarSearch'
 import NotificationDropdown from './NotificationDropdown'
 
+import $ from 'jquery'
+
 // ** Third Party Components
 import { Sun, Moon } from 'react-feather'
 

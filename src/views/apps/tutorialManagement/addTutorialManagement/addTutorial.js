@@ -33,6 +33,25 @@ const AddTutorial = () => {
     resolver: yupResolver(schema),
   });
 
+  const bodyClassName = React.useRef('');
+
+  const [modelBody, setModelBody] = useState({
+    padding: "20px 50px",
+    borderBottomLeftRadius: "8px",
+    borderBottomRightRadius: "8px",
+  });
+
+  const [categoryTitle, setCategoryTitle] = useState({
+      padding: "10px 0",
+      borderTopLeftRadius: "8px",
+      borderTopRightRadius: "8px",
+  });
+
+  const [modelHeader, setModelHeader] = useState({
+      fontWeight: "500",
+      marginLeft: "50px",
+  });
+
   useEffect(() => {
     getCategoryDropdownData().then((res) => {
       if (res?.data?.success == true) {
@@ -45,7 +64,7 @@ const AddTutorial = () => {
           <ShowToast t={t} color="success" name={res?.data?.message} />
         ));
       }
-      let categoryId = res?.data.data.category_id
+      let categoryId = res?.data.data.category_name
       let tutorialTitle = res?.data.data.tutorial_title
       let tutorialLink = res?.data.data.tutorial_link
       reset({
@@ -54,7 +73,49 @@ const AddTutorial = () => {
         link: tutorialLink || '',
       });
     })
-  }, [])
+
+    const body = document.getElementsByTagName("body");
+    bodyClassName.current = body[0].classList[0];
+
+    if(bodyClassName.current === 'dark-layout'){
+      setModelBody({
+        background: "#283046",
+        padding: "20px 50px",
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
+      });
+      setCategoryTitle({
+        padding: "10px 0",
+        background: "#343d55",
+        borderTopLeftRadius: "8px",
+        borderTopRightRadius: "8px",
+      })
+      setModelHeader({
+        color: "#fff",
+        fontWeight: "500",
+        marginLeft: "50px",
+      })
+    } else {
+      setModelBody({
+        background: "#fff",
+        padding: "20px 50px",
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
+      });
+      setCategoryTitle({
+        padding: "10px 0",
+        background: "#f3f1f3",
+        borderTopLeftRadius: "8px",
+        borderTopRightRadius: "8px",
+      })
+      setModelHeader({
+        color: "#372f37",
+        fontWeight: "500",
+        marginLeft: "50px",
+      })
+    }
+
+  }, [bodyClassName.current])
 
   const options = formatDropdownData(categoryData, 'category_id', 'category_name')
 
@@ -73,7 +134,7 @@ const AddTutorial = () => {
     const updateBody = {
       tutorial_link: data.link,
       tutorial_title: data.title,
-      category_id: id
+      category_id: data.categoryId.value
     }
 
     {
@@ -106,16 +167,16 @@ const AddTutorial = () => {
 
   const addCategoryStyle = {
 
-    categoryTitle: {
-      padding: "10px 0",
-      background: "#f3f1f3",
-    },
+    // categoryTitle: {
+    //   padding: "10px 0",
+    //   background: "#f3f1f3",
+    // },
 
-    modelHeader: {
-      color: "#372f37",
-      fontWeight: "500",
-      marginLeft: "50px",
-    },
+    // modelHeader: {
+    //   color: "#372f37",
+    //   fontWeight: "500",
+    //   marginLeft: "50px",
+    // },
 
     categoryContainer: {
       display: "flex",
@@ -129,10 +190,10 @@ const AddTutorial = () => {
       padding: "20px 0",
     },
 
-    modalBody: {
-      background: "#fff",
-      padding: "20px 50px",
-    },
+    // modalBody: {
+    //   background: "#fff",
+    //   padding: "20px 50px",
+    // },
 
     buttons: {
       margin: "30px 0",
@@ -145,70 +206,12 @@ const AddTutorial = () => {
   }
 
   return (
-    // <Container>
-    //   <Row>
-    //     <Col></Col>
-    //     <Col>
-    //       <Form>
-    //         <Controller
-    //           name="categoryId"
-    //           control={control}
-    //           render={({ field: { onChange, value } }) => {
-    //             return (
-    //               <Dropdown
-    //                 showError={true}
-    //                 error={errors?.categoryId?.message}
-    //                 label={"GroupNamePlaceholder"}
-    //                 id="categoryId"
-    //                 defaultValue={value}
-    //                 closeMenuOnSelect={true}
-    //                 selected={value}
-    //                 value={value}
-    //                 options={options || []}
-    //                 onChange={onChange}
-    //                 isRequired
-    //               />
-    //             );
-    //           }}
-    //         />
-    //         <br></br>
-    //         <Input
-    //           placeholder="Enter Title"
-    //           label="Enter Title "
-    //           showError={true}
-    //           error={errors?.title?.message}
-    //           registeredEvents={register("title")}
-    //           isRequired
-    //         />
-    //         <br></br>
-    //         <Input
-    //           placeholder="Enter Link"
-    //           label="Enter Link "
-    //           showError={true}
-    //           error={errors?.link?.message}
-    //           registeredEvents={register("link")}
-    //           isRequired
-    //         />
-    //         <br></br>
-    //         <Button onClick={handleSubmit(onSubmit)} color="primary">
-    //           Add tutorial
-    //         </Button>
-    //         &nbsp;
-    //         <Button onClick={handleNavigate} outline>
-    //           {" "}
-    //           Cancel{" "}
-    //         </Button>
-    //       </Form>
-    //     </Col>
-    //     <Col></Col>
-    //   </Row>
-    // </Container>
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
       <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm} onSubmit={handleSubmit(onSubmit)}>
-        <div style={addCategoryStyle.categoryTitle}>
-          <span style={addCategoryStyle.modelHeader}>{id ? 'Update Tutorial' : 'Add Tutorial'}</span>
+        <div style={categoryTitle}>
+          <span style={modelHeader}>{id ? 'Update Tutorial' : 'Add Tutorial'}</span>
         </div>
-        <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
+        <div className='flex-grow-1 pb-sm-0 pb-3' style={modelBody}>
           <Controller
             name="categoryId"
             control={control}

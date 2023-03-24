@@ -36,6 +36,25 @@ const AddTemplate = () => {
     navigate("/apps/templateManagement");
   };
 
+  const bodyClassName = React.useRef('');
+
+  const [modelBody, setModelBody] = useState({
+    padding: "20px 50px",
+    borderBottomLeftRadius: "8px",
+    borderBottomRightRadius: "8px",
+  });
+
+  const [categoryTitle, setCategoryTitle] = useState({
+      padding: "10px 0",
+      borderTopLeftRadius: "8px",
+      borderTopRightRadius: "8px",
+  });
+
+  const [modelHeader, setModelHeader] = useState({
+      fontWeight: "500",
+      marginLeft: "50px",
+  });
+
   useEffect(() => {
     getTemplateEditData(id).then((res) => {
       if (res?.data?.success == true) {
@@ -45,28 +64,75 @@ const AddTemplate = () => {
       }
       let templateImage = res?.data.data.template_image
       let templateName = res?.data.data.template_name
+
+      // let image_name = templateImage.split("/");
+      // let image_size= templateImage.split("/").length;
+
       reset({
         templateImage: templateImage || '',
         templateName: templateName || ''
       });
+      
     })
-  }, [])
+
+    const body = document.getElementsByTagName("body");
+    bodyClassName.current = body[0].classList[0];
+
+    if(bodyClassName.current === 'dark-layout'){
+      setModelBody({
+        background: "#283046",
+        padding: "20px 50px",
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
+      });
+      setCategoryTitle({
+        padding: "10px 0",
+        background: "#343d55",
+        borderTopLeftRadius: "8px",
+        borderTopRightRadius: "8px",
+      })
+      setModelHeader({
+        color: "#fff",
+        fontWeight: "500",
+        marginLeft: "50px",
+      })
+    } else {
+      setModelBody({
+        background: "#fff",
+        padding: "20px 50px",
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
+      });
+      setCategoryTitle({
+        padding: "10px 0",
+        background: "#f3f1f3",
+        borderTopLeftRadius: "8px",
+        borderTopRightRadius: "8px",
+      })
+      setModelHeader({
+        color: "#372f37",
+        fontWeight: "500",
+        marginLeft: "50px",
+      })
+    }
+
+  }, [bodyClassName.current])
 
 
 
 
   const addCategoryStyle = {
 
-    categoryTitle: {
-      padding: "10px 0",
-      background: "#f3f1f3",
-    },
+    // categoryTitle: {
+    //   padding: "10px 0",
+    //   background: "#f3f1f3",
+    // },
 
-    modelHeader: {
-      color: "#372f37",
-      fontWeight: "500",
-      marginLeft: "50px",
-    },
+    // modelHeader: {
+    //   color: "#372f37",
+    //   fontWeight: "500",
+    //   marginLeft: "50px",
+    // },
 
     categoryContainer: {
       display: "flex",
@@ -80,10 +146,10 @@ const AddTemplate = () => {
       padding: "20px 0",
     },
 
-    modalBody: {
-      background: "#fff",
-      padding: "20px 50px",
-    },
+    // modalBody: {
+    //   background: "#fff",
+    //   padding: "20px 50px",
+    // },
 
     buttons: {
       margin: "30px 0",
@@ -162,14 +228,14 @@ const AddTemplate = () => {
   return (
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
       <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm}>
-        <div style={addCategoryStyle.categoryTitle}>
-          <span style={addCategoryStyle.modelHeader}>{id ? 'Update Template' : 'Add Template'}</span>
+        <div style={categoryTitle}>
+          <span style={modelHeader}>{id ? 'Update Template' : 'Add Template'}</span>
         </div>
-        <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
+        <div className='flex-grow-1 pb-sm-0 pb-3' style={modelBody}>
           <Input
            controlId="templateName"
-            placeholder="Enter Template Title"
-            label="Template Title"
+            placeholder="Enter Template Name"
+            label="Template Name"
             showError={true}
             error={errors?.templateName?.message}
             registeredEvents={register("templateName")}

@@ -23,7 +23,7 @@ const ListCms = () => {
 
   const columns = [
     {
-      name: "Title",
+      name: "CMS Title",
       sortable: true,
       minWidth: "150px",
       sortField: "title",
@@ -135,9 +135,75 @@ const ListCms = () => {
     navigate(`/apps/view/${id}`)
   }
 
+  const [screenWidth, setScreenWidth] = useState({
+    width: window.innerWidth
+  });
+
+  const setDimension = () => {
+    setScreenWidth({
+      width: window.innerWidth
+    })
+  }
+
+  const [cmsContainer, setCmsContainer] = useState({
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
+    columnGap: "20px"
+  });
+
+  const [cmsForm, setCmsForm] = useState({
+    marginTop: "20px",
+    width: "40%",
+  });
+
+  const [cmsList, setCmsList] = useState({
+    width: "60%"
+  });
+
   useEffect(() => {
     handleCmsData();
-  }, [currentPage]);
+    window.addEventListener('resize', setDimension);
+
+    if(screenWidth.width > 720){
+      setCmsContainer({
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        columnGap: "20px"
+      })
+      setCmsForm({
+        marginTop: "20px",
+        width: "40%",
+      })
+      setCmsList({
+        width: "60%"
+      })
+      
+    } else{
+      setCmsContainer({
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        columnGap: "20px"
+      })
+      setCmsForm({
+        marginTop: "0",
+        width: "100%",
+      })
+      setCmsList({
+        width: "100%"
+      })
+    }
+    
+    return(() => {
+      window.removeEventListener('resize', setDimension);
+    })
+  }, [currentPage,screenWidth]);
 
 
   const handleNavigate = () => {
@@ -173,35 +239,35 @@ const ListCms = () => {
     );
   };
 
-  const cmsManagement = {
-    cmsContainer: {
-      display: "flex",
-      justifyContent: "center",
-      width: "100%",
-      height: "100%",
-      columnGap: "20px"
-    },
+  // const cmsManagement = {
+  //   cmsContainer: {
+  //     display: "flex",
+  //     justifyContent: "center",
+  //     width: "100%",
+  //     height: "100%",
+  //     columnGap: "20px"
+  //   },
 
-    cmsForm: {
-      marginTop: "20px",
-      width: "40%",
-      // border: "1px solid red"
-    },
+  //   cmsForm: {
+  //     marginTop: "20px",
+  //     width: "40%",
+  //     // border: "1px solid red"
+  //   },
 
-    cmsList: {
-      width: "60%",
-    }
-  }
+  //   cmsList: {
+  //     width: "60%",
+  //   }
+  // }
 
   return (
-    <div style={cmsManagement.cmsContainer}>
+    <div style={cmsContainer}>
 
       {loader ? (
         <>
-          <div style={cmsManagement.cmsForm}>
+          <div style={cmsForm}>
             <AddCms />
           </div>
-          <div style={cmsManagement.cmsList}>
+          <div style={cmsList}>
             {/* <Button
               type="button"
               label="Add CMS"
@@ -219,10 +285,10 @@ const ListCms = () => {
         </>
       ) : (
         <>
-          <div style={cmsManagement.cmsForm}>
+          <div style={cmsForm}>
             <AddCms />
           </div>
-          <div style={cmsManagement.cmsList}>
+          <div style={cmsList}>
             {/* <Button
               type="button"
               label="Add CMS"

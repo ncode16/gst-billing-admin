@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Col, Container, Row, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { Input, Switch } from "../../common";
@@ -10,6 +10,8 @@ import { toast } from "react-hot-toast";
 import { ShowToast } from "../../../utility/Utils";
 import { Button } from "reactstrap";
 import userManagement from "../../../schema/userManagementSchema/userManagement";
+
+import $ from 'jquery';
 
 const AddUserManagement = () => {
 
@@ -34,6 +36,25 @@ const AddUserManagement = () => {
     resolver: yupResolver(schema),
   });
 
+  const bodyClassName = React.useRef('');
+
+  const [modelBody, setModelBody] = useState({
+    padding: "20px 50px",
+    borderBottomLeftRadius: "8px",
+    borderBottomRightRadius: "8px",
+  });
+
+  const [categoryTitle, setCategoryTitle] = useState({
+      padding: "10px 0",
+      borderTopLeftRadius: "8px",
+      borderTopRightRadius: "8px",
+  });
+
+  const [modelHeader, setModelHeader] = useState({
+      fontWeight: "500",
+      marginLeft: "50px",
+  });
+
   useEffect(() => {
     getEditUserData(id).then((res) => {
       if (res?.data?.success == true) {
@@ -43,7 +64,7 @@ const AddUserManagement = () => {
       }
       let firstName = res?.data?.data?.first_name
       let lastName = res?.data?.data?.last_name
-      let email = res?.data?.data?.email
+      let email = res?.data?.data?.last_name
       let mobileNumber = res?.data?.data?.mobile_number
       // let password = res?.data?.data?.password
 
@@ -55,7 +76,49 @@ const AddUserManagement = () => {
         // password: res?.data?.data?.password,
       });
     })
-  }, [])
+
+    const body = document.getElementsByTagName("body");
+    bodyClassName.current = body[0].classList[0];
+
+    if(bodyClassName.current === 'dark-layout'){
+      setModelBody({
+        background: "#283046",
+        padding: "20px 50px",
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
+      });
+      setCategoryTitle({
+        padding: "10px 0",
+        background: "#343d55",
+        borderTopLeftRadius: "8px",
+        borderTopRightRadius: "8px",
+      })
+      setModelHeader({
+        color: "#fff",
+        fontWeight: "500",
+        marginLeft: "50px",
+      })
+    } else {
+      setModelBody({
+        background: "#fff",
+        padding: "20px 50px",
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
+      });
+      setCategoryTitle({
+        padding: "10px 0",
+        background: "#f3f1f3",
+        borderTopLeftRadius: "8px",
+        borderTopRightRadius: "8px",
+      })
+      setModelHeader({
+        color: "#372f37",
+        fontWeight: "500",
+        marginLeft: "50px",
+      })
+    }
+
+  }, [bodyClassName.current])
 
   const handleNavigate = () => {
     navigate("/apps/userManagement");
@@ -93,32 +156,16 @@ const AddUserManagement = () => {
 
   const addCategoryStyle = {
 
-    categoryTitle: {
-      padding: "10px 0",
-      background: "#f3f1f3",
-    },
-
-    modelHeader: {
-      color: "#372f37",
-      fontWeight: "500",
-      marginLeft: "50px",
-    },
-
     categoryContainer: {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      marginBottom: "20px"
+      marginBottom: "20px",
     },
 
     categoryForm: {
       width: "50rem",
       padding: "20px 0",
-    },
-
-    modalBody: {
-      background: "#fff",
-      padding: "20px 50px",
     },
 
     buttons: {
@@ -139,70 +186,13 @@ const AddUserManagement = () => {
 
   return (
     <>
-      {/* <Container>
-        <Row>
-          <Col></Col>
-          <Col>
-            <Form>
-              <Input
-                placeholder="firstName"
-                label="First Name"
-                showError={true}
-                error={errors?.firstName?.message}
-                registeredEvents={register("firstName")}
-              />
-              <br></br>
-              <Input
-                placeholder="lastName"
-                label="Last Name"
-                showError={true}
-                error={errors?.lastName?.message}
-                registeredEvents={register("lastName")}
-              />
-              <br></br>
-              <Input
-                placeholder="email"
-                type="email"
-                label="Email"
-                showError={true}
-                error={errors?.email?.message}
-                registeredEvents={register("email")}
-              />
-              <br></br>
-              <Input
-                placeholder=" mobile number"
-                type="number"
-                label="Mobile Number"
-                showError={true}
-                error={errors?.mobileNumber?.message}
-                registeredEvents={register("mobileNumber")}
-              />
-              <br></br>
-              <Input
-                placeholder="password"
-                type="password"
-                label="Password"
-                showError={true}
-                error={errors?.password?.message}
-                registeredEvents={register("password")}
-              />
-              <br></br>
-              <Button
-                type="button"
-                onClick={handleSubmit(onSubmit)}
-              > Update User </Button>
-            </Form>
-          </Col>
-          <Col></Col>
-        </Row>
-      </Container> */}
       <div style={addCategoryStyle.userManagement}>
         <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
           <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm}>
-            <div style={addCategoryStyle.categoryTitle}>
-              <span style={addCategoryStyle.modelHeader}>{id ? 'Update User' : 'Add User'}</span>
+            <div  className="abc" style={categoryTitle}>
+              <span style={modelHeader}>{id ? 'Update User' : 'Add User'}</span>
             </div>
-            <div className='flex-grow-1 pb-sm-0 pb-3' style={addCategoryStyle.modalBody}>
+            <div className='flex-grow-1 pb-sm-0 pb-3 ' style={modelBody}>
               <Input
                 placeholder="Enter First Name"
                 label="First Name"
@@ -223,7 +213,7 @@ const AddUserManagement = () => {
                 <Input
                   placeholder="Enter Email"
                   type="email"
-                  label="Email *"
+                  label="Email"
                   showError={true}
                   error={errors?.email?.message}
                   registeredEvents={register("email")}
@@ -258,7 +248,7 @@ const AddUserManagement = () => {
                 &emsp;
                 <Button type="button" onClick={handleNavigate} outline> Cancel </Button>
               </div>
-            </div>
+            </div> 
           </Form>
         </div>
       </div>

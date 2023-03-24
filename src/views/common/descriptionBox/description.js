@@ -48,6 +48,19 @@ const Description = ({ onChange, value, error, showError }) => {
           editorState={editorState}
           editorStyle={editorStyle}
           onEditorStateChange={onEditorStateChange}
+          // toolbar={{
+          //   options: ["inline", "blockType", "fontSize"],
+          //   inline: {
+          //     inDropdown: false,
+          //     className: "test",
+          //     component: undefined,
+          //     dropdownClassName: undefined,
+          //     options: ["bold", "italic", "underline"],
+          //     bold: { className: "test", style: { color: "red" } },
+          //     italic: { className: undefined },
+          //     underline: { className: undefined },
+          //   },
+          // }}
         />
           {showError && error && (
         <span className="error-text">{error}</span>

@@ -141,10 +141,75 @@ const ListTutorial = () => {
       .catch((err) => console.log("error", err));
   }
 
+  const [screenWidth, setScreenWidth] = useState({
+    width: window.innerWidth
+  });
+
+  const setDimension = () => {
+    setScreenWidth({
+      width: window.innerWidth
+    })
+  }
+
+  const [tutoContainer, setTutoContainer] = useState({
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
+    columnGap: "20px"
+  });
+
+  const [tutoForm, setTutoForm] = useState({
+    marginTop: "20px",
+    width: "40%",
+  });
+
+  const [tutoList, setTutoList] = useState({
+    width: "60%"
+  });
 
   useEffect(() => {
     handleTutorialData()
-  }, [])
+    window.addEventListener('resize', setDimension);
+
+    if(screenWidth.width > 720){
+      setTutoContainer({
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        columnGap: "20px"
+      })
+      setTutoForm({
+        marginTop: "20px",
+        width: "40%",
+      })
+      setTutoList({
+        width: "60%"
+      })
+      
+    } else{
+      setTutoContainer({
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        columnGap: "20px"
+      })
+      setTutoForm({
+        marginTop: "0",
+        width: "100%",
+      })
+      setTutoList({
+        width: "100%"
+      })
+    }
+    
+    return(() => {
+      window.removeEventListener('resize', setDimension);
+    })
+  }, [screenWidth])
 
   const CustomPagination = () => {
     const count = Number(Math.ceil(userData?.total / rowsPerPage));
@@ -169,34 +234,34 @@ const ListTutorial = () => {
     );
   };
 
-  const tutorialManagement = {
-    tutoContainer: {
-      display: "flex",
-      justifyContent: "center",
-      width: "100%",
-      height: "100%",
-      columnGap: "20px"
-    },
+  // const tutorialManagement = {
+  //   tutoContainer: {
+  //     display: "flex",
+  //     justifyContent: "center",
+  //     width: "100%",
+  //     height: "100%",
+  //     columnGap: "20px"
+  //   },
 
-    tutoForm: {
-      marginTop: "20px",
-      width: "40%",
-      // border: "1px solid red"
-    },
+  //   tutoForm: {
+  //     marginTop: "20px",
+  //     width: "40%",
+  //     // border: "1px solid red"
+  //   },
 
-    tutoList: {
-      width: "60%",
-    }
-  }
+  //   tutoList: {
+  //     width: "60%",
+  //   }
+  // }
 
   return (
-    <div style={tutorialManagement.tutoContainer}>
+    <div style={tutoContainer}>
       {loader ? (
         <>
-          <div style={tutorialManagement.tutoForm}>
+          <div style={tutoForm}>
             <AddTutorial />
           </div>
-          <div style={tutorialManagement.tutoList}>
+          <div style={tutoList}>
             {/* <Button
               type="button"
               label="Add Tutorial"
@@ -214,10 +279,10 @@ const ListTutorial = () => {
         </>
       ) : (
         <>
-          <div style={tutorialManagement.tutoForm}>
+          <div style={tutoForm}>
             <AddTutorial />
           </div>
-          <div style={tutorialManagement.tutoList}>
+          <div style={tutoList}>
             {/* <Button
               type="button"
               label="Add Tutorial"
