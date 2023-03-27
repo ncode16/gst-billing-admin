@@ -21,7 +21,6 @@ import AddUser from "./addUser";
 
 import {ConfirmDialog} from "../../../@core/components/confirmDialog/ConfirmDialog";
 import { useLocation } from 'react-router-dom';
-import { Dialog } from "@material-ui/core";
 
 import empty from '../../../assets/images/empty/empty.svg'
 
