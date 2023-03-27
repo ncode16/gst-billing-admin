@@ -12,6 +12,8 @@ import { getTemplateData, deleteTemplateData, activeTemplateData } from "../../.
 import Spinner from "../../../../@core/components/spinner/Loading-spinner";
 import AddTemplate from "../addTemplateManagement/addTemplate";
 
+import empty from '../../../../assets/images/empty/empty.svg'
+
 const ListTemplate = () => {
   const navigate = useNavigate();
 
@@ -42,7 +44,7 @@ const ListTemplate = () => {
     //   ),
     // },
     {
-      name: "Template Name",
+      name: "Image Name",
       sortable: true,
       minWidth: "150px",
       sortField: "imageLink",
@@ -67,7 +69,7 @@ const ListTemplate = () => {
           &nbsp;
           <Trash
             className="cursor-pointer"
-            onClick={() => handleDelete(row.template_id)}
+            onClick={() => window.confirm("Are you sure you want to delete") && handleDelete(row.template_id)}
             size={17}
             id={`send-tooltip-${row.id}`}
           />
@@ -259,6 +261,25 @@ const ListTemplate = () => {
   //   }
   // }
 
+  const boxContainer = {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+
+  const emptyImage = {
+    width: "30%",
+    height: "30%"
+  }
+
+  const emptyBoxTextContainer = {
+    fontSize: "15px",
+    color: "rgba(0,0,0,0.87)"
+  }
+
   return (
     <div style={tempContainer}>
       {loader ? (
@@ -267,19 +288,12 @@ const ListTemplate = () => {
             <AddTemplate />
           </div>
           <div style={tempList}>
-            {/* <Button
-              type="button"
-              label="Add Template"
-              onClick={() => handleNavigate()}
-            /> */}
-            <br></br>
-            <br></br>
-            <Table
-              columns={columns}
-              dataToRender={userData?.data}
-              pagination
-              CustomPagination={CustomPagination}
-            />
+            <div style={boxContainer}>
+              <img src={empty} alt="empty" />
+              <div style={emptyBoxTextContainer}>
+                <span>No data found</span>
+              </div>
+            </div>
           </div>
         </>
       ) : (

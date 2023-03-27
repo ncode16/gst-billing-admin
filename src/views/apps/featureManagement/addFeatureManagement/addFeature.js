@@ -107,10 +107,13 @@ const AddFeature = () => {
     navigate("/apps/featureManagement");
   };
 
+  const [isDisabled, setDisabled] = useState(false);
+
   const onSubmit = (data) => {
     const body = {
       feature_name: data.featureName
     }
+    setDisabled(true);
     {
       id ? (updateFeatureData(id, body)
         .then((res) => {
@@ -119,6 +122,7 @@ const AddFeature = () => {
               <ShowToast t={t} color="success" name={res?.data?.message} />
             ));
           }
+          setDisabled(false);
           handleNavigate();
           reset();
         })
@@ -129,6 +133,7 @@ const AddFeature = () => {
                 <ShowToast t={t} color="success" name={res?.data?.message} />
               ));
             }
+            setDisabled(false);
             handleNavigate();
             reset()
           })
@@ -192,7 +197,7 @@ const AddFeature = () => {
             isRequired
           />
           <div style={addCategoryStyle.buttons}>
-            <Button color="primary" onClick={handleSubmit(onSubmit)}>
+            <Button color="primary" onClick={handleSubmit(onSubmit)} disabled={isDisabled}>
               {id ? 'Update Feature' : 'Add Feature'}
             </Button>
             &emsp;

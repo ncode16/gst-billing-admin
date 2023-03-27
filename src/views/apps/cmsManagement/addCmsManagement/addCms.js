@@ -113,11 +113,14 @@ const AddCms = () => {
 
   }, [bodyClassName.current])
 
+  const [isDisabled, setDisabled] = useState(false);
+
   const onSubmit = (data) => {
     const body = {
       aboutus_title: data.title,
       aboutus_description: data.description
     }
+    setDisabled(true);
     const addData = {
       aboutusTitle: data.title,
       aboutusDescription: data.description
@@ -130,6 +133,7 @@ const AddCms = () => {
               <ShowToast t={t} color="success" name={res?.data?.message} />
             ));
           }
+          setDisabled(false);
           handleNavigate()
           reset();
         })
@@ -140,6 +144,7 @@ const AddCms = () => {
                 <ShowToast t={t} color="success" name={res?.data?.message} />
               ));
             }
+            setDisabled(false);
             handleNavigate()
             reset();
           })
@@ -195,8 +200,8 @@ const AddCms = () => {
         </div>
         <div className='flex-grow-1 pb-sm-0 pb-3' style={modelBody}>
           <Input
-            placeholder="Enter CMS Title"
-            label="CMS Title"
+            placeholder="Enter CMS Name"
+            label="CMS Name"
             showError={true}
             error={errors?.title?.message}
             registeredEvents={register("title")}
@@ -223,7 +228,7 @@ const AddCms = () => {
               />
           </div>
           <div className="buttons" style={addCategoryStyle.buttons}>
-            <Button color="primary" onClick={handleSubmit(onSubmit)}>
+            <Button color="primary" onClick={handleSubmit(onSubmit)} disabled={isDisabled}>
               {id ? 'Update CMS' : 'Add CMS'}
             </Button>
             &emsp;

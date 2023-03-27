@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -6,6 +6,33 @@ import makeAnimated from 'react-select/animated';
 const animatedComponents = makeAnimated();
 
 export default function SelectDropdown(props) {
+
+  const bodyClassName = React.useRef('');
+  const [dropdownBackground, setDropdownBackground] = useState({});
+  const [dropdownBorder, setDropdownBorder] = useState({});
+
+  useEffect(() => {
+    const body = document.getElementsByTagName("body");
+    bodyClassName.current = body[0].classList[0];
+
+    if(bodyClassName.current === 'dark-layout'){
+      setDropdownBackground({
+        background: "#283046"
+      })
+      setDropdownBorder({
+        border: '1px solid #404656'
+      });
+    } else {
+      setDropdownBackground({
+        background: "#fff"
+      })
+      setDropdownBorder({
+        border: '1px solid #d8d6de'
+      });
+    }
+
+  }, [bodyClassName.current]);
+
   const {
     id,
     label,
@@ -29,13 +56,27 @@ export default function SelectDropdown(props) {
   } = props;
 
   const customStyles = {
-
+    control: (base, state) => ({
+      ...base,
+      background: "transparent",
+      border: dropdownBorder.border
+      // '&:hover': {
+      //   border: '1px solid #ff8b67',
+      // },
+      // '&:focus': {
+      //   border: '1px solid #ff8b67',
+      // },
+    }),
     menuPortal: provided => ({ ...provided, zIndex: 9999, cursor: 'pointer' }),
-    menu: provided => ({ ...provided, zIndex: 9999, cursor: 'pointer' }),
+    menu: provided => ({ ...provided, zIndex: 9999, cursor: 'pointer', background: dropdownBackground.background }),
     container: provided => ({
       ...provided,
       width: "100%",
     }),
+    singleValue: provided => ({
+      ...provided,
+      color: 'grey'
+    })
   };
 
   return (

@@ -14,6 +14,8 @@ import { ShowToast } from "../../../../utility/Utils";
 import { toast } from "react-hot-toast";
 import AddFaq from "../addFaqManagement/addFaq";
 
+import empty from '../../../../assets/images/empty/empty.svg'
+
 const ListFaq = () => {
   const navigate = useNavigate();
 
@@ -28,7 +30,7 @@ const ListFaq = () => {
 
   const columns = [
     {
-      name: "FAQ Title",
+      name: "FAQ",
       sortable: true,
       minWidth: "100px",
       sortField: "title",
@@ -65,7 +67,7 @@ const ListFaq = () => {
           &nbsp;
           <Trash
             className="cursor-pointer"
-            onClick={() => handleDelete(row.faq_id)}
+            onClick={() => window.confirm("Are you sure you want to delete") && handleDelete(row.faq_id)}
             size={17}
             id={`send-tooltip-${row.faq_id}`}
           />
@@ -259,6 +261,25 @@ const ListFaq = () => {
   //   }
   // }
 
+  const boxContainer = {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+
+  const emptyImage = {
+    width: "30%",
+    height: "30%"
+  }
+
+  const emptyBoxTextContainer = {
+    fontSize: "15px",
+    color: "rgba(0,0,0,0.87)"
+  }
+
   return (
     <div style={faqContainer}>
       {loader ? (
@@ -267,19 +288,12 @@ const ListFaq = () => {
             <AddFaq />
           </div>
           <div style={faqList}>
-            {/* <Button
-              type="button"
-              label="Add FAQ"
-              onClick={() => handleNavigate()}
-            /> */}
-            <br></br>
-            <br></br>
-            <Table
-              columns={columns}
-              dataToRender={userData?.data}
-              pagination
-              CustomPagination={CustomPagination}
-            />
+            <div style={boxContainer}>
+              <img src={empty} alt="empty" />
+              <div style={emptyBoxTextContainer}>
+                <span>No data found</span>
+              </div>
+            </div>
           </div>
         </>
       ) : (

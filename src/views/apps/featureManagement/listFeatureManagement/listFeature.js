@@ -13,6 +13,8 @@ import { ShowToast } from "../../../../utility/Utils";
 import { toast } from "react-hot-toast";
 import AddFeature from "../addFeatureManagement/addFeature";
 
+import empty from '../../../../assets/images/empty/empty.svg'
+
 const ListFeature = () => {
   const navigate = useNavigate();
   const history = useNavigate();
@@ -57,7 +59,7 @@ const ListFeature = () => {
           &nbsp;
           <Trash
             className="cursor-pointer"
-            onClick={() => handleDelete(row.feature_id)}
+            onClick={() => window.confirm("Are you sure you want to delete") && handleDelete(row.feature_id)}
             size={17}
             id={`send-tooltip-${row.feature_id}`}
           />
@@ -249,6 +251,25 @@ const ListFeature = () => {
   //   }
   // }
 
+  const boxContainer = {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+
+  const emptyImage = {
+    width: "30%",
+    height: "30%"
+  }
+
+  const emptyBoxTextContainer = {
+    fontSize: "15px",
+    color: "rgba(0,0,0,0.87)"
+  }
+
   return (
     <div style={featureContainer}>
       {loader ? (
@@ -257,19 +278,12 @@ const ListFeature = () => {
             <AddFeature />
           </div>
           <div style={featureList}>
-            {/* <Button
-              type="button"
-              label="Add Feature"
-              onClick={() => handleNavigate()}
-            /> */}
-            <br></br>
-            <br></br>
-            <Table
-              columns={columns}
-              dataToRender={userData?.data}
-              pagination
-              CustomPagination={CustomPagination}
-            />
+            <div style={boxContainer}>
+              <img src={empty} alt="empty" />
+              <div style={emptyBoxTextContainer}>
+                <span>No data found</span>
+              </div>
+            </div>
           </div>
         </>
       ) : (

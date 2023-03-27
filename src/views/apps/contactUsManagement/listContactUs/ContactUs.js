@@ -14,6 +14,8 @@ import { toast } from "react-hot-toast";
 import { ShowToast } from "../../../../utility/Utils";
 import { useNavigate, useParams } from "react-router-dom";
 
+import empty from '../../../../assets/images/empty/empty.svg'
+
 const ContactUs = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
@@ -175,11 +177,34 @@ const ContactUs = () => {
     );
   };
   
+  const boxContainer = {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+
+  const emptyImage = {
+    width: "30%",
+    height: "30%"
+  }
+
+  const emptyBoxTextContainer = {
+    fontSize: "15px",
+    color: "rgba(0,0,0,0.87)"
+  }
   
   return (
     <div>
       {loader ? (
-        <Spinner />
+        <div style={boxContainer}>
+          <img src={empty} alt="empty" />
+          <div style={emptyBoxTextContainer}>
+            <span>No data found</span>
+          </div>
+        </div>
       ) : (
         <>
           {/* <Button onClick={handleNavigate} label="Add User" />

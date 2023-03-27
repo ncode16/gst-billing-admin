@@ -19,13 +19,22 @@ import { Button } from "reactstrap";
 import AddUserManagement from "./addUserManagement";
 import AddUser from "./addUser";
 
+import {ConfirmDialog} from "../../../@core/components/confirmDialog/ConfirmDialog";
+import { useLocation } from 'react-router-dom';
+import { Dialog } from "@material-ui/core";
+
+import empty from '../../../assets/images/empty/empty.svg'
+
 const UserManagement = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
   const [loader, setLoader] = useState(false);
 
+  const [open, setOpen] = useState(false);
+
   const navigate = useNavigate();
+  const location = useLocation();
 
   const columns = [
     {
@@ -90,7 +99,8 @@ const UserManagement = () => {
           &nbsp;
           <Trash
             className="cursor-pointer"
-            onClick={() => handleDelete(row.user_id)}
+            onClick={() => window.confirm("Are you sure you want to delete") && handleDelete(row.user_id)}
+            // onClick={() => ConfirmDialog() }
             size={17}
             id={`send-tooltip-${row.id}`}
           />
@@ -282,22 +292,37 @@ const UserManagement = () => {
   //   }
   // }
 
+  const boxContainer = {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+
+  const emptyImage = {
+    width: "30%",
+    height: "30%"
+  }
+
+  const emptyBoxTextContainer = {
+    fontSize: "15px",
+    color: "rgba(0,0,0,0.87)"
+  }
+
   return (
     <div style={userContainer} className='index'>
       {loader ? (
         <>
           <AddUser userForm={userForm} />
           <div style={userList}>
-            {/* <Button color="primary" >Add user</Button>
-            onClick={() => navigate("/apps/addUserManagement")} */}
-            <br></br>
-            <br></br>
-            <Table
-              pagination
-              columns={columns}
-              dataToRender={userData?.data}
-              CustomPagination={CustomPagination}
-            />
+            <div style={boxContainer}>
+              <img src={empty} alt="empty" />
+              <div style={emptyBoxTextContainer}>
+                <span>No data found</span>
+              </div>
+            </div>
           </div>
         </>
       ) : (

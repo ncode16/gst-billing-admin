@@ -113,11 +113,14 @@ const AddFaq = () => {
     navigate("/apps/faqManagement");
   };
 
+  const [isDisabled, setDisabled] = useState(false);
+
   const onSubmit = (data) => {
     const body = {
       title: data.question,
       description: data.description,
     };
+    setDisabled(true);
     {
       id ? (updateFaqData(id, body)
         .then((res) => {
@@ -126,6 +129,7 @@ const AddFaq = () => {
               <ShowToast t={t} color="success" name={res?.data?.message} />
             ));
           }
+          setDisabled(false);
           handleNavigate();
           reset();
         })
@@ -136,6 +140,7 @@ const AddFaq = () => {
                 <ShowToast t={t} color="success" name={res?.data?.message} />
               ));
             }
+            setDisabled(false);
             handleNavigate();
             reset();
           })
@@ -222,6 +227,7 @@ const AddFaq = () => {
             <Button
               label="Add FAQ"
               color="primary"
+              disabled={isDisabled}
               onClick={handleSubmit(onSubmit)}
             >
               {id ? 'Update FAQ' : 'Add FAQ'}

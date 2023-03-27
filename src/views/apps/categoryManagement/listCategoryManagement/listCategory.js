@@ -17,6 +17,7 @@ import { ShowToast } from "../../../../utility/Utils";
 import { toast } from "react-hot-toast";
 import AddCategory from "../addCategoryManagement/addCategory";
 
+import empty from '../../../../assets/images/empty/empty.svg'
 
 const ListCategory = () => {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const ListCategory = () => {
           &nbsp;
           <Trash
             className="cursor-pointer"
-            onClick={() => handleDelete(row.category_id)}
+            onClick={() => window.confirm("Are you sure you want to delete") && handleDelete(row.category_id)}
             size={17}
             id={`send-tooltip-${row.category_id}`}
           />
@@ -251,6 +252,25 @@ const ListCategory = () => {
   //   }
   // }
 
+  const boxContainer = {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+
+  const emptyImage = {
+    width: "30%",
+    height: "30%"
+  }
+
+  const emptyBoxTextContainer = {
+    fontSize: "15px",
+    color: "rgba(0,0,0,0.87)"
+  }
+
   return (
     <div style={catContainer}>
       {loader ? (
@@ -259,19 +279,12 @@ const ListCategory = () => {
             <AddCategory />
           </div>
           <div style={catList}>
-            {/* <Button
-              type="button"
-              label="Add Category"
-              onClick={() => handleNavigate()}
-            /> */}
-            <br></br>
-            <br></br>
-            <Table
-              columns={columns}
-              dataToRender={userData?.data}
-              pagination
-              CustomPagination={CustomPagination}
-            />
+            <div style={boxContainer}>
+              <img src={empty} alt="empty" />
+              <div style={emptyBoxTextContainer}>
+                <span>No data found</span>
+              </div>
+            </div>
           </div>
         </>
       ) : (

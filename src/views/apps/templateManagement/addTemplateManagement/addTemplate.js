@@ -194,11 +194,14 @@ const AddTemplate = () => {
     });
   };
 
+  const [isDisabled, setDisabled] = useState(false);
+
   const onSubmit = (data) => {
     const formData = new FormData();
     formData.append('template_image', getImage);
     formData.append('template_name', data.templateName)
     console.log(formData.get('template_image'), "formData")
+    setDisabled(true);
 
     {
       id ? (updateTemplateData(id, formData)
@@ -208,6 +211,7 @@ const AddTemplate = () => {
               <ShowToast t={t} color="success" name={res?.data?.message} />
             ));
           }
+          setDisabled(false);
           handleNavigate()
           reset();
         })
@@ -218,6 +222,7 @@ const AddTemplate = () => {
                 <ShowToast t={t} color="success" name={res?.data?.message} />
               ));
             }
+            setDisabled(false);
             handleNavigate()
             reset();
           })
@@ -234,8 +239,8 @@ const AddTemplate = () => {
         <div className='flex-grow-1 pb-sm-0 pb-3' style={modelBody}>
           <Input
            controlId="templateName"
-            placeholder="Enter Template Name"
-            label="Template Name"
+            placeholder="Enter Template Title"
+            label="Template Title"
             showError={true}
             error={errors?.templateName?.message}
             registeredEvents={register("templateName")}
@@ -291,7 +296,7 @@ const AddTemplate = () => {
             />
           </div>
           <div className="buttons" style={addCategoryStyle.buttons}>
-            <Button color="primary" onClick={handleSubmit(onSubmit)}>
+            <Button color="primary" onClick={handleSubmit(onSubmit)} disabled={isDisabled}>
               {id ? 'Update Template' : 'Add Template'}
             </Button>
             &emsp;

@@ -13,6 +13,8 @@ import { ShowToast } from "../../../../utility/Utils";
 import Spinner from "../../../../@core/components/spinner/Loading-spinner";
 import AddCms from "../addCmsManagement/addCms";
 
+import empty from '../../../../assets/images/empty/empty.svg'
+
 const ListCms = () => {
   const navigate = useNavigate();
 
@@ -23,7 +25,7 @@ const ListCms = () => {
 
   const columns = [
     {
-      name: "CMS Title",
+      name: "Title",
       sortable: true,
       minWidth: "150px",
       sortField: "title",
@@ -60,7 +62,7 @@ const ListCms = () => {
           &nbsp;
           <Trash
             className="cursor-pointer"
-            onClick={() => handleDelete(row.aboutus_id)}
+            onClick={() => window.confirm("Are you sure you want to delete") && handleDelete(row.aboutus_id)}
             size={17}
             id={`send-tooltip-${row.id}`}
           />
@@ -259,6 +261,25 @@ const ListCms = () => {
   //   }
   // }
 
+  const boxContainer = {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+
+  const emptyImage = {
+    width: "30%",
+    height: "30%"
+  }
+
+  const emptyBoxTextContainer = {
+    fontSize: "15px",
+    color: "rgba(0,0,0,0.87)"
+  }
+
   return (
     <div style={cmsContainer}>
 
@@ -268,19 +289,12 @@ const ListCms = () => {
             <AddCms />
           </div>
           <div style={cmsList}>
-            {/* <Button
-              type="button"
-              label="Add CMS"
-              onClick={() => handleNavigate()}
-            /> */}
-            <br></br>
-            <br></br>
-            <Table
-              columns={columns}
-              dataToRender={userData?.data}
-              pagination
-              CustomPagination={CustomPagination}
-            />
+            <div style={boxContainer}>
+              <img src={empty} alt="empty" />
+              <div style={emptyBoxTextContainer}>
+                <span>No data found</span>
+              </div>
+            </div>
           </div>
         </>
       ) : (

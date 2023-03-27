@@ -107,10 +107,13 @@ const AddCategory = () => {
     navigate("/apps/categoryManagement");
   };
 
+  const [isDisabled, setDisabled] = useState(false);
+
   const onSubmit = (data) => {
     const body = {
       category_name: data.categoryName
     }
+    setDisabled(true);
     {
       id ? (updateCategoryData(id, body)
         .then((res) => {
@@ -119,6 +122,7 @@ const AddCategory = () => {
               <ShowToast t={t} color="success" name={res?.data?.message} />
             ));
           }
+          setDisabled(false);
           handleNavigate()
           reset();
         })
@@ -129,6 +133,7 @@ const AddCategory = () => {
                 <ShowToast t={t} color="success" name={res?.data?.message} />
               ));
             }
+            setDisabled(false);
             handleNavigate()
             reset();
           })
@@ -205,7 +210,7 @@ const AddCategory = () => {
           </div> */}
 
           <div className="buttons" style={addCategoryStyle.buttons}>
-            <Button color="primary" onClick={handleSubmit(onSubmit)}>
+            <Button color="primary" onClick={handleSubmit(onSubmit)} disabled={isDisabled}>
               {id ? 'Update Category' : 'Add Category'}
             </Button>
             &emsp;

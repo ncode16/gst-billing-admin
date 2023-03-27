@@ -13,7 +13,7 @@ import { Edit, Trash, Eye } from "react-feather";
 import Spinner from "../../../../@core/components/spinner/Loading-spinner";
 import AddTutorial from "../addTutorialManagement/addTutorial";
 
-
+import empty from '../../../../assets/images/empty/empty.svg'
 
 const ListTutorial = () => {
   const navigate = useNavigate();
@@ -69,7 +69,7 @@ const ListTutorial = () => {
           /> &nbsp;
           <Trash
             className="cursor-pointer"
-            onClick={() => handleDelete(row.tutorial_id)}
+            onClick={() => window.confirm("Are you sure you want to delete") && handleDelete(row.tutorial_id)}
             size={17}
             id={`send-tooltip-${row.tutorial_id}`}
           />
@@ -254,6 +254,25 @@ const ListTutorial = () => {
   //   }
   // }
 
+  const boxContainer = {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+
+  const emptyImage = {
+    width: "30%",
+    height: "30%"
+  }
+
+  const emptyBoxTextContainer = {
+    fontSize: "15px",
+    color: "rgba(0,0,0,0.87)"
+  }
+
   return (
     <div style={tutoContainer}>
       {loader ? (
@@ -262,19 +281,12 @@ const ListTutorial = () => {
             <AddTutorial />
           </div>
           <div style={tutoList}>
-            {/* <Button
-              type="button"
-              label="Add Tutorial"
-              onClick={() => handleNavigate()}
-            /> */}
-            <br></br>
-            <br></br>
-            <Table
-              columns={columns}
-              dataToRender={userData?.data}
-              pagination
-              CustomPagination={CustomPagination}
-            />
+            <div style={boxContainer}>
+              <img src={empty} alt="empty" />
+              <div style={emptyBoxTextContainer}>
+                <span>No data found</span>
+              </div>
+            </div>
           </div>
         </>
       ) : (

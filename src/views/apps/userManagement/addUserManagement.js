@@ -124,6 +124,8 @@ const AddUserManagement = () => {
     navigate("/apps/userManagement");
   };
 
+  const [isDisabled, setDisabled] = useState(false);
+
   const onSubmit = (data) => {
     
     const body = {
@@ -133,6 +135,8 @@ const AddUserManagement = () => {
       mobile_number: data.mobileNumber
     }
 
+    setDisabled(true);
+
     id ? (updateUserData(id, body)
       .then((res) => {
         if (res?.data?.statusCode == 200) {
@@ -140,6 +144,7 @@ const AddUserManagement = () => {
             <ShowToast t={t} color="success" name={res?.data?.message} />
           ));
         }
+        setDisabled(false);
         handleNavigate()
         reset();
       }).catch((e) => console.log("error", e))) : (addUser(body)
@@ -149,6 +154,7 @@ const AddUserManagement = () => {
             <ShowToast t={t} color="success" name={res?.data?.message} />
           ));
         }
+        setDisabled(false);
         handleNavigate()
         reset();        
       }).catch((e) => console.log("error", e)))
@@ -213,7 +219,7 @@ const AddUserManagement = () => {
                 <Input
                   placeholder="Enter Email"
                   type="email"
-                  label="Email"
+                  label="Email *"
                   showError={true}
                   error={errors?.email?.message}
                   registeredEvents={register("email")}
@@ -243,6 +249,8 @@ const AddUserManagement = () => {
                 <Button
                   color="primary"
                   type="button"
+                  disabled={isDisabled}
+                  className="submitButton"
                   onClick={handleSubmit(onSubmit)}
                 > {id ? 'Update User' : 'Add User'} </Button>
                 &emsp;

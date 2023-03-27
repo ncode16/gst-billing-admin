@@ -123,6 +123,8 @@ const AddTutorial = () => {
     navigate("/apps/tutorialManagement");
   };
 
+  const [isDisabled, setDisabled] = useState(false);
+
   const onSubmit = (data) => {
 
     const body = {
@@ -130,6 +132,8 @@ const AddTutorial = () => {
       tutorialLink: data.link,
       categoryId: data.categoryId.value,
     };
+
+    setDisabled(true);
 
     const updateBody = {
       tutorial_link: data.link,
@@ -146,6 +150,7 @@ const AddTutorial = () => {
                 <ShowToast t={t} color="success" name={res?.data?.message} />
               ));
             }
+            setDisabled(false);
             handleNavigate();
             reset();
           })
@@ -157,6 +162,7 @@ const AddTutorial = () => {
                 <ShowToast t={t} color="success" name={res?.data?.message} />
               ));
             }
+            setDisabled(false);
             handleNavigate();
             reset()
           })
@@ -257,7 +263,7 @@ const AddTutorial = () => {
             />
           </div>
           <div className="buttons" style={addCategoryStyle.buttons}>
-            <Button onClick={handleSubmit(onSubmit)} color="primary">
+            <Button onClick={handleSubmit(onSubmit)} color="primary" disabled={isDisabled}>
               {id ? 'Update Tutorial' : 'Add Tutorial'}
             </Button>
             &emsp;
