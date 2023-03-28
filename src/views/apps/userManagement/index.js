@@ -19,10 +19,13 @@ import { Button } from "reactstrap";
 import AddUserManagement from "./addUserManagement";
 import AddUser from "./addUser";
 
-import {ConfirmDialog} from "../../../@core/components/confirmDialog/ConfirmDialog";
+// import {ConfirmDialog} from "../../../@core/components/confirmDialog/ConfirmDialog";
 import { useLocation } from 'react-router-dom';
+// import { Dialog } from "@material-ui/core";
+import CircularProgress from "@mui/material/CircularProgress"; 
 
 import empty from '../../../assets/images/empty/empty.svg'
+import { Box } from "@mui/material";
 
 const UserManagement = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -31,6 +34,7 @@ const UserManagement = () => {
   const [loader, setLoader] = useState(false);
 
   const [open, setOpen] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -115,6 +119,65 @@ const UserManagement = () => {
             size={17}
             id={`send-tooltip-${row.id}`}
           /> */}
+        </>
+      ),
+    },
+  ];
+
+  const emptyColumns = [
+    {
+      name: "FirstName",
+      sortable: true,
+      minWidth: "100px",
+      sortField: "first_name",
+      selector: (row) => row.first_name,
+      cell: (row) => (
+        <>
+          <span>{row.first_name}</span>
+        </>
+      ),
+    },
+    {
+      name: "LastName",
+      sortable: true,
+      minWidth: "100px",
+      sortField: "last_name",
+      selector: (row) => row.last_name,
+      cell: (row) => (
+        <>
+          <span>{row.last_name}</span>
+        </>
+      ),
+    },
+    // {
+    //   name: "Mobile No",
+    //   sortable: true,
+    //   minWidth: "150px",
+    //   sortField: "mobile_number",
+    //   selector: (row) => row.mobile_number,
+    //   cell: (row) => (
+    //     <>
+    //       <span>{row.mobile_number}</span>
+    //     </>
+    //   ),
+    // },
+    // {
+    //   name: "Email",
+    //   sortable: true,
+    //   minWidth: "300px",
+    //   sortField: "email",
+    //   selector: (row) => row.email,
+    //   cell: (row) => (
+    //     <>
+    //       <span>{row.email}</span>
+    //     </>
+    //   ),
+    // },
+    {
+      name: "Action",
+      minWidth: "110px",
+      cell: (row) => (
+        <>
         </>
       ),
     },
@@ -242,6 +305,10 @@ const UserManagement = () => {
         width: "100%"
       })
     }
+
+    setTimeout(function () {
+      setIsFetching(false); 
+    }, 1500);
     
     return(() => {
       window.removeEventListener('resize', setDimension);
@@ -296,7 +363,7 @@ const UserManagement = () => {
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center"
   }
 
@@ -310,18 +377,30 @@ const UserManagement = () => {
     color: "rgba(0,0,0,0.87)"
   }
 
+  const [emptyBox, setEmptyBox] = useState(
+    <div style={boxContainer}>
+      <img src={empty} alt="empty" />
+      <div style={emptyBoxTextContainer}>
+        <span>No data found</span>
+      </div>
+    </div>
+  );
+
   return (
     <div style={userContainer} className='index'>
-      {loader ? (
+      { userData.data && userData.data.length === 0 ? (
         <>
           <AddUser userForm={userForm} />
           <div style={userList}>
-            <div style={boxContainer}>
-              <img src={empty} alt="empty" />
-              <div style={emptyBoxTextContainer}>
-                <span>No data found</span>
-              </div>
-            </div>
+            <br></br>
+            <br></br>
+            <Table
+              // pagination
+              columns={emptyColumns}
+              dataToRender={["no data"]}
+              CustomPagination={CustomPagination}
+            />
+            {emptyBox}
           </div>
         </>
       ) : (
@@ -332,12 +411,17 @@ const UserManagement = () => {
             onClick={() => navigate("/apps/addUserManagement")} */}
             <br></br>
             <br></br>
-            <Table
-              pagination
-              columns={columns}
-              dataToRender={userData?.data}
-              CustomPagination={CustomPagination}
-            />
+            { isFetching ?       
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <CircularProgress />
+              </Box> :
+              <Table
+                pagination
+                columns={columns}
+                dataToRender={userData?.data}
+                CustomPagination={CustomPagination}
+              />
+            }
           </div>
         </>
       )}

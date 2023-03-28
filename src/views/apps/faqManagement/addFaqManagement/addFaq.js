@@ -151,17 +151,6 @@ const AddFaq = () => {
 
   const addCategoryStyle = {
 
-    // categoryTitle: {
-    //   padding: "10px 0",
-    //   background: "#f3f1f3",
-    // },
-
-    // modelHeader: {
-    //   color: "#372f37",
-    //   fontWeight: "500",
-    //   marginLeft: "50px",
-    // },
-
     categoryContainer: {
       display: "flex",
       alignItems: "center",
@@ -173,11 +162,6 @@ const AddFaq = () => {
       width: "50rem",
       padding: "20px 0",
     },
-
-    // modalBody: {
-    //   background: "#fff",
-    //   padding: "20px 50px",
-    // },
 
     buttons: {
       margin: "30px 0",

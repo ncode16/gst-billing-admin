@@ -4,7 +4,7 @@ import { getToken } from "../utility/Utils";
 import toast from "react-hot-toast";
 
 const client = axios.create({
-  baseURL: "https://gst-billing-backend.onrender.com/api/",
+  baseURL: "http://10.16.16.11:8000/api/",
   headers: {
     "Content-Type": 'application/json' ,
     Accept: "application/json",

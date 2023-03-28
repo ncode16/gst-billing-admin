@@ -15,6 +15,8 @@ import { toast } from "react-hot-toast";
 import AddFaq from "../addFaqManagement/addFaq";
 
 import empty from '../../../../assets/images/empty/empty.svg'
+import { Box } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress"; 
 
 const ListFaq = () => {
   const navigate = useNavigate();
@@ -23,6 +25,7 @@ const ListFaq = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   const handlePagination = (page) => {
     setCurrentPage(page.selected + 1);
@@ -41,18 +44,18 @@ const ListFaq = () => {
         </>
       ),
     },
-    // {
-    //   name: "Description",
-    //   sortable: true,
-    //   minWidth: "600px",
-    //   sortField: "desc",
-    //   selector: (row) => row.description,
-    //   cell: (row) => (
-    //     <>
-    //       <span>{row.description}</span>
-    //     </>
-    //   ),
-    // },
+    {
+      name: "Description",
+      sortable: true,
+      minWidth: "600px",
+      sortField: "desc",
+      selector: (row) => row.description,
+      cell: (row) => (
+        <>
+          <span>{row.description}</span>
+        </>
+      ),
+    },
     {
       name: "Action",
       minWidth: "110px",
@@ -88,6 +91,41 @@ const ListFaq = () => {
     },
   ];
 
+  const emptyColumns = [
+    {
+      name: "FAQ",
+      sortable: true,
+      minWidth: "100px",
+      sortField: "title",
+      selector: (row) => row.title,
+      cell: (row) => (
+        <>
+          <span>{row.title}</span>
+        </>
+      ),
+    },
+    {
+      name: "Description",
+      sortable: true,
+      minWidth: "600px",
+      sortField: "desc",
+      selector: (row) => row.description,
+      cell: (row) => (
+        <>
+          <span>{row.description}</span>
+        </>
+      ),
+    },
+    {
+      name: "Action",
+      minWidth: "110px",
+      cell: (row) => (
+        <>
+        </>
+      ),
+    },
+  ];
+
   const handleEdit = (id) => {
     navigate(`/apps/editFaqManagement/${id}`)
   }
@@ -108,76 +146,79 @@ const ListFaq = () => {
       .catch((err) => console.log("error", err));
   }
 
-  const [screenWidth, setScreenWidth] = useState({
-    width: window.innerWidth
-  });
+  // const [screenWidth, setScreenWidth] = useState({
+  //   width: window.innerWidth
+  // });
 
-  const setDimension = () => {
-    setScreenWidth({
-      width: window.innerWidth
-    })
-  }
+  // const setDimension = () => {
+  //   setScreenWidth({
+  //     width: window.innerWidth
+  //   })
+  // }
 
-  const [faqContainer, setFaqContainer] = useState({
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
-    height: "100%",
-    columnGap: "20px"
-  });
+  // const [faqContainer, setFaqContainer] = useState({
+  //   display: "flex",
+  //   justifyContent: "center",
+  //   width: "100%",
+  //   height: "100%",
+  //   columnGap: "20px"
+  // });
 
-  const [faqForm, setFaqForm] = useState({
-    marginTop: "20px",
-    width: "40%",
-  });
+  // const [faqForm, setFaqForm] = useState({
+  //   marginTop: "20px",
+  //   width: "40%",
+  // });
 
-  const [faqList, setFaqList] = useState({
-    width: "60%"
-  });
+  // const [faqList, setFaqList] = useState({
+  //   width: "60%"
+  // });
 
 
   useEffect(() => {
     handleFaqData()
-    window.addEventListener('resize', setDimension);
+    // window.addEventListener('resize', setDimension);
 
-    if(screenWidth.width > 720){
-      setFaqContainer({
-        display: "flex",
-        justifyContent: "center",
-        width: "100%",
-        height: "100%",
-        columnGap: "20px"
-      })
-      setFaqForm({
-        marginTop: "20px",
-        width: "40%",
-      })
-      setFaqList({
-        width: "60%"
-      })
+    // if(screenWidth.width > 720){
+    //   setFaqContainer({
+    //     display: "flex",
+    //     justifyContent: "center",
+    //     width: "100%",
+    //     height: "100%",
+    //     columnGap: "20px"
+    //   })
+    //   setFaqForm({
+    //     marginTop: "20px",
+    //     width: "40%",
+    //   })
+    //   setFaqList({
+    //     width: "60%"
+    //   })
       
-    } else{
-      setFaqContainer({
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        width: "100%",
-        height: "100%",
-        columnGap: "20px"
-      })
-      setFaqForm({
-        marginTop: "0",
-        width: "100%",
-      })
-      setFaqList({
-        width: "100%"
-      })
-    }
+    // } else{
+    //   setFaqContainer({
+    //     display: "flex",
+    //     flexDirection: "column",
+    //     justifyContent: "center",
+    //     width: "100%",
+    //     height: "100%",
+    //     columnGap: "20px"
+    //   })
+    //   setFaqForm({
+    //     marginTop: "0",
+    //     width: "100%",
+    //   })
+    //   setFaqList({
+    //     width: "100%"
+    //   })
+    // }
     
-    return(() => {
-      window.removeEventListener('resize', setDimension);
-    })
-  }, [currentPage,screenWidth]);
+    // return(() => {
+    //   window.removeEventListener('resize', setDimension);
+    // })
+    setTimeout(function () {
+      setIsFetching(false); 
+    }, 1500);
+  }, [currentPage]);
 
   const handleNavigate = () => {
     navigate("/apps/addFaqManagement");
@@ -266,7 +307,7 @@ const ListFaq = () => {
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center"
   }
 
@@ -280,42 +321,56 @@ const ListFaq = () => {
     color: "rgba(0,0,0,0.87)"
   }
 
+  const [emptyBox, setEmptyBox] = useState(
+    <div style={boxContainer}>
+      <img src={empty} alt="empty" />
+      <div style={emptyBoxTextContainer}>
+        <span>No data found</span>
+      </div>
+    </div>
+  );
+
   return (
-    <div style={faqContainer}>
-      {loader ? (
+    <div>
+      {userData.data && userData.data.length === 0 ? (
         <>
-          <div style={faqForm}>
-            <AddFaq />
-          </div>
-          <div style={faqList}>
-            <div style={boxContainer}>
-              <img src={empty} alt="empty" />
-              <div style={emptyBoxTextContainer}>
-                <span>No data found</span>
-              </div>
-            </div>
+          <div>
+            <Button
+              type="button"
+              label="Add FAQ"
+              onClick={() => handleNavigate()}
+            />
+            <br></br>
+            <br></br>
+            <Table
+              columns={emptyColumns}
+              dataToRender={['']}
+              // pagination
+              CustomPagination={CustomPagination}
+            />
+            {emptyBox}
           </div>
         </>
       ) : (
         <>
-          <div style={faqForm}>
-            <AddFaq />
-          </div>
-          <div style={faqList}>
-            {/* <Button
-              type="button"
-              label="Add FAQ"
-              onClick={() => handleNavigate()}
-            /> */}
-            <br></br>
-            <br></br>
+          <Button
+            type="button"
+            label="Add FAQ"
+            onClick={() => handleNavigate()}
+          />
+          <br></br>
+          <br></br>
+          { isFetching ?       
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <CircularProgress />
+              </Box> :
             <Table
               columns={columns}
               dataToRender={userData?.data}
               pagination
               CustomPagination={CustomPagination}
             />
-          </div>
+          }
         </>
       )}
     </div>

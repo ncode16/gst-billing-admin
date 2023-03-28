@@ -15,12 +15,15 @@ import { ShowToast } from "../../../../utility/Utils";
 import { useNavigate, useParams } from "react-router-dom";
 
 import empty from '../../../../assets/images/empty/empty.svg'
+import { Box } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress"; 
 
 const ContactUs = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -119,6 +122,89 @@ const ContactUs = () => {
     },
   ];
 
+  const emptyColumns = [
+    {
+      name: "Contact Name",
+      sortable: true,
+      minWidth: "190px",
+      sortField: "contactName",
+      selector: (row) => row.contact_name,
+      cell: (row) => (
+        <>
+          <span>{row.contact_name}</span>
+        </>
+      ),
+    },
+    {
+      name: "Contact Phone",
+      sortable: true,
+      minWidth: "200px",
+      sortField: "contactPhone",
+      selector: (row) => row.contact_phone,
+      cell: (row) => (
+        <>
+          <span>{row.contact_phone}</span>
+        </>
+      ),
+    },
+    {
+      name: "Contact Message",
+      sortable: true,
+      minWidth: "300px",
+      sortField: "companyMessage",
+      selector: (row) => row.contact_message,
+      cell: (row) => (
+        <>
+          <span>{row.contact_message}</span>
+        </>
+      ),
+    },
+    // {
+    //   name: "City",
+    //   sortable: true,
+    //   minWidth: "150px",
+    //   sortField: "City",
+    //   selector: (row) => row.contact_city,
+    //   cell: (row) => (
+    //     <>
+    //       <span>{row.contact_city}</span>
+    //     </>
+    //   ),
+    // },
+    // {
+    //   name: "Country",
+    //   sortable: true,
+    //   minWidth: "150px",
+    //   sortField: "Country",
+    //   selector: (row) => row.contact_country,
+    //   cell: (row) => (
+    //     <>
+    //       <span>{row.contact_country}</span>
+    //     </>
+    //   ),
+    // },
+    {
+      name: "Contact Email",
+      sortable: true,
+      minWidth: "250px",
+      sortField: "  contactEmail",
+      selector: (row) => row.contact_email,
+      cell: (row) => (
+        <>
+          <span>{row.contact_email}</span>
+        </>
+      ),
+    },
+    {
+      name: "Action",
+      minWidth: "110px",
+      cell: (row) => (
+        <>
+        </>
+      ),
+    },
+  ];
+
   // const handleSendEmail = (data) => {
   //   const body = {
   //     email: data
@@ -152,6 +238,11 @@ const ContactUs = () => {
         }
       })
       .catch((err) => console.log("error", err));
+
+    setTimeout(function () {
+      setIsFetching(false); 
+    }, 1500);
+
   }, [currentPage]);
 
   const CustomPagination = () => {
@@ -182,7 +273,7 @@ const ContactUs = () => {
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center"
   }
 
@@ -195,27 +286,45 @@ const ContactUs = () => {
     fontSize: "15px",
     color: "rgba(0,0,0,0.87)"
   }
+
+  const [emptyBox, setEmptyBox] = useState(
+    <div style={boxContainer}>
+      <img src={empty} alt="empty" />
+      <div style={emptyBoxTextContainer}>
+        <span>No data found</span>
+      </div>
+    </div>
+  );
   
   return (
     <div>
-      {loader ? (
-        <div style={boxContainer}>
-          <img src={empty} alt="empty" />
-          <div style={emptyBoxTextContainer}>
-            <span>No data found</span>
-          </div>
-        </div>
+      {userData.data && userData.data.length == 0 ? (
+        <>
+          <Table
+            // pagination
+            columns={emptyColumns}
+            dataToRender={['']}
+            CustomPagination={CustomPagination}
+          />
+          {emptyBox}
+        </>
+        
       ) : (
         <>
           {/* <Button onClick={handleNavigate} label="Add User" />
           <br></br>
           <br></br> */}
-          <Table
-            pagination
-            columns={columns}
-            dataToRender={userData.data}
-            CustomPagination={CustomPagination}
-          />
+          { isFetching ?       
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <CircularProgress />
+              </Box> :
+            <Table
+              pagination
+              columns={columns}
+              dataToRender={userData.data}
+              CustomPagination={CustomPagination}
+            />
+          }
         </>
       )}
     </div>

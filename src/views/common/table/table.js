@@ -76,6 +76,8 @@ const CustomTable = ({
             className="react-dataTable"
             paginationComponent={CustomPagination}
             data={dataToRender}
+            // title={'TestTitle'}
+            // subHeader subHeaderComponent={'TestSubHeader'}
             // subHeaderComponent={
             //   <CustomHeader
             //     store={store}

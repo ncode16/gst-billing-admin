@@ -15,6 +15,9 @@ import AddTutorial from "../addTutorialManagement/addTutorial";
 
 import empty from '../../../../assets/images/empty/empty.svg'
 
+import { Box } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress"; 
+
 const ListTutorial = () => {
   const navigate = useNavigate();
 
@@ -22,6 +25,9 @@ const ListTutorial = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
   const [loader, setLoader] = useState(false);
+
+  const [isFetching, setIsFetching] = useState(true);
+  
 
   const handleNavigate = () => {
     navigate("/apps/addTutorialManagement");
@@ -85,6 +91,41 @@ const ListTutorial = () => {
             size={17}
             id={`send-tooltip-${row.tutorial_id}`}
           /> */}
+        </>
+      ),
+    },
+  ];
+
+  const emptyColumns = [
+    {
+      name: "Tutorial Tittle",
+      sortable: true,
+      minWidth: "110px",
+      sortField: "tutorial_title",
+      selector: (row) => row.tutorial_title,
+      cell: (row) => (
+        <>
+          <span>{row.tutorial_title}</span>
+        </>
+      ),
+    },
+    // {
+    //   name: "Tutorial Link",
+    //   sortable: true,
+    //   minWidth: "600px",
+    //   sortField: "videoLink",
+    //   selector: (row) => row.tutorial_link,
+    //   cell: (row) => (
+    //     <>
+    //       <span>{row.tutorial_link}</span>
+    //     </>
+    //   ),
+    // },
+    {
+      name: "Action",
+      minWidth: "110px",
+      cell: (row) => (
+        <>
         </>
       ),
     },
@@ -205,6 +246,10 @@ const ListTutorial = () => {
         width: "100%"
       })
     }
+
+    setTimeout(function () {
+      setIsFetching(false); 
+    }, 1500);
     
     return(() => {
       window.removeEventListener('resize', setDimension);
@@ -259,7 +304,7 @@ const ListTutorial = () => {
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center"
   }
 
@@ -273,20 +318,32 @@ const ListTutorial = () => {
     color: "rgba(0,0,0,0.87)"
   }
 
+  const [emptyBox, setEmptyBox] = useState(
+    <div style={boxContainer}>
+      <img src={empty} alt="empty" />
+      <div style={emptyBoxTextContainer}>
+        <span>No data found</span>
+      </div>
+    </div>
+  );
+
   return (
     <div style={tutoContainer}>
-      {loader ? (
+      {userData.data && userData.data.length === 0 ? (
         <>
           <div style={tutoForm}>
             <AddTutorial />
           </div>
           <div style={tutoList}>
-            <div style={boxContainer}>
-              <img src={empty} alt="empty" />
-              <div style={emptyBoxTextContainer}>
-                <span>No data found</span>
-              </div>
-            </div>
+            <br></br>
+            <br></br>
+            <Table
+              columns={emptyColumns}
+              dataToRender={['']}
+              // pagination
+              CustomPagination={CustomPagination}
+            />
+            {emptyBox}
           </div>
         </>
       ) : (
@@ -302,12 +359,17 @@ const ListTutorial = () => {
             /> */}
             <br></br>
             <br></br>
-            <Table
-              columns={columns}
-              dataToRender={userData?.data}
-              pagination
-              CustomPagination={CustomPagination}
-            />
+            { isFetching ?       
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <CircularProgress />
+              </Box> :
+              <Table
+                columns={columns}
+                dataToRender={userData?.data}
+                pagination
+                CustomPagination={CustomPagination}
+              />
+            }
           </div>
         </>
       )}

@@ -18,6 +18,7 @@ import { toast } from "react-hot-toast";
 import AddCategory from "../addCategoryManagement/addCategory";
 
 import empty from '../../../../assets/images/empty/empty.svg'
+import { Box, CircularProgress } from "@mui/material";
 
 const ListCategory = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const ListCategory = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   const columns = [
     {
@@ -70,6 +72,29 @@ const ListCategory = () => {
             size={17}
             id={`send-tooltip-${row.id}`}
           /> */}
+        </>
+      ),
+    },
+  ];
+
+  const emptyColumns = [
+    {
+      name: "Category Name",
+      sortable: true,
+      minWidth: "250px",
+      sortField: "category_name",
+      selector: (row) => row.category_name,
+      cell: (row) => (
+        <>
+          <span>{row.category_name}</span>
+        </>
+      ),
+    },
+    {
+      name: "Action",
+      minWidth: "110px",
+      cell: (row) => (
+        <>
         </>
       ),
     },
@@ -202,6 +227,10 @@ const ListCategory = () => {
         width: "100%"
       })
     }
+
+    setTimeout(function () {
+      setIsFetching(false); 
+    }, 1500);
     
     return(() => {
       window.removeEventListener('resize', setDimension);
@@ -257,7 +286,7 @@ const ListCategory = () => {
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center"
   }
 
@@ -271,20 +300,32 @@ const ListCategory = () => {
     color: "rgba(0,0,0,0.87)"
   }
 
+  const [emptyBox, setEmptyBox] = useState(
+    <div style={boxContainer}>
+      <img src={empty} alt="empty" />
+      <div style={emptyBoxTextContainer}>
+        <span>No data found</span>
+      </div>
+    </div>
+  );
+
   return (
     <div style={catContainer}>
-      {loader ? (
+      {userData.data && userData.data.length === 0 ? (
         <>
           <div style={catForm}>
             <AddCategory />
           </div>
           <div style={catList}>
-            <div style={boxContainer}>
-              <img src={empty} alt="empty" />
-              <div style={emptyBoxTextContainer}>
-                <span>No data found</span>
-              </div>
-            </div>
+            <br></br>
+            <br></br>
+            <Table
+              columns={emptyColumns}
+              dataToRender={['']}
+              // pagination
+              CustomPagination={CustomPagination}
+            />
+            {emptyBox}
           </div>
         </>
       ) : (
@@ -300,12 +341,17 @@ const ListCategory = () => {
             /> */}
             <br></br>
             <br></br>
-            <Table
-              columns={columns}
-              dataToRender={userData?.data}
-              pagination
-              CustomPagination={CustomPagination}
-            />
+            { isFetching ?       
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <CircularProgress />
+              </Box> :
+              <Table
+                columns={columns}
+                dataToRender={userData?.data}
+                pagination
+                CustomPagination={CustomPagination}
+              />
+            }
           </div>
         </>
       )}

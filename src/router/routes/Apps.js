@@ -149,14 +149,14 @@ const AppRoutes = [
     },
   },
   {
-    element: <FaqManagement />,
+    element: <AddFaqManagement />,
     path: "/apps/addFaqManagement",
     meta: {
       className: "addFaqManagement-application",
     },
   },
   {
-    element: <FaqManagement />,
+    element: <AddFaqManagement />,
     path: "/apps/editFaqManagement/:id",
     meta: {
       className: "editFaqManagement-application",
@@ -226,14 +226,14 @@ const AppRoutes = [
     },
   },
   {
-    element: <CmsManagement />,
+    element: <AddCmsManagement />,
     path: "/apps/addCmsManagement",
     meta: {
       className: "addCmsManagement-application",
     },
   },
   {
-    element: <CmsManagement />,
+    element: <AddCmsManagement />,
     path: "/apps/editCmsManagement/:id",
     meta: {
       className: "editCmsManagement-application",

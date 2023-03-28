@@ -249,7 +249,7 @@ const AddUserManagement = () => {
                 <Button
                   color="primary"
                   type="button"
-                  disabled={isDisabled}
+                  // disabled={isDisabled}
                   className="submitButton"
                   onClick={handleSubmit(onSubmit)}
                 > {id ? 'Update User' : 'Add User'} </Button>

@@ -13,6 +13,9 @@ import { ShowToast } from "../../../../utility/Utils";
 import Spinner from "../../../../@core/components/spinner/Loading-spinner";
 import AddCms from "../addCmsManagement/addCms";
 
+import CircularProgress from "@mui/material/CircularProgress"; 
+import { Box } from "@mui/material";
+
 import empty from '../../../../assets/images/empty/empty.svg'
 
 const ListCms = () => {
@@ -22,10 +25,11 @@ const ListCms = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   const columns = [
     {
-      name: "Title",
+      name: "CMS Name",
       sortable: true,
       minWidth: "150px",
       sortField: "title",
@@ -78,6 +82,41 @@ const ListCms = () => {
             size={17}
             id={`send-tooltip-${row.id}`}
           /> */}
+        </>
+      ),
+    },
+  ];
+
+  const emptyColumns = [
+    {
+      name: "CMS Name",
+      sortable: true,
+      minWidth: "150px",
+      sortField: "title",
+      selector: (row) => row.aboutus_title,
+      cell: (row) => (
+        <>
+          <span>{row.aboutus_title}</span>
+        </>
+      ),
+    },
+    // {
+    //   name: "Description",
+    //   sortable: true,
+    //   minWidth: "550px",
+    //   sortField: "description",
+    //   selector: (row) => row.aboutus_description,
+    //   cell: (row) => (
+    //     <>
+    //       <span>{row.aboutus_description.replace(/<[^>]+>/g, '')}</span>
+    //     </>
+    //   ),
+    // },
+    {
+      name: "Action",
+      minWidth: "110px",
+      cell: (row) => (
+        <>
         </>
       ),
     },
@@ -137,75 +176,13 @@ const ListCms = () => {
     navigate(`/apps/view/${id}`)
   }
 
-  const [screenWidth, setScreenWidth] = useState({
-    width: window.innerWidth
-  });
-
-  const setDimension = () => {
-    setScreenWidth({
-      width: window.innerWidth
-    })
-  }
-
-  const [cmsContainer, setCmsContainer] = useState({
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
-    height: "100%",
-    columnGap: "20px"
-  });
-
-  const [cmsForm, setCmsForm] = useState({
-    marginTop: "20px",
-    width: "40%",
-  });
-
-  const [cmsList, setCmsList] = useState({
-    width: "60%"
-  });
-
   useEffect(() => {
     handleCmsData();
-    window.addEventListener('resize', setDimension);
+    setTimeout(function () {
+      setIsFetching(false); 
+    }, 1500);
 
-    if(screenWidth.width > 720){
-      setCmsContainer({
-        display: "flex",
-        justifyContent: "center",
-        width: "100%",
-        height: "100%",
-        columnGap: "20px"
-      })
-      setCmsForm({
-        marginTop: "20px",
-        width: "40%",
-      })
-      setCmsList({
-        width: "60%"
-      })
-      
-    } else{
-      setCmsContainer({
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        width: "100%",
-        height: "100%",
-        columnGap: "20px"
-      })
-      setCmsForm({
-        marginTop: "0",
-        width: "100%",
-      })
-      setCmsList({
-        width: "100%"
-      })
-    }
-    
-    return(() => {
-      window.removeEventListener('resize', setDimension);
-    })
-  }, [currentPage,screenWidth]);
+  }, [currentPage]);
 
 
   const handleNavigate = () => {
@@ -241,32 +218,12 @@ const ListCms = () => {
     );
   };
 
-  // const cmsManagement = {
-  //   cmsContainer: {
-  //     display: "flex",
-  //     justifyContent: "center",
-  //     width: "100%",
-  //     height: "100%",
-  //     columnGap: "20px"
-  //   },
-
-  //   cmsForm: {
-  //     marginTop: "20px",
-  //     width: "40%",
-  //     // border: "1px solid red"
-  //   },
-
-  //   cmsList: {
-  //     width: "60%",
-  //   }
-  // }
-
   const boxContainer = {
     width: "100%",
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center"
   }
 
@@ -280,43 +237,54 @@ const ListCms = () => {
     color: "rgba(0,0,0,0.87)"
   }
 
-  return (
-    <div style={cmsContainer}>
+  const [emptyBox, setEmptyBox] = useState(
+    <div style={boxContainer}>
+      <img src={empty} alt="empty" />
+      <div style={emptyBoxTextContainer}>
+        <span>No data found</span>
+      </div>
+    </div>
+  );
 
-      {loader ? (
+  return (
+    <div>
+      {userData.data && userData.data.length === 0 ? (
         <>
-          <div style={cmsForm}>
-            <AddCms />
-          </div>
-          <div style={cmsList}>
-            <div style={boxContainer}>
-              <img src={empty} alt="empty" />
-              <div style={emptyBoxTextContainer}>
-                <span>No data found</span>
-              </div>
-            </div>
-          </div>
+          <Button
+            type="button"
+            label="Add CMS"
+            onClick={() => handleNavigate()}
+          />
+          <br></br>
+          <br></br>
+          <Table
+            columns={emptyColumns}
+            dataToRender={['']}
+            // pagination
+            CustomPagination={CustomPagination}
+          />
+          {emptyBox}
         </>
       ) : (
         <>
-          <div style={cmsForm}>
-            <AddCms />
-          </div>
-          <div style={cmsList}>
-            {/* <Button
+            <Button
               type="button"
               label="Add CMS"
               onClick={() => handleNavigate()}
-            /> */}
-            <br></br>
-            <br></br>
-            <Table
-              columns={columns}
-              dataToRender={userData?.data}
-              pagination
-              CustomPagination={CustomPagination}
             />
-          </div>
+            <br></br>
+            <br></br>
+            { isFetching ?       
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <CircularProgress />
+              </Box> :
+              <Table
+                columns={columns}
+                dataToRender={userData?.data}
+                pagination
+                CustomPagination={CustomPagination}
+              />
+            }
         </>
       )}
     </div>

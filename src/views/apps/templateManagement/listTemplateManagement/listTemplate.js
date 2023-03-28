@@ -14,6 +14,9 @@ import AddTemplate from "../addTemplateManagement/addTemplate";
 
 import empty from '../../../../assets/images/empty/empty.svg'
 
+import CircularProgress from "@mui/material/CircularProgress"; 
+import { Box } from "@mui/material";
+
 const ListTemplate = () => {
   const navigate = useNavigate();
 
@@ -21,6 +24,7 @@ const ListTemplate = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   const handleNavigate = () => {
     navigate("/apps/addTemplateManagement");
@@ -85,6 +89,41 @@ const ListTemplate = () => {
             size={17}
             id={`send-tooltip-${row.id}`}
           /> */}
+        </>
+      ),
+    },
+  ];
+
+  const emptyColumns = [
+    // {
+    //   name: "Image Link",
+    //   sortable: true,
+    //   minWidth: "500px",
+    //   sortField: "imageLink",
+    //   selector: (row) => row.template_image,
+    //   cell: (row) => (
+    //     <>
+    //       <span>{row.template_image}</span>
+    //     </>
+    //   ),
+    // },
+    {
+      name: "Image Name",
+      sortable: true,
+      minWidth: "150px",
+      sortField: "imageLink",
+      selector: (row) => row.template_name,
+      cell: (row) => (
+        <>
+          <span>{row.template_name}</span>
+        </>
+      ),
+    },
+    {
+      name: "Action",
+      minWidth: "110px",
+      cell: (row) => (
+        <>
         </>
       ),
     },
@@ -203,6 +242,10 @@ const ListTemplate = () => {
         width: "100%"
       })
     }
+
+    setTimeout(function () {
+      setIsFetching(false); 
+    }, 1500);
     
     return(() => {
       window.removeEventListener('resize', setDimension);
@@ -266,7 +309,7 @@ const ListTemplate = () => {
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center"
   }
 
@@ -280,20 +323,32 @@ const ListTemplate = () => {
     color: "rgba(0,0,0,0.87)"
   }
 
+  const [emptyBox, setEmptyBox] = useState(
+    <div style={boxContainer}>
+      <img src={empty} alt="empty" />
+      <div style={emptyBoxTextContainer}>
+        <span>No data found</span>
+      </div>
+    </div>
+  );
+
   return (
     <div style={tempContainer}>
-      {loader ? (
+      {userData.data && userData.data.length === 0 ? (
         <>
           <div style={tempForm}>
             <AddTemplate />
           </div>
           <div style={tempList}>
-            <div style={boxContainer}>
-              <img src={empty} alt="empty" />
-              <div style={emptyBoxTextContainer}>
-                <span>No data found</span>
-              </div>
-            </div>
+            <br></br>
+            <br></br>
+            <Table
+              columns={emptyColumns}
+              dataToRender={['']}
+              // pagination
+              CustomPagination={CustomPagination}
+            />
+            {emptyBox}
           </div>
         </>
       ) : (
@@ -309,12 +364,17 @@ const ListTemplate = () => {
             /> */}
             <br></br>
             <br></br>
-            <Table
-              columns={columns}
-              dataToRender={userData?.data}
-              pagination
-              CustomPagination={CustomPagination}
-            />
+            { isFetching ?       
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <CircularProgress />
+              </Box> :
+              <Table
+                columns={columns}
+                dataToRender={userData?.data}
+                pagination
+                CustomPagination={CustomPagination}
+              />
+            }
           </div>
         </>
       )}
