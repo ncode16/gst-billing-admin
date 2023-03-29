@@ -163,21 +163,21 @@ const AddTemplate = () => {
 
 
   const imageUploader = async (e) => {
+    
     console.log(e.target.files[0], "eee")
-
-
     setImage(e.target.files[0]);
     const file = e.target.files[0];
-    if (!file.name.match(/\.(jpg|jpeg|png)$/)) {
+
+    if (file.name.match(/\.(jpg|jpeg|png)$/)) {
+      const base64 = await convertBase64(file);
+      // setShowImage(base64);
+      setImage(e.target.files[0]);
+    } else {
       setImageValidation(
         "Uploaded file is not a valid image. Only PNG, JPG and JPEG files are allowed"
       );
-      setImage("");
+      setImage("Invalid Image");
       return false;
-    } else {
-      const base64 = await convertBase64(file);
-      // setShowImage(base64);
-      // setImage(e.target.files[0]);
     }
   };
   const convertBase64 = (file) => {
@@ -253,6 +253,7 @@ const AddTemplate = () => {
               label="Image "
               type={"file"}
               showError={true}
+              title = "Choose a video please"
               error={errors?.templateImage?.message}
               registeredEvents={register("templateImage")}
               isRequired

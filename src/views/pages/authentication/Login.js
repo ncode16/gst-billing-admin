@@ -38,7 +38,7 @@ import {
   Row,
   Col,
   Form,
-  // Input,
+  Input,
   Label,
   Alert,
   Button,
@@ -55,7 +55,7 @@ import illustrationsDark from "@src/assets/images/pages/login-v2-dark.svg";
 // ** Styles
 import "@styles/react/pages/page-authentication.scss";
 import { login } from "../../../api/auth/login";
-import { Input } from "../../common";
+// import { Input } from "../../common";
 
 import schema from '../../../schema/loginSchema/login'
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -250,9 +250,10 @@ const Login = () => {
               Welcome to GST Billing Software! 👋
             </CardTitle>
             <CardText className="mb-2">
-              Please sign-in to your account and start the adventure
+              Please sign-in to your account
+              {/* Please sign-in to your account and start the adventure */}
             </CardText>
-            <Alert color="primary">
+            {/* <Alert color="primary">
               <div className="alert-body font-small-2">
                 <p>
                   <small className="me-50">
@@ -276,7 +277,7 @@ const Login = () => {
               <UncontrolledTooltip target="login-tip" placement="left">
                 This is just for ACL demo purpose.
               </UncontrolledTooltip>
-            </Alert>
+            </Alert> */}
             <Form
               className="auth-login-form mt-2"
               onSubmit={handleSubmit(onSubmit)}
@@ -335,7 +336,7 @@ const Login = () => {
                 Sign in
               </Button>
             </Form>
-            <p className="text-center mt-2">
+            {/* <p className="text-center mt-2">
               <span className="me-25">New on our platform?</span>
               <Link to="/register">
                 <span>Create an account</span>
@@ -357,7 +358,7 @@ const Login = () => {
               <Button className="me-0" color="github">
                 <GitHub size={14} />
               </Button>
-            </div>
+            </div> */}
           </Col>
         </Col>
       </Row>

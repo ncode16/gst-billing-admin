@@ -308,7 +308,7 @@ const UserManagement = () => {
 
     setTimeout(function () {
       setIsFetching(false); 
-    }, 1500);
+    }, 500);
     
     return(() => {
       window.removeEventListener('resize', setDimension);
@@ -394,12 +394,18 @@ const UserManagement = () => {
           <div style={userList}>
             <br></br>
             <br></br>
-            <Table
-              // pagination
-              columns={emptyColumns}
-              dataToRender={["no data"]}
-              CustomPagination={CustomPagination}
-            />
+            { isFetching ?  
+              <div style={boxContainer}>     
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <CircularProgress />
+              </Box></div> :
+              <Table
+                // pagination
+                columns={emptyColumns}
+                dataToRender={[""]}
+                CustomPagination={CustomPagination}
+              />
+            }
             {emptyBox}
           </div>
         </>
@@ -411,10 +417,11 @@ const UserManagement = () => {
             onClick={() => navigate("/apps/addUserManagement")} */}
             <br></br>
             <br></br>
-            { isFetching ?       
+            { isFetching ?  
+              <div style={boxContainer}>     
               <Box sx={{ display: "flex", justifyContent: "center" }}>
                   <CircularProgress />
-              </Box> :
+              </Box></div> :
               <Table
                 pagination
                 columns={columns}

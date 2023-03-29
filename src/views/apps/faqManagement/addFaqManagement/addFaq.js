@@ -57,11 +57,11 @@ const AddFaq = () => {
         ));
       }
       let question = res?.data.data.title
-      let description = res?.data.data.description
+      let description = res?.data.data.description.replace(/<[^>]+>/g, '')
 
       reset({
         question: question || '',
-        description: description || ''
+        description: description.replace(/<[^>]+>/g, '') || ''
       });
     })
 
@@ -118,7 +118,7 @@ const AddFaq = () => {
   const onSubmit = (data) => {
     const body = {
       title: data.question,
-      description: data.description,
+      description: data.description.replace(/<[^>]+>/g, ''),
     };
     setDisabled(true);
     {

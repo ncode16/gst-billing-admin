@@ -233,6 +233,7 @@ const AddTutorial = () => {
                     closeMenuOnSelect={true}
                     selected={value}
                     value={value}
+                    placeholder={value || "Select..."}
                     options={options || []}
                     onChange={onChange}
                     isRequired

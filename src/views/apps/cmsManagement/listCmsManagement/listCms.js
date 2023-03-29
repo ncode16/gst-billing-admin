@@ -40,18 +40,18 @@ const ListCms = () => {
         </>
       ),
     },
-    // {
-    //   name: "Description",
-    //   sortable: true,
-    //   minWidth: "550px",
-    //   sortField: "description",
-    //   selector: (row) => row.aboutus_description,
-    //   cell: (row) => (
-    //     <>
-    //       <span>{row.aboutus_description.replace(/<[^>]+>/g, '')}</span>
-    //     </>
-    //   ),
-    // },
+    {
+      name: "Description",
+      sortable: true,
+      minWidth: "550px",
+      sortField: "description",
+      selector: (row) => row.aboutus_description,
+      cell: (row) => (
+        <>
+          <span>{row.aboutus_description}</span>
+        </>
+      ),
+    },
     {
       name: "Action",
       minWidth: "110px",
@@ -100,18 +100,18 @@ const ListCms = () => {
         </>
       ),
     },
-    // {
-    //   name: "Description",
-    //   sortable: true,
-    //   minWidth: "550px",
-    //   sortField: "description",
-    //   selector: (row) => row.aboutus_description,
-    //   cell: (row) => (
-    //     <>
-    //       <span>{row.aboutus_description.replace(/<[^>]+>/g, '')}</span>
-    //     </>
-    //   ),
-    // },
+    {
+      name: "Description",
+      sortable: true,
+      minWidth: "550px",
+      sortField: "description",
+      selector: (row) => row.aboutus_description,
+      cell: (row) => (
+        <>
+          <span>{row.aboutus_description}</span>
+        </>
+      ),
+    },
     {
       name: "Action",
       minWidth: "110px",
@@ -132,7 +132,7 @@ const ListCms = () => {
         setLoader(false)
       }
       handleCmsData();
-      navigate("/apps/addCmsManagement");
+      navigate("/apps/cmsManagement");
     });
   };
 
@@ -180,7 +180,7 @@ const ListCms = () => {
     handleCmsData();
     setTimeout(function () {
       setIsFetching(false); 
-    }, 1500);
+    }, 500);
 
   }, [currentPage]);
 
@@ -257,12 +257,18 @@ const ListCms = () => {
           />
           <br></br>
           <br></br>
-          <Table
-            columns={emptyColumns}
-            dataToRender={['']}
-            // pagination
-            CustomPagination={CustomPagination}
-          />
+          { isFetching ?  
+            <div style={boxContainer}>     
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <CircularProgress />
+            </Box></div> :
+            <Table
+              columns={emptyColumns}
+              dataToRender={['']}
+              // pagination
+              CustomPagination={CustomPagination}
+            />
+          }
           {emptyBox}
         </>
       ) : (
@@ -274,10 +280,12 @@ const ListCms = () => {
             />
             <br></br>
             <br></br>
-            { isFetching ?       
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                  <CircularProgress />
-              </Box> :
+            { isFetching ?      
+              <div style={boxContainer}>
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    <CircularProgress />
+                </Box>
+              </div>  :
               <Table
                 columns={columns}
                 dataToRender={userData?.data}

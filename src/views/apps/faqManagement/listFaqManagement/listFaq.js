@@ -217,7 +217,8 @@ const ListFaq = () => {
     // })
     setTimeout(function () {
       setIsFetching(false); 
-    }, 1500);
+    }, 500);
+
   }, [currentPage]);
 
   const handleNavigate = () => {
@@ -238,7 +239,7 @@ const ListFaq = () => {
         setLoader(false);
       }
       handleFaqData();
-      navigate("/apps/addFaqManagement");
+      navigate("/apps/faqManagement");
     });
   };
 
@@ -342,12 +343,18 @@ const ListFaq = () => {
             />
             <br></br>
             <br></br>
-            <Table
-              columns={emptyColumns}
-              dataToRender={['']}
-              // pagination
-              CustomPagination={CustomPagination}
-            />
+            { isFetching ?  
+              <div style={boxContainer}>     
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <CircularProgress />
+              </Box></div> :
+              <Table
+                columns={emptyColumns}
+                dataToRender={['']}
+                // pagination
+                CustomPagination={CustomPagination}
+              />
+            }
             {emptyBox}
           </div>
         </>
@@ -361,9 +368,11 @@ const ListFaq = () => {
           <br></br>
           <br></br>
           { isFetching ?       
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                  <CircularProgress />
-              </Box> :
+              <div style={boxContainer}>
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    <CircularProgress />
+                </Box>
+              </div> :
             <Table
               columns={columns}
               dataToRender={userData?.data}

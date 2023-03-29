@@ -26,6 +26,8 @@ import {
   Copy,
 } from "react-feather";
 
+import $ from 'jquery'
+
 // ** Utils
 import { selectThemeColors } from "@utils";
 

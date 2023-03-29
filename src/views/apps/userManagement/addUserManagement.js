@@ -227,6 +227,7 @@ const AddUserManagement = () => {
               </div>
               <div style={addCategoryStyle.marginStyle}>
                 <Input
+                  id="number"
                   placeholder="Enter Mobile Number"
                   type="number"
                   label="Mobile Number *"

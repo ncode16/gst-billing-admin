@@ -241,7 +241,7 @@ const ContactUs = () => {
 
     setTimeout(function () {
       setIsFetching(false); 
-    }, 1500);
+    }, 500);
 
   }, [currentPage]);
 
@@ -300,12 +300,18 @@ const ContactUs = () => {
     <div>
       {userData.data && userData.data.length == 0 ? (
         <>
+        { isFetching ?  
+          <div style={boxContainer}>     
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <CircularProgress />
+          </Box></div> :
           <Table
             // pagination
             columns={emptyColumns}
             dataToRender={['']}
             CustomPagination={CustomPagination}
           />
+        }
           {emptyBox}
         </>
         
@@ -314,10 +320,12 @@ const ContactUs = () => {
           {/* <Button onClick={handleNavigate} label="Add User" />
           <br></br>
           <br></br> */}
-          { isFetching ?       
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                  <CircularProgress />
-              </Box> :
+          { isFetching ?     
+              <div style={boxContainer}>
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    <CircularProgress />
+                </Box>
+              </div>   :
             <Table
               pagination
               columns={columns}

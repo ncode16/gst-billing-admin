@@ -63,10 +63,10 @@ const AddCms = () => {
         ));
       }
       let title = res?.data.data.aboutus_title
-      let description = res?.data.data.aboutus_description
+      let description = res?.data.data.aboutus_description.replace(/<[^>]+>/g, '')
       reset({
         title: title || '',
-        description: description || ''
+        description: description.replace(/<[^>]+>/g, '') || ''
       });
     })
 
@@ -118,12 +118,12 @@ const AddCms = () => {
   const onSubmit = (data) => {
     const body = {
       aboutus_title: data.title,
-      aboutus_description: data.description
+      aboutus_description: data.description.replace(/<[^>]+>/g, '')
     }
     setDisabled(true);
     const addData = {
       aboutusTitle: data.title,
-      aboutusDescription: data.description
+      aboutusDescription: data.description.replace(/<[^>]+>/g, '')
     }
     {
       id ? (updateCmsData(id, body)

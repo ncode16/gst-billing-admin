@@ -230,7 +230,7 @@ const ListCategory = () => {
 
     setTimeout(function () {
       setIsFetching(false); 
-    }, 1500);
+    }, 500);
     
     return(() => {
       window.removeEventListener('resize', setDimension);
@@ -319,12 +319,18 @@ const ListCategory = () => {
           <div style={catList}>
             <br></br>
             <br></br>
-            <Table
-              columns={emptyColumns}
-              dataToRender={['']}
-              // pagination
-              CustomPagination={CustomPagination}
-            />
+            { isFetching ?  
+              <div style={boxContainer}>     
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <CircularProgress />
+              </Box></div> :
+              <Table
+                columns={emptyColumns}
+                dataToRender={['']}
+                // pagination
+                CustomPagination={CustomPagination}
+              />
+            }
             {emptyBox}
           </div>
         </>
@@ -342,9 +348,11 @@ const ListCategory = () => {
             <br></br>
             <br></br>
             { isFetching ?       
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                  <CircularProgress />
-              </Box> :
+              <div style={boxContainer}>
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    <CircularProgress />
+                </Box>
+              </div> :
               <Table
                 columns={columns}
                 dataToRender={userData?.data}
