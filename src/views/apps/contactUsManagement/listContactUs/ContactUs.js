@@ -241,7 +241,7 @@ const ContactUs = () => {
 
     setTimeout(function () {
       setIsFetching(false); 
-    }, 500);
+    }, 250);
 
   }, [currentPage]);
 

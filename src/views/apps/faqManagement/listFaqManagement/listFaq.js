@@ -217,7 +217,7 @@ const ListFaq = () => {
     // })
     setTimeout(function () {
       setIsFetching(false); 
-    }, 500);
+    }, 250);
 
   }, [currentPage]);
 

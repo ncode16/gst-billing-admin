@@ -62,13 +62,13 @@ const StatsCard = ({ cols }) => {
 
   return (
     <Card className='card-statistics'>
-      <CardHeader style={{display:"flex", justifyContent:"center", alignItems:"center", padding: "50px 0"}}>
-        <CardTitle tag='h4' style={{fontWeight:"bold"}}>Welcome Admin</CardTitle>
-        {/* <CardText className='card-text font-small-2 me-25 mb-0'>Updated 1 month ago</CardText> */}
+      <CardHeader>
+        <CardTitle tag='h4'>Welcome Admin</CardTitle>
+        <CardText className='card-text font-small-2 me-25 mb-0'>Updated 1 month ago</CardText>
       </CardHeader>
-      {/* <CardBody className='statistics-body'>
+      <CardBody className='statistics-body'>
         <Row>{renderData()}</Row>
-      </CardBody> */}
+      </CardBody>
     </Card>
   )
 }

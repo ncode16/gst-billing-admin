@@ -60,6 +60,9 @@ const CustomTable = ({
   pagination,
 }) => {
 
+  $(document).ready(() => {
+    $(".rdt_TableCell").css("height", "auto");
+  })
 
   return (
     <div>

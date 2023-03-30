@@ -57,14 +57,14 @@ const AddUserManagement = () => {
 
   useEffect(() => {
     getEditUserData(id).then((res) => {
-      if (res?.data?.success == true) {
-        toast((t) => (
-          <ShowToast t={t} color="success" name={res?.data?.message} />
-        ));
-      }
+      // if (res?.data?.success == true) {
+      //   toast((t) => (
+      //     <ShowToast t={t} color="success" name={res?.data?.message} />
+      //   ));
+      // }
       let firstName = res?.data?.data?.first_name
       let lastName = res?.data?.data?.last_name
-      let email = res?.data?.data?.last_name
+      let email = res?.data?.data?.email
       let mobileNumber = res?.data?.data?.mobile_number
       // let password = res?.data?.data?.password
 
@@ -142,7 +142,9 @@ const AddUserManagement = () => {
         if (res?.data?.statusCode == 200) {
           toast((t) => (
             <ShowToast t={t} color="success" name={res?.data?.message} />
-          ));
+          ), {
+            toastId: 'update-user'
+          });
         }
         setDisabled(false);
         handleNavigate()
@@ -152,7 +154,10 @@ const AddUserManagement = () => {
         if (res?.data?.statusCode == 200) {
           toast((t) => (
             <ShowToast t={t} color="success" name={res?.data?.message} />
-          ));
+          ), {
+            toastId: 'add-user'
+          });
+          console.log('trigger');
         }
         setDisabled(false);
         handleNavigate()

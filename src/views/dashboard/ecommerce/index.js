@@ -34,14 +34,14 @@ const EcommerceDashboard = () => {
   return (
     <div id='dashboard-ecommerce'>
       <Row className='match-height'>
-        {/* <Col xl='4' md='6' xs='12'>
-          <CardMedal />
-        </Col> */}
-        <Col xl='8' md='6' xs='12' style={{width:'100%'}}>
+        <Col xl='8' md='6' xs='12'>
           <StatsCard cols={{ xl: '3', sm: '6' }} />
         </Col>
+        <Col xl='4' md='6' xs='12'>
+          <CardMedal />
+        </Col>
       </Row>
-      {/* <Row className='match-height'>
+      <Row className='match-height'>
         <Col lg='4' md='12'>
           <Row className='match-height'>
             <Col lg='6' md='3' xs='6'>
@@ -75,7 +75,7 @@ const EcommerceDashboard = () => {
         <Col lg='4' md='6' xs='12'>
           <CardTransactions />
         </Col>
-      </Row> */}
+      </Row>
     </div>
   )
 }

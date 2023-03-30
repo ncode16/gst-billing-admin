@@ -49,11 +49,11 @@ const AddFeature = () => {
 
   useEffect(() => {
     getEditFeatureData(id).then((res) => {
-      if (res?.data?.success == true) {
-        toast((t) => (
-          <ShowToast t={t} color="success" name={res?.data?.message} />
-        ));
-      }
+      // if (res?.data?.success == true) {
+      //   toast((t) => (
+      //     <ShowToast t={t} color="success" name={res?.data?.message} />
+      //   ));
+      // }
       let featureName = res?.data.data.feature_name
       reset({
         featureName: featureName || '',
@@ -120,7 +120,9 @@ const AddFeature = () => {
           if (res?.data?.statusCode == 200) {
             toast((t) => (
               <ShowToast t={t} color="success" name={res?.data?.message} />
-            ));
+            ), {
+              toastId: 'update-feature'
+            });
           }
           setDisabled(false);
           handleNavigate();
@@ -131,7 +133,9 @@ const AddFeature = () => {
             if (res?.data?.statusCode == 200) {
               toast((t) => (
                 <ShowToast t={t} color="success" name={res?.data?.message} />
-              ));
+              ), {
+                toastId: 'add-feature'
+              });
             }
             setDisabled(false);
             handleNavigate();

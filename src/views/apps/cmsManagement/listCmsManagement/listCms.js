@@ -33,10 +33,10 @@ const ListCms = () => {
       sortable: true,
       minWidth: "150px",
       sortField: "title",
-      selector: (row) => row.aboutus_title,
+      selector: (row) => row.cms_title,
       cell: (row) => (
         <>
-          <span>{row.aboutus_title}</span>
+          <span>{row.cms_title}</span>
         </>
       ),
     },
@@ -45,10 +45,10 @@ const ListCms = () => {
       sortable: true,
       minWidth: "550px",
       sortField: "description",
-      selector: (row) => row.aboutus_description,
+      selector: (row) => row.cms_description,
       cell: (row) => (
         <>
-          <span>{row.aboutus_description}</span>
+          <span>{row.cms_description}</span>
         </>
       ),
     },
@@ -59,21 +59,21 @@ const ListCms = () => {
         <>
           <Edit
             className="cursor-pointer"
-            onClick={() => handleEdit(row.aboutus_id)}
+            onClick={() => handleEdit(row.cms_id)}
             size={17}
-            id={`send-tooltip-${row.aboutus_id}`}
+            id={`send-tooltip-${row.cms_id}`}
           />
           &nbsp;
           <Trash
             className="cursor-pointer"
-            onClick={() => window.confirm("Are you sure you want to delete") && handleDelete(row.aboutus_id)}
+            onClick={() => window.confirm("Are you sure you want to delete") && handleDelete(row.cms_id)}
             size={17}
             id={`send-tooltip-${row.id}`}
           />
           &nbsp;
           <Switch
             isChecked={row.is_active}
-            handleClick={(e) => handleActivation(e.target.checked, row.aboutus_id)}
+            handleClick={(e) => handleActivation(e.target.checked, row.cms_id)}
           />
           {/* &nbsp;
           <Eye
@@ -93,10 +93,10 @@ const ListCms = () => {
       sortable: true,
       minWidth: "150px",
       sortField: "title",
-      selector: (row) => row.aboutus_title,
+      selector: (row) => row.cms_title,
       cell: (row) => (
         <>
-          <span>{row.aboutus_title}</span>
+          <span>{row.cms_title}</span>
         </>
       ),
     },
@@ -105,10 +105,10 @@ const ListCms = () => {
       sortable: true,
       minWidth: "550px",
       sortField: "description",
-      selector: (row) => row.aboutus_description,
+      selector: (row) => row.cms_description,
       cell: (row) => (
         <>
-          <span>{row.aboutus_description}</span>
+          <span>{row.cms_description}</span>
         </>
       ),
     },
@@ -180,7 +180,7 @@ const ListCms = () => {
     handleCmsData();
     setTimeout(function () {
       setIsFetching(false); 
-    }, 500);
+    }, 250);
 
   }, [currentPage]);
 

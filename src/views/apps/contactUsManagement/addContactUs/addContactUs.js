@@ -91,11 +91,11 @@ const AddContactUs = () => {
 
   useEffect(() => {
     getEmailData(id).then((res) => {
-      if (res?.data?.success == true) {
-        toast((t) => (
-          <ShowToast t={t} color="success" name={res?.data?.message} />
-        ));
-      }
+      // if (res?.data?.success == true) {
+      //   toast((t) => (
+      //     <ShowToast t={t} color="success" name={res?.data?.message} />
+      //   ));
+      // }
       let name = res?.data.data.contact_email
       reset({
         email: name || '',
@@ -113,7 +113,9 @@ const AddContactUs = () => {
       if (res?.data?.statusCode == 200) {
         toast((t) => (
           <ShowToast t={t} color="success" name={res?.data?.message} />
-        ));
+        ), {
+          toastId: 'send-email'
+        });
       }
       handleNavigate()
       reset();

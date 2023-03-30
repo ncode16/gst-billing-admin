@@ -15,6 +15,7 @@ const AddTemplate = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [getImage, setImage] = useState("");
+  const [previewImage, setPreviewImage] = useState('');
 
   const {
     register,
@@ -57,13 +58,14 @@ const AddTemplate = () => {
 
   useEffect(() => {
     getTemplateEditData(id).then((res) => {
-      if (res?.data?.success == true) {
-        toast((t) => (
-          <ShowToast t={t} color="success" name={res?.data?.message} />
-        ));
-      }
+      // if (res?.data?.success == true) {
+      //   toast((t) => (
+      //     <ShowToast t={t} color="success" name={res?.data?.message} />
+      //   ));
+      // }
       let templateImage = res?.data.data.template_image
       let templateName = res?.data.data.template_name
+      setPreviewImage(templateImage);
 
       // let image_name = templateImage.split("/");
       // let image_size= templateImage.split("/").length;
@@ -163,8 +165,7 @@ const AddTemplate = () => {
 
 
   const imageUploader = async (e) => {
-    
-    console.log(e.target.files[0], "eee")
+
     setImage(e.target.files[0]);
     const file = e.target.files[0];
 
@@ -172,6 +173,7 @@ const AddTemplate = () => {
       const base64 = await convertBase64(file);
       // setShowImage(base64);
       setImage(e.target.files[0]);
+
     } else {
       setImageValidation(
         "Uploaded file is not a valid image. Only PNG, JPG and JPEG files are allowed"
@@ -202,6 +204,7 @@ const AddTemplate = () => {
     formData.append('template_name', data.templateName)
     console.log(formData.get('template_image'), "formData")
     setDisabled(true);
+    setPreviewImage('');
 
     {
       id ? (updateTemplateData(id, formData)
@@ -209,7 +212,9 @@ const AddTemplate = () => {
           if (res?.data?.statusCode == 200) {
             toast((t) => (
               <ShowToast t={t} color="success" name={res?.data?.message} />
-            ));
+            ), {
+              toastId: 'update-template'
+            });
           }
           setDisabled(false);
           handleNavigate()
@@ -220,7 +225,9 @@ const AddTemplate = () => {
             if (res?.data?.statusCode == 200) {
               toast((t) => (
                 <ShowToast t={t} color="success" name={res?.data?.message} />
-              ));
+              ), {
+                toastId: 'add-template'
+              });
             }
             setDisabled(false);
             handleNavigate()
@@ -229,6 +236,21 @@ const AddTemplate = () => {
           .catch((e) => console.log("error", e)))
     }
   };
+
+  const previewContainer = {
+    marginTop: '15px',
+    height: '120px',
+  }
+
+  const imagePreview = {
+    width: '50%',
+    height: '100%'
+  }
+  
+  const img = {
+    width: '100%',
+    height: '100%',
+  }
 
   return (
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
@@ -295,6 +317,13 @@ const AddTemplate = () => {
               label={'Template Image'}
               type={'file'}
             />
+            { previewImage ?
+              <div style={previewContainer}>
+                <div style={imagePreview}>
+                  <img style={img} src={previewImage} alt="preview.jpg" />
+                </div>
+              </div> : <></>
+            }
           </div>
           <div className="buttons" style={addCategoryStyle.buttons}>
             <Button color="primary" onClick={handleSubmit(onSubmit)} disabled={isDisabled}>

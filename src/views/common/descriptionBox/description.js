@@ -12,7 +12,7 @@ const Description = ({ onChange, value, error, showError }) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [updated, setUpdated] = useState(false);
 
-  console.log('error', error)
+  // console.log('error', error)
 
   useEffect(() => {
     if (!updated) {

@@ -49,11 +49,11 @@ const AddCategory = () => {
 
   useEffect(() => {
     getEditCategoryData(id).then((res) => {
-      if (res?.data?.success == true) {
-        toast((t) => (
-          <ShowToast t={t} color="success" name={res?.data?.message} />
-        ));
-      }
+      // if (res?.data?.success == true) {
+      //   toast((t) => (
+      //     <ShowToast t={t} color="success" name={res?.data?.message} />
+      //   ));
+      // }
       let name = res?.data.data.category_name
       reset({
         categoryName: name || '',
@@ -120,7 +120,9 @@ const AddCategory = () => {
           if (res?.data?.statusCode == 200) {
             toast((t) => (
               <ShowToast t={t} color="success" name={res?.data?.message} />
-            ));
+            ), {
+              toastId: 'update-category'
+            });
           }
           setDisabled(false);
           handleNavigate()
@@ -131,7 +133,9 @@ const AddCategory = () => {
             if (res?.data?.statusCode == 200) {
               toast((t) => (
                 <ShowToast t={t} color="success" name={res?.data?.message} />
-              ));
+              ), {
+                toastId: 'add-category'
+              });
             }
             setDisabled(false);
             handleNavigate()

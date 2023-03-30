@@ -15,6 +15,8 @@ const AddCms = () => {
 
   const navigate = useNavigate();
   const { id } = useParams();
+  const [getImage, setImage] = useState("");
+  const [previewImage, setPreviewImage] = useState('');
 
   const {
     register,
@@ -27,6 +29,7 @@ const AddCms = () => {
     reValidateMode: "onChange",
     defaultValues: {
       title: "",
+      image: "",
       description: ""
     },
     resolver: yupResolver(schema),
@@ -57,16 +60,22 @@ const AddCms = () => {
 
   useEffect(() => {
     getEditCmsData(id).then((res) => {
-      if (res?.data?.success == true) {
-        toast((t) => (
-          <ShowToast t={t} color="success" name={res?.data?.message} />
-        ));
-      }
-      let title = res?.data.data.aboutus_title
-      let description = res?.data.data.aboutus_description.replace(/<[^>]+>/g, '')
+      // if (res?.data?.success == true) {
+      //   toast((t) => (
+      //     <ShowToast t={t} color="success" name={res?.data?.message} />
+      //   ));
+      // }
+      
+      console.log(res);
+      let title = res?.data?.data?.cms_title
+      let image = res?.data.data.cms_image
+      let description = res?.data.data.cms_description
+      setPreviewImage(image);
+
       reset({
         title: title || '',
-        description: description.replace(/<[^>]+>/g, '') || ''
+        image: image || '',
+        description: description || ''
       });
     })
 
@@ -113,36 +122,72 @@ const AddCms = () => {
 
   }, [bodyClassName.current])
 
-  const [isDisabled, setDisabled] = useState(false);
+  
 
+  const imageUploader = async (e) => {
+
+    setImage(e.target.files[0]);
+    const file = e.target.files[0];
+    
+    if (file.name.match(/\.(jpg|jpeg|png)$/)) { 
+      const base64 = await convertBase64(file); 
+      setImage(e.target.files[0]);
+      
+    } else {
+      setImageValidation(
+        "Uploaded file is not a valid image. Only PNG, JPG and JPEG files are allowed"
+      );
+      setImage("Invalid Image");
+      return false;
+    }
+  };
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+  const [isDisabled, setDisabled] = useState(false);
   const onSubmit = (data) => {
-    const body = {
-      aboutus_title: data.title,
-      aboutus_description: data.description.replace(/<[^>]+>/g, '')
-    }
+    console.log('dasdasd', data)
+    const formData = new FormData();
+    formData.append('cms_image', getImage);
+    formData.append('cms_title', data.title);
+    formData.append('cms_description', data.description.replace(/<[^>]+>/g, ''));
+    // console.log(formData.get('cms_image'), "formData")
     setDisabled(true);
-    const addData = {
-      aboutusTitle: data.title,
-      aboutusDescription: data.description.replace(/<[^>]+>/g, '')
-    }
+    setPreviewImage('');
     {
-      id ? (updateCmsData(id, body)
-        .then((res) => {
-          if (res?.data?.statusCode == 200) {
-            toast((t) => (
-              <ShowToast t={t} color="success" name={res?.data?.message} />
-            ));
+      id ? (updateCmsData(id, formData)
+      .then((res) => {
+        if (res?.data?.statusCode == 200) {
+          toast((t) => (
+            <ShowToast t={t} color="success" name={res?.data?.message} />
+            ), {
+              toastId: 'update-cms'
+            });
           }
           setDisabled(false);
           handleNavigate()
           reset();
         })
-        .catch((e) => console.log("error", e))) : (AddCmsData(addData)
-          .then((res) => {
+        .catch((e) => console.log("error", e))) : (AddCmsData(formData)
+        .then((res) => {
             if (res?.data?.statusCode == 200) {
               toast((t) => (
                 <ShowToast t={t} color="success" name={res?.data?.message} />
-              ));
+              ), {
+                toastId: 'add-cms'
+              });
             }
             setDisabled(false);
             handleNavigate()
@@ -192,6 +237,21 @@ const AddCms = () => {
     }
   }
 
+  const previewContainer = {
+    marginTop: '15px',
+    height: '120px',
+  }
+
+  const imagePreview = {
+    width: '50%',
+    height: '100%'
+  }
+  
+  const img = {
+    width: '100%',
+    height: '100%',
+  }
+
   return (
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
       <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm} onSubmit={handleSubmit(onSubmit)}>
@@ -207,7 +267,30 @@ const AddCms = () => {
             registeredEvents={register("title")}
             isRequired
           />
-          <div style={addCategoryStyle.marginStyle}>
+            <br></br>
+            <Input
+              controlId="cmsImage"
+              error={errors?.cmsImage?.message}
+              onClick={(event) => {
+                event.target.value = null;
+              }}
+              showError={true}
+              registeredEvents={register('image')}
+              isRequired={true}
+              accept="image/png, image/jpg, image/jpeg"
+              onChange={imageUploader}
+              placeholder={'Upload Image'}
+              label={'CMS Image'}
+              type={'file'}
+            />
+            { previewImage ?
+              <div style={previewContainer}>
+                <div style={imagePreview}>
+                  <img style={img} src={previewImage} alt="preview.jpg" />
+                </div>
+              </div> : <></>
+            }
+            <div style={addCategoryStyle.marginStyle}>
             {/* <Input
               placeholder="Enter Description"
               label="Description "

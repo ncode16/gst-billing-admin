@@ -48,7 +48,7 @@ const ListTemplate = () => {
     //   ),
     // },
     {
-      name: "Image Name",
+      name: "Template Title",
       sortable: true,
       minWidth: "150px",
       sortField: "imageLink",
@@ -108,7 +108,7 @@ const ListTemplate = () => {
     //   ),
     // },
     {
-      name: "Image Name",
+      name: "Template Title",
       sortable: true,
       minWidth: "150px",
       sortField: "imageLink",
@@ -245,7 +245,7 @@ const ListTemplate = () => {
 
     setTimeout(function () {
       setIsFetching(false); 
-    }, 500);
+    }, 250);
     
     return(() => {
       window.removeEventListener('resize', setDimension);

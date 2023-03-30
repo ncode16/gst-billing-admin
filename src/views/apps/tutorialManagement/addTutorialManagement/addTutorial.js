@@ -59,11 +59,11 @@ const AddTutorial = () => {
       }
     })
     getEditTutorialData(id).then((res) => {
-      if (res?.data?.success == true) {
-        toast((t) => (
-          <ShowToast t={t} color="success" name={res?.data?.message} />
-        ));
-      }
+      // if (res?.data?.success == true) {
+      //   toast((t) => (
+      //     <ShowToast t={t} color="success" name={res?.data?.message} />
+      //   ));
+      // }
       let categoryId = res?.data.data.category_name
       let tutorialTitle = res?.data.data.tutorial_title
       let tutorialLink = res?.data.data.tutorial_link
@@ -148,7 +148,9 @@ const AddTutorial = () => {
             if (res?.data?.statusCode == 200) {
               toast((t) => (
                 <ShowToast t={t} color="success" name={res?.data?.message} />
-              ));
+              ), {
+                toastId: 'update-tutorial'
+              });
             }
             setDisabled(false);
             handleNavigate();
@@ -160,7 +162,9 @@ const AddTutorial = () => {
             if (res?.data?.statusCode == 200) {
               toast((t) => (
                 <ShowToast t={t} color="success" name={res?.data?.message} />
-              ));
+              ), {
+                toastId: 'add-tutorial'
+              });
             }
             setDisabled(false);
             handleNavigate();

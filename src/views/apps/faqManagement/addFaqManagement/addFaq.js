@@ -51,11 +51,11 @@ const AddFaq = () => {
 
   useEffect(() => {
     getEditFaqData(id).then((res) => {
-      if (res?.data?.success == true) {
-        toast((t) => (
-          <ShowToast t={t} color="success" name={res?.data?.message} />
-        ));
-      }
+      // if (res?.data?.success == true) {
+      //   toast((t) => (
+      //     <ShowToast t={t} color="success" name={res?.data?.message} />
+      //   ));
+      // }
       let question = res?.data.data.title
       let description = res?.data.data.description.replace(/<[^>]+>/g, '')
 
@@ -127,7 +127,9 @@ const AddFaq = () => {
           if (res?.data?.statusCode == 200) {
             toast((t) => (
               <ShowToast t={t} color="success" name={res?.data?.message} />
-            ));
+            ), {
+              toastId: 'update-faq'
+            });
           }
           setDisabled(false);
           handleNavigate();
@@ -138,7 +140,9 @@ const AddFaq = () => {
             if (res?.data?.statusCode == 200) {
               toast((t) => (
                 <ShowToast t={t} color="success" name={res?.data?.message} />
-              ));
+              ), {
+                toastId: 'update-faq'
+              });
             }
             setDisabled(false);
             handleNavigate();

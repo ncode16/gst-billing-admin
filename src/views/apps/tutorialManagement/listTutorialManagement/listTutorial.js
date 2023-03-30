@@ -249,7 +249,7 @@ const ListTutorial = () => {
 
     setTimeout(function () {
       setIsFetching(false); 
-    }, 500);
+    }, 250);
     
     return(() => {
       window.removeEventListener('resize', setDimension);

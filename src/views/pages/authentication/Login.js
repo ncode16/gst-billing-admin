@@ -144,7 +144,9 @@ const Login = () => {
               role={data.role || "admin"}
               name={data.fullName || data.username || "John Doe"}
             />
-          ));
+          ), {
+            toastId: 'admin-login'
+          });
         })
         .catch((err) =>
           setError("email", {
