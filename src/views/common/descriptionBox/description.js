@@ -4,8 +4,8 @@ import htmlToDraft from "html-to-draftjs";
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { Editor } from "react-draft-wysiwyg";
+import $ from 'jquery'
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import $ from 'jQuery';
 
 
 
