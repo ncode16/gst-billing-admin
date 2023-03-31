@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Description, Input } from "../../../common";
-import { Form } from "react-bootstrap";
+import { Form, Spinner } from "react-bootstrap";
 import { AddCmsData, updateCmsData, getEditCmsData } from "../../../../api/cmsManagement/cmsApi";
 import toast from "react-hot-toast";
 import { ShowToast } from "../../../../utility/Utils";
@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import schema from '../../../../schema/cmsManagement/cmsSchema';
 import { yupResolver } from "@hookform/resolvers/yup";
+import $ from 'jquery';
 
 
 const AddCms = () => {
@@ -127,11 +128,13 @@ const AddCms = () => {
   const imageUploader = async (e) => {
 
     setImage(e.target.files[0]);
+    setPreviewImage(e.target.files[0]);
     const file = e.target.files[0];
     
     if (file.name.match(/\.(jpg|jpeg|png)$/)) { 
       const base64 = await convertBase64(file); 
       setImage(e.target.files[0]);
+      setPreviewImage(base64);
       
     } else {
       setImageValidation(
@@ -160,10 +163,19 @@ const AddCms = () => {
   const onSubmit = (data) => {
     console.log('dasdasd', data)
     const formData = new FormData();
-    formData.append('cms_image', getImage);
-    formData.append('cms_title', data.title);
-    formData.append('cms_description', data.description.replace(/<[^>]+>/g, ''));
-    // console.log(formData.get('cms_image'), "formData")
+
+    if(getImage === ""){
+      getTemplateEditData(id).then(res => {
+        setImage(res.data.data.template_image);
+        formData.append('cms_image', getImage);
+        formData.append('cms_title', data.title);
+        formData.append('cms_description', data.description.replace(/<[^>]+>/g, ''));
+      })
+    } else {
+      formData.append('cms_image', getImage);
+      formData.append('cms_title', data.title);
+      formData.append('cms_description', data.description.replace(/<[^>]+>/g, ''));
+    }
     setDisabled(true);
     setPreviewImage('');
     {
@@ -239,7 +251,7 @@ const AddCms = () => {
 
   const previewContainer = {
     marginTop: '15px',
-    height: '120px',
+    height: '150px',
   }
 
   const imagePreview = {
@@ -251,6 +263,11 @@ const AddCms = () => {
     width: '100%',
     height: '100%',
   }
+
+  $(document).ready(() => {
+    $(".spinner-border").css("width", "15px");
+    $(".spinner-border").css("height", "15px");
+  })
 
   return (
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
@@ -312,7 +329,7 @@ const AddCms = () => {
           </div>
           <div className="buttons" style={addCategoryStyle.buttons}>
             <Button color="primary" onClick={handleSubmit(onSubmit)} disabled={isDisabled}>
-              {id ? 'Update CMS' : 'Add CMS'}
+              { isDisabled ? <Spinner/> : id ? 'Update CMS' : 'Add CMS'}
             </Button>
             &emsp;
             <Button type="button" onClick={handleNavigate} outline> Cancel </Button>

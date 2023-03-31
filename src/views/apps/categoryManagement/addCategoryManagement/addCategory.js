@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useState } from "react";
-import { Col, Container, Form, Row } from "react-bootstrap";
+import { Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { Input } from "../../../common";
 import schema from "../../../../schema/categorySchema/categorySchema";
@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { ShowToast } from "../../../../utility/Utils";
 import { Button, Label } from "reactstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import $ from 'jquery'
 
 const AddCategory = () => {
   const navigate = useNavigate();
@@ -185,6 +186,11 @@ const AddCategory = () => {
     }
   }
 
+  $(document).ready(() => {
+    $(".spinner-border").css("width", "15px");
+    $(".spinner-border").css("height", "15px");
+  })
+
   return (
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
       <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm} onSubmit={handleSubmit(onSubmit)}>
@@ -215,7 +221,7 @@ const AddCategory = () => {
 
           <div className="buttons" style={addCategoryStyle.buttons}>
             <Button color="primary" onClick={handleSubmit(onSubmit)} disabled={isDisabled}>
-              {id ? 'Update Category' : 'Add Category'}
+              {isDisabled ? <Spinner/> : id ? 'Update Category' : 'Add Category'}
             </Button>
             &emsp;
             <Button type="button" onClick={handleNavigate} outline> Cancel </Button>

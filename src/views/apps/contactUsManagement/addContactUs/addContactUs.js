@@ -6,14 +6,15 @@ import { convertToHTML } from 'draft-convert';
 import React, { useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form';
 import { Button, Label } from 'reactstrap';
-import { Form } from 'react-bootstrap';
+import { Form, Spinner } from 'react-bootstrap';
 import { Description, Input } from '../../../common';
 import { useNavigate, useParams } from "react-router-dom";
 import { getEmailData, sendEmailData } from '../../../../api/contactUs/contactUsApi'
 import { toast } from 'react-hot-toast';
 import { ShowToast } from '../../../../utility/Utils';
+import $ from 'jquery'
 // ** Spinner (Splash Screen)
-import Spinner from "../../../../@core/components/spinner/Loading-spinner";
+// import Spinner from "../../../../@core/components/spinner/Loading-spinner";
 
 const AddContactUs = () => {
   const navigate = useNavigate();
@@ -107,8 +108,10 @@ const AddContactUs = () => {
     navigate("/apps/contactUsManagement");
   };
 
+  const [isDisabled, setDisabled] = useState(false);
 
   const onSubmit = (data) => {
+    setDisabled(true);
     sendEmailData(data).then((res) => {
       if (res?.data?.statusCode == 200) {
         toast((t) => (
@@ -117,10 +120,16 @@ const AddContactUs = () => {
           toastId: 'send-email'
         });
       }
+      setDisabled(false);
       handleNavigate()
       reset();
     })
   }
+
+  $(document).ready(() => {
+    $(".spinner-border").css("width", "15px");
+    $(".spinner-border").css("height", "15px");
+  })
 
   return (
     <div>
@@ -153,8 +162,8 @@ const AddContactUs = () => {
               />
             </div>
             <div style={addCategoryStyle.buttons}>
-            <Button onClick={handleSubmit(onSubmit)} color="primary">
-                Send Email
+              <Button onClick={handleSubmit(onSubmit)} color="primary">
+                {isDisabled ? <Spinner/> : 'Send Email' }
               </Button>
               &emsp;
               <Button type="button" onClick={handleNavigate} outline> Cancel </Button>
