@@ -62,12 +62,6 @@ const CustomTable = ({
 
   $(document).ready(() => {
     $(".rdt_TableCell").css("height", "auto");
-    const datatable = $(".react-dataTable");
-    if(datatable[0].innerText === 'There are no records to display'){
-      datatable.hide();
-      window.location.reload();
-      // $('#datalist').load(location.href + " #datalist");
-    }
   })
 
   return (

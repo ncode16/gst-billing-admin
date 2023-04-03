@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useState } from "react";
-import { Col, Container, Form, Row, Spinner } from "react-bootstrap";
+import { Col, Container, Form, Row } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { AddTutorialData, getCategoryDropdownData, getEditTutorialData, updateTutorialData } from "../../../../api/tutorialManagement/tutorialApi";
@@ -9,7 +9,6 @@ import schema from "../../../../schema/tutorialSchema/tutorial";
 import { Button } from "reactstrap";
 import { formatDropdownData, ShowToast } from "../../../../utility/Utils";
 import { toast } from "react-hot-toast";
-import $ from 'jquery'
 
 const AddTutorial = () => {
   const [categoryData, setCategoryData] = useState([]);
@@ -216,11 +215,6 @@ const AddTutorial = () => {
     },
   }
 
-  $(document).ready(() => {
-    $(".spinner-border").css("width", "15px");
-    $(".spinner-border").css("height", "15px");
-  })
-
   return (
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
       <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm} onSubmit={handleSubmit(onSubmit)}>
@@ -275,7 +269,7 @@ const AddTutorial = () => {
           </div>
           <div className="buttons" style={addCategoryStyle.buttons}>
             <Button onClick={handleSubmit(onSubmit)} color="primary" disabled={isDisabled}>
-              {isDisabled ? <Spinner/> : id ? 'Update Tutorial' : 'Add Tutorial'}
+              {id ? 'Update Tutorial' : 'Add Tutorial'}
             </Button>
             &emsp;
             <Button onClick={handleNavigate} outline>

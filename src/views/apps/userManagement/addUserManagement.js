@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useRef, useState } from "react";
-import { Col, Container, Row, Form, Spinner } from "react-bootstrap";
+import { Col, Container, Row, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { Input, Switch } from "../../common";
 import schema from "../../../schema/userManagementSchema/userManagement";
@@ -10,6 +10,7 @@ import { toast } from "react-hot-toast";
 import { ShowToast } from "../../../utility/Utils";
 import { Button } from "reactstrap";
 import userManagement from "../../../schema/userManagementSchema/userManagement";
+
 import $ from 'jquery';
 
 const AddUserManagement = () => {
@@ -194,11 +195,6 @@ const AddUserManagement = () => {
 
   }
 
-  $(document).ready(() => {
-    $(".spinner-border").css("width", "15px");
-    $(".spinner-border").css("height", "15px");
-  })
-
   return (
     <>
       <div style={addCategoryStyle.userManagement}>
@@ -262,7 +258,7 @@ const AddUserManagement = () => {
                   // disabled={isDisabled}
                   className="submitButton"
                   onClick={handleSubmit(onSubmit)}
-                > {isDisabled ? <Spinner/> : id ? 'Update User' : 'Add User'} </Button>
+                > {id ? 'Update User' : 'Add User'} </Button>
                 &emsp;
                 <Button type="button" onClick={handleNavigate} outline> Cancel </Button>
               </div>

@@ -4,7 +4,6 @@ import htmlToDraft from "html-to-draftjs";
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { Editor } from "react-draft-wysiwyg";
-import $ from 'jquery'
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 
@@ -40,10 +39,6 @@ const Description = ({ onChange, value, error, showError }) => {
     marginBottom: "30px",
     border: "1px solid black"
   }
-
-  $(".rdw-editor-toolbar").css("background", "transparent");
-  $(".rdw-option-wrapper").css("background", "transparent");
-  $(".rdw-dropdown-wrapper").css("background", "transparent");
 
   return (
     <React.Fragment>

@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useState } from "react";
-import { Col, Container, Form, Row, Spinner } from "react-bootstrap";
+import { Col, Container, Form, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { Input } from "../../../common";
 import schema from "../../../../schema/featureManagement/featureSchema";
@@ -9,7 +9,6 @@ import toast from "react-hot-toast";
 import { ShowToast } from "../../../../utility/Utils";
 import { Button } from "reactstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import $ from 'jquery'
 
 const AddFeature = () => {
   const navigate = useNavigate();
@@ -186,11 +185,6 @@ const AddFeature = () => {
     }
   }
 
-  $(document).ready(() => {
-    $(".spinner-border").css("width", "15px");
-    $(".spinner-border").css("height", "15px");
-  })
-
   return (
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
       <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm} onSubmit={handleSubmit(onSubmit)}>
@@ -208,7 +202,7 @@ const AddFeature = () => {
           />
           <div style={addCategoryStyle.buttons}>
             <Button color="primary" onClick={handleSubmit(onSubmit)} disabled={isDisabled}>
-              {isDisabled ? <Spinner/> : id ? 'Update Feature' : 'Add Feature'}
+              {id ? 'Update Feature' : 'Add Feature'}
             </Button>
             &emsp;
             <Button type="button" onClick={handleNavigate} outline>

@@ -412,7 +412,7 @@ const UserManagement = () => {
       ) : (
         <>
           <AddUser userForm={userForm} />
-          <div style={userList} id='datalist'>
+          <div style={userList}>
             {/* <Button color="primary" >Add user</Button>
             onClick={() => navigate("/apps/addUserManagement")} */}
             <br></br>

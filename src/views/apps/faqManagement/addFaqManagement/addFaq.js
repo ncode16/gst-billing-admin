@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useState } from "react";
-import { Col, Container, Form, Row, Spinner } from "react-bootstrap";
+import { Col, Container, Form, Row } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Label } from "reactstrap";
@@ -9,7 +9,6 @@ import schema from "../../../../schema/faqManagement/faqSchema";
 import { AddFaqData, getEditFaqData, updateFaqData } from "../../../../api/faqManagement/faqApi";
 import toast from "react-hot-toast";
 import { ShowToast } from "../../../../utility/Utils";
-import $ from 'jquery'
 
 const AddFaq = () => {
   const navigate = useNavigate();
@@ -178,11 +177,6 @@ const AddFaq = () => {
     }
   }
 
-  $(document).ready(() => {
-    $(".spinner-border").css("width", "15px");
-    $(".spinner-border").css("height", "15px");
-  })
-
   return (
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
       <Form id='form-modal-todo' className='todo-modal' style={addCategoryStyle.categoryForm} onSubmit={handleSubmit(onSubmit)}>
@@ -224,7 +218,7 @@ const AddFaq = () => {
               disabled={isDisabled}
               onClick={handleSubmit(onSubmit)}
             >
-              {isDisabled ? <Spinner/> : id ? 'Update FAQ' : 'Add FAQ'}
+              {id ? 'Update FAQ' : 'Add FAQ'}
             </Button>{" "}
             &emsp;
             <Button onClick={handleNavigate} outline>

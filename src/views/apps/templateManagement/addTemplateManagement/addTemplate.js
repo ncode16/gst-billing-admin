@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "../../../common";
-import { Form, Spinner } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,7 +9,6 @@ import { updateTemplateData, AddTemplateData, getTemplateEditData } from "../../
 import { Button } from "reactstrap";
 import { toast } from "react-hot-toast";
 import { ShowToast } from "../../../../utility/Utils";
-import $ from 'jquery'
 
 
 const AddTemplate = () => {
@@ -168,14 +167,12 @@ const AddTemplate = () => {
   const imageUploader = async (e) => {
 
     setImage(e.target.files[0]);
-    setPreviewImage(e.target.files[0]);
     const file = e.target.files[0];
 
     if (file.name.match(/\.(jpg|jpeg|png)$/)) {
       const base64 = await convertBase64(file);
       // setShowImage(base64);
       setImage(e.target.files[0]);
-      setPreviewImage(base64);
 
     } else {
       setImageValidation(
@@ -203,18 +200,9 @@ const AddTemplate = () => {
 
   const onSubmit = (data) => {
     const formData = new FormData();
-
-    if(getImage === ""){
-      getTemplateEditData(id).then(res => {
-        setImage(res.data.data.template_image);
-        formData.append('template_image', getImage);
-        formData.append('template_name', data.templateName)
-      })
-    } else {
-      formData.append('template_image', getImage);
-      formData.append('template_name', data.templateName)
-    }
-    // console.log(formData.get('template_image'), "formData")
+    formData.append('template_image', getImage);
+    formData.append('template_name', data.templateName)
+    console.log(formData.get('template_image'), "formData")
     setDisabled(true);
     setPreviewImage('');
 
@@ -263,11 +251,6 @@ const AddTemplate = () => {
     width: '100%',
     height: '100%',
   }
-
-  $(document).ready(() => {
-    $(".spinner-border").css("width", "15px");
-    $(".spinner-border").css("height", "15px");
-  })
 
   return (
     <div className='addCategoryContainer' style={addCategoryStyle.categoryContainer}>
@@ -344,7 +327,7 @@ const AddTemplate = () => {
           </div>
           <div className="buttons" style={addCategoryStyle.buttons}>
             <Button color="primary" onClick={handleSubmit(onSubmit)} disabled={isDisabled}>
-              {isDisabled ? <Spinner/> : id ? 'Update Template'  : 'Add Template'}
+              {id ? 'Update Template' : 'Add Template'}
             </Button>
             &emsp;
             <Button type="button" onClick={handleNavigate} outline> Cancel </Button>
